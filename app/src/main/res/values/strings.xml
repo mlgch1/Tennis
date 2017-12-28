@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Scorer Tennis</string>
+    <string name="ok">OK</string>
+    <string name="action_reset">Reset</string>
+    <string name="action_other">Other</string>
+    <string name="action_exit">Quit</string>
+    <string name="add">Add</string>
+    <string name="not_yet_selected">Not yet Selected</string>
+    <string name="zero">"  0"</string>
+    <string name="other_actions">Other Actions</string>
+    <string name="disclaimer">Disclaimer</string>
+    <string name="disclaimer_text"><b>TERMS OF USE, WARRANTY AND LIABILITY WAIVER</b> \n\n
+The SCaT “Scorer Wireless Scoreboard System” comes with the following terms , conditions and notices: \n
+<b>Terms of Use:</b> \n
+This product is offered to you based on your acceptance of the system without modification. \n
+<b>Use Limitation:</b> \n
+You may not modify, copy, distribute, transmit, reproduce, license, create derivative versions from, transfer, or sell, any information , software , products or services obtained from SCaT or the “Scorer Wireless Scoreboard System”. \n
+<b>One Year Warranty:</b> \n
+This system is warranted against any manufactured defect for a period of twelve months from the date of installation. \n
+<b>Limitation of Liability:</b> \n
+In no event shall SCaT be liable for any direct, indirect, punitive, incidental, special consequential damages whatsoever arising out of or connected with the use or misuse of the “Scorer Wireless Scoreboard System”. \n
+<b>Copyright:</b> \n
+All material in the SCaT “Scorer Wireless Scoreboard System” is copyrighted. It is made available to give users easy and quick access to information. \n
+You may download material from our web site for your own personal non-commercial use only. \n
+You may not alter, reproduce, re-transmit, distribute, display or commercialise the material in any way without written permission from SCaT. \n
+<b>General:</b> \n
+This disclaimer statement is governed by the laws of the state of Victoria, Australia. \n
+</string>
+    <string name="about">About SCaT</string>
+    <string name="about_text"><b>Score, Count and Time</b> \n\n
+Score Count and Time (SCaT) is a young company which specialises in the development and supply of bright, daylight visible displays which meet the needs of the strong sunlight of the great Australian outdoors. \n\n
+If you need a display which shows you the Score, the Count or the Time for an event, then please contact us for more details on how our unique solutions are winning so many customers. \n\n
+Geoff Champion , former senior engineer with the Telecom Research Laboratories , John Perrin , former Director of Motorola Australia , and Mr Stuart Wright former owner of Daneva Electronics have pooled their experience and expertise to develop cost effective , smart displays and scoreboards. \n\n
+Please contact us by email at <b>enquiries@score-count-time.com</b>  or by phone on <b>0432 502 755</b>. \n
+</string>
+    <string name="about_scat">About SCaT</string>
+    <string name="test_the_scoreboard">Test the Scoreboard</string>
+    <string name="set_system_date_time">Set System Date &amp; Time</string>
+
+    <string name="test">Test</string><string name="d_t_text">\n Go to <b>Date &amp; Time Icon</b>
+        					 on the Tablet Home Screen.\n</string>
+    <string name="_">" "</string>
+    <string name="log">Log</string>
+    <string name="clear_log">Clear Log</string>
+    <string name="b_">P-</string>
+    <string name="_b_">P+</string>
+    <string name="scorer_product_liability_disclaimer">Scorer Product Liability Disclaimer</string>
+    <string name="about_scorer_tennis">About Scorer Tennis</string>
+    <string name="stop_test">Stop Test</string>
+    <string name="setup_battery_test_parameters">Setup Battery Test Parameters</string>
+    <string name="increment_">Increment %</string>
+    <string name="threshold_value_">Threshold Value %</string>
+    <string name="parameters">Parameters</string>
+    <string name="password">Password</string>
+    <string name="mode">System Mode</string>
+    <string name="battery">Battery Setup</string>
+    <string name="logging">Log</string>
+    <string name="wifi">WiFi Setup</string>
+    <string name="wifi_param">Setup WiFi Parameters</string>
+    <string name="close">Close</string>
+    <string name="digits">No. of Digits</string>
+    <string name="SSID_Scorer">SSID Scorer_</string>
+    <string name="Setup_digits">Setup No. of Digits</string>
+    <string name="no_digits">No. of Digits</string>
+    <string name="Scores_Man">Set Scores Manually</string>
+    <string name="Game_Rules">Set up Game Rules</string>
+
+    <string name="wifi_disabled">WiFi Disabled</string>
+    <string name="wifi_enabled">WiFi Enabled</string>
+
+    <string name="wifi_connected">WiFi Connected</string>
+    <string name="wifi_not_connected">WiFi not connected</string>
+
+    <string name="enable_wifi">Enable WiFi</string>
+
+    <string name="cont">Continue without WiFi</string>
+    <string name="exit_app">Exit App</string>
+
+
+    <string name="connecting">Connecting</string>
+    <string name="connecting_to_wifi">Connecting to WiFi</string>
+    <string name="wifi_not_found">WiFi not found</string>
+
+    <string name="adv_sets">Advantage Sets</string>
+    <string name="tb_sets">Tie Break Sets</string>
+    <string name="adv_l_set">Advantage Last Set</string>
+    <string name="tb_l_set">Tie Break Last Set</string>
+    <string name="shortsets">Short Sets</string>
+    <string name="suddeath">Sudden Death Deuce</string>
+    <string name="sdcard">/sdcard/f87297.azc</string>
+
+</resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="500dp"
+    android:layout_height="630dp"
+    android:background="@color/grey" >
+
+    <TextView
+        android:id="@+id/disclaimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@color/grey"
+        android:text="@string/scorer_product_liability_disclaimer"
+        android:textColor="#000000"
+        android:textSize="@dimen/f_team" />
+
+    <LinearLayout
+        android:id="@+id/a_text"
+        android:layout_width="match_parent"
+        android:layout_height="500sp"
+        android:layout_below="@+id/disclaimer"
+        android:layout_centerHorizontal="true"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20sp"
+            android:layout_marginRight="20sp"
+            android:background="@color/white"
+        	android:textColor="#000000"
+            android:text="@string/disclaimer_text" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/b_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/b_bott_size"
+        android:layout_below="@+id/a_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button3"
+        android:onClick="onClick"
+        android:text="@string/close"
+        android:textSize="@dimen/f_bott_button" />
+
+</RelativeLayout>

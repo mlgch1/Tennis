@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="com.scorer.tennis"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission
+        android:name="android.permission.ACCESS_WIFI_STATE"
+        android:required="true"/>
+    <uses-permission
+        android:name="android.permission.CHANGE_WIFI_STATE"
+        android:required="true"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE"
+        android:required="true"/>
+    <uses-permission
+        android:name="android.permission.CHANGE_NETWORK_STATE"
+        android:required="true"/>
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission
+        android:name="android.permission.READ_PHONE_STATE"/>
+
+    <application
+        android:name=".GlobalClass"
+        android:allowBackup="true"
+        android:icon="@drawable/scat"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Holo.Light">
+
+        <service android:enabled="true" android:name="WiFi_Service" android:permission="com.scorer.tennis.MY_SERVICE_PERMISSION"/>
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@style/MyCustomTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SplashActivity"
+            android:label="@string/app_name"/>
+        <activity
+            android:name=".TestActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity
+            android:name=".OtherActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity
+            android:name=".ParamsActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity
+            android:name=".DisclaimerActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity
+            android:name=".RulesActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity
+            android:name=".ManualActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity
+            android:name=".AboutScorerActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity
+            android:name=".PasswordActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity
+            android:name=".Name_A_Activity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity
+            android:name=".Name_B_Activity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity
+            android:name=".GameSplashActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"/>
+        <activity
+            android:name=".SetSplashActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"/>
+        <activity
+            android:name=".MatchSplashActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"/>
+        <activity
+            android:name=".TieBreakSplashActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"/>
+        <activity
+            android:name=".DeuceSplashActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"/>
+        <activity
+            android:name=".AdvSplashActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"/>
+        <activity
+            android:name=".SetupBatteryActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity
+            android:name=".LogActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity
+            android:name=".WiFiSetupActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity
+            android:name=".TestActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog"/>
+    </application>
+
+</manifest>

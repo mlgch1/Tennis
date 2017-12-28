@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="800dp"
+    android:layout_height="300dp" >
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/wifi_param"
+        android:textColor="#FFFF00"
+        android:textSize="@dimen/f_edit_heading1" />
+
+    <LinearLayout
+        android:id="@+id/editBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/heading"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30sp" >
+
+        <TextView
+            android:id="@+id/sub_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="0dp"
+            android:text="SSID Scorer_"
+            android:textColor="#FFFF00"
+            android:textSize="@dimen/f_edit_heading2" />
+
+        <EditText
+            android:id="@+id/inputSSID"
+            android:layout_width="50sp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:selectAllOnFocus="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/editBar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editBar"
+        android:layout_centerHorizontal="true" >
+
+        <TextView
+            android:id="@+id/sub_heading2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="45dp"
+            android:text="Channel"
+            android:textColor="#FFFF00"
+            android:textSize="@dimen/f_edit_heading2" />
+
+        <EditText
+            android:id="@+id/inputChannel"
+            android:layout_width="50sp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:selectAllOnFocus="true" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/b_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/b_bott_size"
+        android:layout_below="@+id/editBar2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button3"
+        android:onClick="onClick"
+        android:text="@string/ok"
+        android:textSize="@dimen/f_bott_button" />
+
+</RelativeLayout>

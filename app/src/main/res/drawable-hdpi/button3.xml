@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true" >
+        <shape>
+            <gradient
+                android:startColor="@color/blue"
+                android:endColor="@color/black"
+                android:angle="270" />
+            <stroke
+                android:width="3dp"
+                android:color="@color/grey" />
+            <corners
+                android:radius="25dp" />
+            <padding
+                android:left="10dp"
+                android:top="10dp"
+                android:right="10dp"
+                android:bottom="10dp" />
+        </shape>
+    </item>
+
+    <item android:state_focused="true" >
+        <shape>
+            <gradient
+                android:endColor="@color/red"
+                android:startColor="@color/black"
+                android:angle="270" />
+            <stroke
+                android:width="3dp"
+                android:color="@color/grey" />
+            <corners
+                android:radius="25dp" />
+            <padding
+                android:left="10dp"
+                android:top="10dp"
+                android:right="10dp"
+                android:bottom="10dp" />
+        </shape>
+    </item>
+
+    <item>        
+        <shape>
+            <gradient
+                android:endColor="@color/ltblue"
+                android:startColor="@color/yellow"
+                android:angle="270" />
+            <stroke
+                android:width="3dp"
+                android:color="@color/grey" />
+            <corners
+                android:radius="25dp" />
+            <padding
+                android:left="10dp"
+                android:top="10dp"
+                android:right="10dp"
+                android:bottom="10dp" />
+        </shape>
+    </item>
+</selector>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+	<stroke
+	  android:width="3dp"
+	  android:color="#D42AFF" />
+	
+	<corners android:radius="25dp" />
+	
+	<gradient
+	  android:angle="270"
+	  android:centerColor="#D42A00"
+	  android:endColor="#D42A88"
+	  android:startColor="#D42AFF" />
+
+</shape>
+ -->
+
+
+<!-- <?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+android:shape="rectangle" android:padding="10dp">
+you can use any color you want I used here gray color
+ <solid android:color="#90EE90"/> 
+    <corners
+     android:bottomRightRadius="5dp"
+     android:bottomLeftRadius="5dp"
+  android:topLeftRadius="5dp"
+  android:topRightRadius="5dp"/>
+</shape>
+ -->

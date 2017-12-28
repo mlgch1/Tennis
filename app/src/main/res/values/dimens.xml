@@ -1,0 +1,39 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+
+    <dimen name="f_team">30px</dimen>
+    <dimen name="f_gamedate">15px</dimen>
+    <dimen name="f_heading">20px</dimen>
+    <dimen name="f_l_button">20px</dimen>
+    <dimen name="f_s_button">20px</dimen>
+    <dimen name="f_score">40px</dimen>
+    <dimen name="f_bott_button">15px</dimen>
+    <dimen name="f_clock">40px</dimen>
+    <dimen name="f_quarter">40px</dimen>
+
+
+    <dimen name="s_width">80px</dimen>
+
+
+    <dimen name="f_edit_heading1">30px</dimen>
+    <dimen name="f_edit_heading2">20px</dimen>
+
+    <dimen name="t_diff">30px</dimen>
+
+    <dimen name="f_player_no">25px</dimen>
+
+    <dimen name="b_l_size">50px</dimen>
+    <dimen name="b_s_size">40px</dimen>
+    <dimen name="b_bott_size">60px</dimen>
+
+    <dimen name="b_l_size_2">80px</dimen>
+    <dimen name="b_s_size_2">60px</dimen>
+    <dimen name="b_bott_size_2">50px</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+
+</resources>

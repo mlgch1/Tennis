@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.scorer.tennis.MainActivity" >
+
+
+    <item android:id="@+id/action_reset"
+          android:title="@string/action_reset"
+          android:actionLayout="@layout/action_bar_reset"
+          android:showAsAction="always" />
+
+    <item android:id="@+id/action_other"
+          android:title="@string/action_other"
+          android:actionLayout="@layout/action_bar_other"
+          android:showAsAction="always" />
+
+    <item android:id="@+id/action_exit"
+          android:title="@string/action_exit"
+          android:actionLayout="@layout/action_bar_exit"
+          android:showAsAction="always" />
+
+    <item android:id="@+id/clock"
+          android:actionLayout="@layout/action_bar_clock"
+          android:showAsAction="always" />
+
+</menu>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="570dp"
+    android:background="@color/grey">
+
+    <TextView
+        android:id="@+id/other"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@color/grey"
+        android:text="@string/other_actions"
+        android:textColor="#0000ff"
+        android:textSize="@dimen/f_team" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="480sp"
+        android:layout_below="@+id/other"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/b_manual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50sp"
+            android:layout_marginTop="20dp"
+            android:onClick="onClick_Manual"
+            android:text="@string/Scores_Man" />
+
+        <Button
+            android:id="@+id/b_rules"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50sp"
+            android:layout_marginTop="20dp"
+            android:onClick="onClick_Rules"
+            android:text="@string/Game_Rules" />
+
+        <Button
+            android:id="@+id/b_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50sp"
+            android:layout_marginTop="20dp"
+            android:onClick="onClick_Test"
+            android:text="@string/test_the_scoreboard" />
+
+        <Button
+            android:id="@+id/b_d_t"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40sp"
+            android:layout_marginTop="20dp"
+            android:onClick="onClick_D_T"
+            android:text="@string/set_system_date_time" />
+
+        <Button
+            android:id="@+id/b_disclaimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80sp"
+            android:layout_marginTop="20dp"
+            android:onClick="onClick_disclaimer"
+            android:text="@string/disclaimer" />
+
+        <Button
+            android:id="@+id/b_about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="75sp"
+            android:layout_marginTop="20dp"
+            android:onClick="onClick_about"
+            android:text="@string/about_scat" />
+
+        <Button
+            android:id="@+id/b_about_scorer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="55sp"
+            android:layout_marginTop="20dp"
+            android:onClick="onClick_about_Scorer"
+            android:text="@string/about_scorer_tennis" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/b_param"
+        android:layout_width="40sp"
+        android:layout_height="50sp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/transparent"
+        android:text="@string/_"
+        android:onClick="onClick_Params"/>
+
+</RelativeLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="400dp"
+    android:layout_height="350dp"
+    android:background="@color/grey" >
+
+    <TextView
+        android:id="@+id/test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@color/grey"
+        android:layout_marginTop="20dp"
+        android:text="@string/test_the_scoreboard"
+        android:textColor="#0000ff"
+        android:textSize="@dimen/f_team" />
+
+    <Button
+        android:id="@+id/b_test"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_height="@dimen/b_bott_size"
+        android:layout_below="@+id/test"
+		android:textSize="@dimen/f_bott_button"   
+        android:text="@string/test" 
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10sp"
+        android:onClick="onClick_Test"
+        android:background="@drawable/button2" />
+
+    <Button
+        android:id="@+id/b_stop_test"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_height="@dimen/b_bott_size"
+        android:layout_below="@+id/b_test"
+		android:textSize="@dimen/f_bott_button"   
+        android:text="@string/stop_test" 
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10sp"
+        android:onClick="onClick_stop_Test"
+        android:background="@drawable/button2" />
+
+    <Button
+        android:id="@+id/b_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/b_bott_size"
+        android:layout_below="@+id/b_stop_test"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button3"
+        android:onClick="onClick"
+        android:text="@string/close"
+        android:textSize="@dimen/f_bott_button" />
+
+
+</RelativeLayout>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="250dp"
+    android:background="@color/grey">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@color/grey"
+        android:text="@string/parameters"
+        android:textColor="#0000ff"
+        android:textSize="@dimen/f_team" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="230sp"
+        android:layout_below="@+id/other"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/b_setup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="75sp"
+            android:layout_marginTop="20dp"
+            android:text="@string/battery"
+            android:onClick="onClick_Setup"/>
+
+        <Button
+            android:id="@+id/b_log"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="110sp"
+            android:layout_marginTop="20dp"
+            android:text="@string/logging"
+            android:onClick="onClick_Logging"/>
+
+        <Button
+            android:id="@+id/b_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="85sp"
+            android:layout_marginTop="20dp"
+            android:text="@string/wifi"
+            android:onClick="onClick_WiFi" />
+
+    </LinearLayout>
+
+</RelativeLayout>

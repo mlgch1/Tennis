@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="400dp"
+    android:layout_height="600dp"
+    android:background="@color/grey" >
+
+    <TextView
+        android:id="@+id/log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@color/grey"
+        android:text="@string/log"
+        android:textColor="#0000ff"
+        android:textSize="@dimen/f_team" />
+
+    <ListView
+        android:id="@+id/log_list"
+        android:layout_width="match_parent"
+        android:layout_height="500sp"
+        android:layout_below="@+id/log"
+        android:background="@color/white"
+        android:dividerHeight="0dp"
+        android:fadeScrollbars="false" >
+    </ListView>
+
+    <Button
+        android:id="@+id/b_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/b_bott_size"
+        android:layout_below="@+id/log_list"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button2"
+        android:onClick="Clear_Log"
+        android:text="@string/clear_log"
+        android:textSize="@dimen/f_bott_button" />
+
+</RelativeLayout>

@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="400dp"
+                android:layout_height="490dp"
+                android:background="@color/grey">
+
+    <TextView
+        android:id="@+id/manual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@color/grey"
+        android:text="Set the Scores manually"
+        android:textColor="#0000ff"
+        android:textSize="@dimen/f_team"/>
+
+    <LinearLayout
+        android:id="@+id/scores_1"
+        android:layout_width="400sp"
+        android:layout_height="250sp"
+        android:layout_below="@+id/manual"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/teamBar_a"
+            android:layout_width="200sp"
+            android:layout_height="250sp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/head_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Player A"
+                android:textColor="@color/red"
+                android:textSize="20sp"/>
+
+            <LinearLayout
+                android:id="@+id/points_a"
+                android:layout_width="200sp"
+                android:layout_height="60sp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/head_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Points"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
+                <EditText
+                    android:id="@+id/points_no_a"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="20dp"
+                    android:digits="01234"
+                    android:enabled="true"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:selectAllOnFocus="true"
+                    android:singleLine="true"
+                    android:text="0"
+                    android:textColor="#000000"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/games_a"
+                android:layout_width="200sp"
+                android:layout_height="60sp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/head_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Games"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
+                <EditText
+                    android:id="@+id/games_no_a"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="23dp"
+                    android:layout_marginTop="20dp"
+                    android:enabled="true"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:selectAllOnFocus="true"
+                    android:singleLine="true"
+                    android:text="0"
+                    android:textColor="#000000"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sets_a"
+                android:layout_width="200sp"
+                android:layout_height="60sp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/head_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Sets"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
+                <EditText
+                    android:id="@+id/sets_no_a"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginTop="20dp"
+                    android:digits="0123"
+                    android:enabled="true"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:selectAllOnFocus="true"
+                    android:singleLine="true"
+                    android:text="0"
+                    android:textColor="#000000"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/teamBar_b"
+            android:layout_width="200sp"
+            android:layout_height="250sp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/head_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Player B"
+                android:textColor="@color/red"
+                android:textSize="20sp"/>
+
+            <LinearLayout
+                android:id="@+id/points_b"
+                android:layout_width="200sp"
+                android:layout_height="60sp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/head_11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Points"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
+                <EditText
+                    android:id="@+id/points_no_b"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="20dp"
+                    android:digits="01234"
+                    android:enabled="true"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:selectAllOnFocus="true"
+                    android:singleLine="true"
+                    android:text="0"
+                    android:textColor="#000000"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/games_b"
+                android:layout_width="200sp"
+                android:layout_height="60sp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/head_12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Games"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
+                <EditText
+                    android:id="@+id/games_no_b"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="23dp"
+                    android:layout_marginTop="20dp"
+                    android:enabled="true"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:selectAllOnFocus="true"
+                    android:singleLine="true"
+                    android:text="0"
+                    android:textColor="#000000"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sets_b"
+                android:layout_width="200sp"
+                android:layout_height="60sp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/head_13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Sets"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
+                <EditText
+                    android:id="@+id/sets_no_b"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginTop="20dp"
+                    android:digits="0123"
+                    android:enabled="true"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:selectAllOnFocus="true"
+                    android:singleLine="true"
+                    android:text="0"
+                    android:textColor="#000000"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/scores_1"
+        android:background="@color/grey"
+        android:text="0 - Love,  1 - 15,  2 - 30,  3 - 40,  4 - Adv."
+        android:textColor="#0000ff"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/text_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@color/grey"
+        android:text="You must use SENSIBLE scores."
+        android:textColor="@color/red"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/b_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/b_bott_size"
+        android:layout_below="@+id/text_2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button3"
+        android:onClick="onClick"
+        android:text="@string/close"
+        android:textSize="@dimen/f_bott_button"/>
+
+</RelativeLayout>
