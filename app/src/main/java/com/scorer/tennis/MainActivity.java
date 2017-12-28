@@ -151,7 +151,7 @@ public class MainActivity extends Activity {
         myDb.open();
 
         if (!getClubName()) {
-//            System.exit(0);
+            System.exit(0);
         }
         setGlobals();
 
@@ -457,7 +457,7 @@ public class MainActivity extends Activity {
 // ******************************************************************************
 
     private boolean getClubName() {
-        String strString;
+        StringBuilder strString;
         File myFile = new File(getString(R.string.sdcard));
 
 //            <string name="sdcard">/sdcard/f87297.azc</string>
@@ -469,28 +469,28 @@ public class MainActivity extends Activity {
 
             BufferedReader myReader = new BufferedReader(new InputStreamReader(fIn));
             String aDataRow;
-            strString = "";
+            strString = new StringBuilder();
             while ((aDataRow = myReader.readLine()) != null) {
-                strString += aDataRow + "\n";
+                strString.append(aDataRow).append("\n");
             }
             myReader.close();
-            if (!strString.contains("Pa6gK3")) {
+            if (!strString.toString().contains("Pa6gK3")) {
                 return false;
             }
             int intOffset = strString.charAt(1) - 48;
-            strString = strString.substring(8);
-            strString = strString.substring(0, strString.length() - 4);
-            strString = new StringBuffer(strString).reverse().toString();
+            strString = new StringBuilder(strString.substring(8));
+            strString = new StringBuilder(strString.substring(0, strString.length() - 4));
+            strString = new StringBuilder(new StringBuffer(strString.toString()).reverse().toString());
             int i = 0;
-            String strTemp = "";
+            StringBuilder strTemp = new StringBuilder();
             while (i < strString.length()) {
                 char c = strString.charAt(i);
                 c = (char) (c - intOffset);
-                strTemp = strTemp + c;
+                strTemp.append(c);
                 i++;
             }
-            strString = strTemp;
-            setClub(strString);
+            strString = new StringBuilder(strTemp.toString());
+            setClub(strString.toString());
         } catch (Exception e) {
             return false;
         }
@@ -1121,8 +1121,8 @@ public class MainActivity extends Activity {
 
 // ******************************************************************************
 
-    private void GameNotice(boolean type) {             // 'true' for Tie Break
-        if (!type) {
+    private void GameNotice(boolean type) {             // 'true' for Tie Brea
+//       if (!type) {
 //            t = (TextView) findViewById(id.advantage);          // Temporary to remove "Advantage"
 //            t.setVisibility(View.VISIBLE);
 //
@@ -1134,7 +1134,7 @@ public class MainActivity extends Activity {
 //
 //            t = (TextView) findViewById(id.tie_break);
 //            t.setVisibility(View.VISIBLE);
-        }
+//        }
     }
 
 // ******************************************************************************
@@ -1489,27 +1489,30 @@ public class MainActivity extends Activity {
     private boolean checkWiFiEnabled() {
         WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(WIFI_SERVICE);
 
-        if (!wifi.isWifiEnabled()) {
-            t = (TextView) findViewById(id.wifi_message);
-            t.setTextColor(ContextCompat.getColor(this, R.color.red));
-            t.setText(R.string.wifi_disabled);
+        if (wifi != null) {
+            if (!wifi.isWifiEnabled()) {
+                t = (TextView) findViewById(id.wifi_message);
+                t.setTextColor(ContextCompat.getColor(this, R.color.red));
+                t.setText(R.string.wifi_disabled);
 
-            t = (TextView) findViewById(id.wifi_connected);
-            t.setTextColor(ContextCompat.getColor(this, R.color.red));
-            t.setText(R.string.wifi_not_connected);
+                t = (TextView) findViewById(id.wifi_connected);
+                t.setTextColor(ContextCompat.getColor(this, R.color.red));
+                t.setText(R.string.wifi_not_connected);
 
-            wifi.setWifiEnabled(true);
-            wifiEnabled = false;
+                wifi.setWifiEnabled(true);
+                wifiEnabled = false;
 
-            return false;
-        } else {
-            t = (TextView) findViewById(id.wifi_message);
-            t.setTextColor(ContextCompat.getColor(this, R.color.dk_green));
-            t.setText(R.string.wifi_enabled);
-            wifiEnabled = true;
+                return false;
+            } else {
+                t = (TextView) findViewById(id.wifi_message);
+                t.setTextColor(ContextCompat.getColor(this, R.color.dk_green));
+                t.setText(R.string.wifi_enabled);
+                wifiEnabled = true;
 
-            return true;
+                return true;
+            }
         }
+        return false;
     }
     // ******************************************************************************
 
@@ -1517,7 +1520,10 @@ public class MainActivity extends Activity {
         final WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(WIFI_SERVICE);
 
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo networkInfo = null;
+        if (cm != null) {
+            networkInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        }
         WifiInfo wifiInfo = wifi.getConnectionInfo();
 
         if (!(networkInfo.isConnected() && wifiInfo.getSSID().replace("\"", "").equals(WifiSSID))) {
@@ -1572,7 +1578,9 @@ public class MainActivity extends Activity {
             ScanReceiver scanReceiver = new ScanReceiver();
             registerReceiver(scanReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
-            wifi.startScan();
+            if (wifi != null) {
+                wifi.startScan();
+            }
 
             connect_in_progress = true;
         }
@@ -1587,7 +1595,10 @@ public class MainActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(WIFI_SERVICE);
-            List<ScanResult> scanResultList = wifi.getScanResults();
+            List<ScanResult> scanResultList = null;
+            if (wifi != null) {
+                scanResultList = wifi.getScanResults();
+            }
             boolean found = false;
             for (ScanResult scanResult : scanResultList) {
                 if (scanResult.SSID.equals(WifiSSID)) {
@@ -1717,7 +1728,7 @@ public class MainActivity extends Activity {
 
             while (!stopRecvThread) {
                 try {
-                    dataIn.read(buff, 0, 4);
+                    final int read = dataIn.read(buff, 0, 4);
 
                     String result = new String(buff);
 

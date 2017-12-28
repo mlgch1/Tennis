@@ -110,7 +110,8 @@
             android:layout_marginStart="20dp"
             android:onClick="onClick_server_a"
             android:clickable="true"
-            android:background="@color/yellow" />
+            android:background="@color/yellow"
+            android:focusable="true" />
 
         <TextView
             android:id="@+id/server_mark_a"
@@ -134,7 +135,8 @@
             android:layout_below="@id/server_mark_a"
             android:onClick="onClick_server_b"
             android:clickable="true"
-            android:background="@color/yellow" />
+            android:background="@color/yellow"
+            android:focusable="true" />
 
         <TextView
             android:id="@+id/server_mark_b"
