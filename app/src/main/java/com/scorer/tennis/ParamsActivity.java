@@ -45,4 +45,12 @@ public class ParamsActivity extends Activity {
         finish();
     }
 
+    // ***********************************
+
+    public void onClick_Club(View view) {
+        Intent s_intent = new Intent(this, ClubSetupActivity.class);
+        startActivity(s_intent);
+        finish();
+    }
+
 }

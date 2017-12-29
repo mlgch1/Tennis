@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="500dp"
+    android:layout_height="300dp" >
+
+
+    <TextView
+        android:id="@+id/Club"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Set Club and System Details"
+        android:textColor="#FFFF00"
+        android:textSize="@dimen/f_edit_heading1" />
+
+    <LinearLayout
+        android:id="@+id/editBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Club"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30sp" >
+
+        <EditText
+            android:id="@+id/club"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType= "textShortMessage"
+            android:selectAllOnFocus="true" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/b_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/b_bott_size"
+        android:layout_below="@+id/editBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button3"
+        android:onClick="onClick"
+        android:text="@string/ok"
+        android:textSize="@dimen/f_bott_button" />
+
+</RelativeLayout>

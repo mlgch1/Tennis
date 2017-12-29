@@ -39,9 +39,10 @@ Please contact us by email at <b>enquiries@score-count-time.com</b>  or by phone
     <string name="test_the_scoreboard">Test the Scoreboard</string>
     <string name="set_system_date_time">Set System Date &amp; Time</string>
 
-    <string name="test">Test</string><string name="d_t_text">\n Go to <b>Date &amp; Time Icon</b>
-        					 on the Tablet Home Screen.\n</string>
-    <string name="_">" "</string>
+    <string name="test">Test</string>
+    <string name="d_t_text">\n Go to <b>Date &amp; Time Icon</b> on the Tablet Home Screen.\n</string>
+    <string name="_z">" "</string>
+
     <string name="log">Log</string>
     <string name="clear_log">Clear Log</string>
     <string name="b_">P-</string>
@@ -89,6 +90,6 @@ Please contact us by email at <b>enquiries@score-count-time.com</b>  or by phone
     <string name="tb_l_set">Tie Break Last Set</string>
     <string name="shortsets">Short Sets</string>
     <string name="suddeath">Sudden Death Deuce</string>
-    <string name="sdcard">/sdcard/f87297.azc</string>
+    <string name="sdcard">/root/sdcard/f87297.azc</string>
 
 </resources>

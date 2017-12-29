@@ -3,6 +3,8 @@ package com.scorer.tennis;
 
 // From pre WiFi version 15/08/2016
 
+// 8 Inch Branch - 29/08/2017
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -89,6 +91,8 @@ public class MainActivity extends Activity {
 
     private flashTimer flash_counter;
 
+    private illegal_flashTimer illegal_flash_counter;
+
     private wifiTimer wifi_counter;
     private String WifiSSID;
     private boolean connect_in_progress = false;
@@ -150,10 +154,11 @@ public class MainActivity extends Activity {
         myDb = new DBAdapter(this);
         myDb.open();
 
-        if (!getClubName()) {
-            System.exit(0);
-        }
         setGlobals();
+
+        if (getClub().toString().contains("ILLEGAL")) {
+            start_illegal_flashTimer();
+        }
 
         myDb.K_Log("Start App");
 
@@ -456,46 +461,47 @@ public class MainActivity extends Activity {
 
 // ******************************************************************************
 
-    private boolean getClubName() {
-        StringBuilder strString;
-        File myFile = new File(getString(R.string.sdcard));
-
-//            <string name="sdcard">/sdcard/f87297.azc</string>
-
-
-
-        try {
-            FileInputStream fIn = new FileInputStream(myFile);
-
-            BufferedReader myReader = new BufferedReader(new InputStreamReader(fIn));
-            String aDataRow;
-            strString = new StringBuilder();
-            while ((aDataRow = myReader.readLine()) != null) {
-                strString.append(aDataRow).append("\n");
-            }
-            myReader.close();
-            if (!strString.toString().contains("Pa6gK3")) {
-                return false;
-            }
-            int intOffset = strString.charAt(1) - 48;
-            strString = new StringBuilder(strString.substring(8));
-            strString = new StringBuilder(strString.substring(0, strString.length() - 4));
-            strString = new StringBuilder(new StringBuffer(strString.toString()).reverse().toString());
-            int i = 0;
-            StringBuilder strTemp = new StringBuilder();
-            while (i < strString.length()) {
-                char c = strString.charAt(i);
-                c = (char) (c - intOffset);
-                strTemp.append(c);
-                i++;
-            }
-            strString = new StringBuilder(strTemp.toString());
-            setClub(strString.toString());
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
+//    private boolean getClubName() {
+//        StringBuilder strString;
+//        File myFile = new File(getString(R.string.sdcard));
+//
+////            <string name="sdcard">/sdcard/f87297.azc</string>
+//
+//
+//
+//        try {
+//            FileInputStream fIn = new FileInputStream(myFile);
+//
+//            BufferedReader myReader = new BufferedReader(new InputStreamReader(fIn));
+//            String aDataRow;
+//            strString = new StringBuilder();
+//            while ((aDataRow = myReader.readLine()) != null) {
+//                strString.append(aDataRow).append("\n");
+//            }
+//            myReader.close();
+//            if (!strString.toString().contains("Pa6gK3")) {
+//                return false;
+//            }
+//            int intOffset = strString.charAt(1) - 48;
+//            strString = new StringBuilder(strString.substring(8));
+//            strString = new StringBuilder(strString.substring(0, strString.length() - 4));
+//            strString = new StringBuilder(new StringBuffer(strString.toString()).reverse().toString());
+//            int i = 0;
+//            StringBuilder strTemp = new StringBuilder();
+//            while (i < strString.length()) {
+//                char c = strString.charAt(i);
+//                c = (char) (c - intOffset);
+//                strTemp.append(c);
+//                i++;
+//            }
+//            strString = new StringBuilder(strTemp.toString());
+//            setClub(strString.toString());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//        return true;
+//    }
 
 // ******************************************************************************
 
@@ -1919,6 +1925,63 @@ public class MainActivity extends Activity {
                 i.setVisibility(View.INVISIBLE);
             }
             start_flashTimer();
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+        }
+
+    }
+
+// ******************************************************************************
+// Timer for flashing ILLEGAL title
+// ******************************************************************************
+
+    private boolean illegal_flash = true;
+
+    public void start_illegal_flashTimer() {
+
+        if (illegal_flash_counter != null) {
+            return;
+        }
+        illegal_flash_counter = new illegal_flashTimer(500, 500);
+        illegal_flash_counter.start();
+
+        illegal_flash = !illegal_flash;
+    }
+
+// ******************************************************************************
+
+    public void stop_illegal_flashTimer() {
+
+        if (illegal_flash_counter != null) {
+            illegal_flash_counter.cancel();
+            illegal_flash_counter = null;
+
+            t = (TextView) findViewById(R.id.club);
+            t.setVisibility(View.INVISIBLE);
+        }
+    }
+
+// ******************************************************************************
+
+    private class illegal_flashTimer extends CountDownTimer {
+        illegal_flashTimer(long illegal_flash_millisInFuture, long countDownInterval) {
+            super(illegal_flash_millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onFinish() {
+            illegal_flash_counter = null;
+
+            if (illegal_flash) {
+                t = (TextView) findViewById(R.id.club);
+                t.setVisibility(View.VISIBLE);
+            } else {
+                t = (TextView) findViewById(R.id.club);
+                t.setVisibility(View.INVISIBLE);
+            }
+            start_illegal_flashTimer();
         }
 
         @Override

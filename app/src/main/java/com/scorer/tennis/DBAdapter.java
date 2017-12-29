@@ -16,7 +16,7 @@ public class DBAdapter {
     // ***********************************
 
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     // ***********************************
 
     // Table Names
@@ -28,6 +28,8 @@ public class DBAdapter {
 
     // System Table - column names
     public static final String KEY_SYSTEM_ID = "_id";
+
+    public static final String KEY_SYSTEM_CLUB = "system_club";
 
     public static final String KEY_SYSTEM_NAME_A = "system_name_a";
     public static final String KEY_SYSTEM_NAME_B = "system_name_b";
@@ -63,7 +65,7 @@ public class DBAdapter {
     public static final String KEY_SYSTEM_MTB_10 = "system_mtb_10";
     public static final String KEY_SYSTEM_FAST4 = "system_fast4";
 
-    public static final String[] SYSTEM_KEYS = new String[]{KEY_SYSTEM_ID, KEY_SYSTEM_NAME_A, KEY_SYSTEM_NAME_B, KEY_SYSTEM_POINTS_A, KEY_SYSTEM_POINTS_B,
+    public static final String[] SYSTEM_KEYS = new String[]{KEY_SYSTEM_ID, KEY_SYSTEM_CLUB, KEY_SYSTEM_NAME_A, KEY_SYSTEM_NAME_B, KEY_SYSTEM_POINTS_A, KEY_SYSTEM_POINTS_B,
             KEY_SYSTEM_GAMES_A, KEY_SYSTEM_GAMES_B, KEY_SYSTEM_SETS_A, KEY_SYSTEM_SETS_B, KEY_SYSTEM_SERVER, KEY_SYSTEM_SET_TYPE, KEY_SYSTEM_LAST_SET,
             KEY_SYSTEM_SET_NO_1, KEY_SYSTEM_SET_NO_3, KEY_SYSTEM_SET_NO_5, KEY_SYSTEM_BATT_THRESH, KEY_SYSTEM_BATT_INC, KEY_SYSTEM_SSID, KEY_SYSTEM_CHANNEL, KEY_SYSTEM_NO_ADV, KEY_SYSTEM_SHORT_SETS,
             KEY_SYSTEM_MATCH_TB, KEY_SYSTEM_MTB_7, KEY_SYSTEM_MTB_10, KEY_SYSTEM_FAST4};
@@ -83,7 +85,7 @@ public class DBAdapter {
 
     // System table create statement
     private static final String CREATE_TABLE_SYSTEM = "CREATE TABLE if not exists " + TABLE_SYSTEM + "(" + KEY_SYSTEM_ID + " INTEGER PRIMARY KEY autoincrement ,"
-            + KEY_SYSTEM_NAME_A + " TEXT," + KEY_SYSTEM_NAME_B + " TEXT," + KEY_SYSTEM_POINTS_A + " TEXT," + KEY_SYSTEM_POINTS_B + " TEXT," + KEY_SYSTEM_GAMES_A + " TEXT,"
+            + KEY_SYSTEM_CLUB + " TEXT," + KEY_SYSTEM_NAME_A + " TEXT," + KEY_SYSTEM_NAME_B + " TEXT," + KEY_SYSTEM_POINTS_A + " TEXT," + KEY_SYSTEM_POINTS_B + " TEXT," + KEY_SYSTEM_GAMES_A + " TEXT,"
             + KEY_SYSTEM_GAMES_B + " TEXT," + KEY_SYSTEM_SETS_A + " TEXT,"+ KEY_SYSTEM_SETS_B + " TEXT," + KEY_SYSTEM_SERVER + " TEXT,"
             + KEY_SYSTEM_SET_TYPE + " INTEGER," + KEY_SYSTEM_LAST_SET + " INTEGER," + KEY_SYSTEM_SET_NO_1 + " INTEGER," + KEY_SYSTEM_SET_NO_3 + " INTEGER," + KEY_SYSTEM_SET_NO_5 + " INTEGER," + KEY_SYSTEM_BATT_THRESH + " INTEGER,"
             + KEY_SYSTEM_BATT_INC + " INTEGER," + KEY_SYSTEM_SSID + " INTEGER," + KEY_SYSTEM_CHANNEL + " INTEGER," + KEY_SYSTEM_NO_ADV + " INTEGER,"
@@ -144,6 +146,7 @@ public class DBAdapter {
             db.execSQL(CREATE_TABLE_SYSTEM);
             // Insert a zero row in system table.
             ContentValues initialValues = new ContentValues();
+            initialValues.put(KEY_SYSTEM_CLUB, "This is an ILLEGAL copy!");
             initialValues.put(KEY_SYSTEM_NAME_A, " ");
             initialValues.put(KEY_SYSTEM_NAME_B, " ");
             initialValues.put(KEY_SYSTEM_POINTS_A, "0");
@@ -186,13 +189,14 @@ public class DBAdapter {
 
 
             switch (newVersion) {
-                case 2:
-
-
-
-
-
+                case 3:
+                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_CLUB + " TEXT");
                     break;
+
+
+
+
+
                 default:
                     throw new IllegalStateException("onUpgrade() with unknown newVersion" + newVersion);
             }

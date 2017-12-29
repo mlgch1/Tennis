@@ -7,7 +7,7 @@ public class GlobalClass extends Application {
 
     // ***********************************
 
-    private static String strClub = "";
+    private static String strClub = "This is an ILLEGAL copy!";
 
     public static String getClub() { return strClub; }
 
