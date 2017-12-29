@@ -10,7 +10,7 @@
         android:layout_centerHorizontal="true"
         android:text="@string/setup_battery_test_parameters"
         android:textColor="#FFFF00"
-        android:textSize="@dimen/f_edit_heading1" />
+        android:textSize="@dimen/f_text_30" />
 
     <LinearLayout
         android:id="@+id/editBar"
@@ -28,7 +28,7 @@
             android:layout_marginRight="40dp"
             android:text="@string/threshold_value_"
             android:textColor="#FFFF00"
-            android:textSize="@dimen/f_edit_heading2" />
+            android:textSize="@dimen/f_text_20" />
 
         <EditText
             android:id="@+id/inputThresh"
@@ -53,7 +53,7 @@
             android:layout_marginRight="40dp"
             android:text="@string/increment_"
             android:textColor="#FFFF00"
-            android:textSize="@dimen/f_edit_heading2" />
+            android:textSize="@dimen/f_text_20" />
 
         <EditText
             android:id="@+id/inputInc"
@@ -74,6 +74,6 @@
         android:background="@drawable/button3"
         android:onClick="onClick"
         android:text="@string/ok"
-        android:textSize="@dimen/f_bott_button" />
+        android:textSize="@dimen/f_text_15" />
 
 </RelativeLayout>

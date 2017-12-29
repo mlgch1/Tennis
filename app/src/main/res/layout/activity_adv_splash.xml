@@ -12,6 +12,6 @@
         android:background="@color/black"
         android:text="Advantage"
         android:textColor="@color/white"
-        android:textSize="40px"/>
+        android:textSize="40sp"/>
 
 </RelativeLayout>

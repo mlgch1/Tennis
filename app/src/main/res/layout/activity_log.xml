@@ -13,7 +13,7 @@
         android:background="@color/grey"
         android:text="@string/log"
         android:textColor="#0000ff"
-        android:textSize="@dimen/f_team" />
+        android:textSize="@dimen/f_text_30" />
 
     <ListView
         android:id="@+id/log_list"
@@ -36,6 +36,6 @@
         android:background="@drawable/button2"
         android:onClick="Clear_Log"
         android:text="@string/clear_log"
-        android:textSize="@dimen/f_bott_button" />
+        android:textSize="@dimen/f_text_15" />
 
 </RelativeLayout>

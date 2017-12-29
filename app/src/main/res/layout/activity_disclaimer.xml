@@ -12,7 +12,7 @@
         android:background="@color/grey"
         android:text="@string/scorer_product_liability_disclaimer"
         android:textColor="#000000"
-        android:textSize="@dimen/f_team" />
+        android:textSize="@dimen/f_text_30" />
 
     <LinearLayout
         android:id="@+id/a_text"
@@ -44,6 +44,6 @@
         android:background="@drawable/button3"
         android:onClick="onClick"
         android:text="@string/close"
-        android:textSize="@dimen/f_bott_button" />
+        android:textSize="@dimen/f_text_15" />
 
 </RelativeLayout>

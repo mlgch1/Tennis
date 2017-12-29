@@ -13,7 +13,7 @@
         android:background="@color/grey"
         android:text="Set the Scores manually"
         android:textColor="#0000ff"
-        android:textSize="@dimen/f_team"/>
+        android:textSize="@dimen/f_text_30"/>
 
     <LinearLayout
         android:id="@+id/scores_1"
@@ -301,6 +301,6 @@
         android:background="@drawable/button3"
         android:onClick="onClick"
         android:text="@string/close"
-        android:textSize="@dimen/f_bott_button"/>
+        android:textSize="@dimen/f_text_15"/>
 
 </RelativeLayout>

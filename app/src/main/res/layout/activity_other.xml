@@ -12,7 +12,7 @@
         android:background="@color/grey"
         android:text="@string/other_actions"
         android:textColor="#0000ff"
-        android:textSize="@dimen/f_team" />
+        android:textSize="@dimen/f_text_30" />
 
     <LinearLayout
         android:layout_width="match_parent"

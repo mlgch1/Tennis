@@ -219,13 +219,18 @@ public class MainActivity extends Activity {
 
         myDb.K_Log("Resume App");
 
-        setupVariables();
+        setupGameVariables();
 
         // *********** Club
         t = (TextView) findViewById(id.club);
         t.setText(getClub());
 
-        // *********** Player Names
+        if (getClub().toString().contains("ILLEGAL")) {
+            start_illegal_flashTimer();
+        }else{
+            stop_illegal_flashTimer();
+        }
+// *********** Player Names
 
         String s = myDb.readSystemStr(DBAdapter.KEY_SYSTEM_NAME_A);
         t = (TextView) findViewById(id.name_a);
@@ -457,50 +462,6 @@ public class MainActivity extends Activity {
 //        t = (TextView) findViewById(id.last_tb);
 //        t.setVisibility(View.INVISIBLE);
 //
-//    }
-
-// ******************************************************************************
-
-//    private boolean getClubName() {
-//        StringBuilder strString;
-//        File myFile = new File(getString(R.string.sdcard));
-//
-////            <string name="sdcard">/sdcard/f87297.azc</string>
-//
-//
-//
-//        try {
-//            FileInputStream fIn = new FileInputStream(myFile);
-//
-//            BufferedReader myReader = new BufferedReader(new InputStreamReader(fIn));
-//            String aDataRow;
-//            strString = new StringBuilder();
-//            while ((aDataRow = myReader.readLine()) != null) {
-//                strString.append(aDataRow).append("\n");
-//            }
-//            myReader.close();
-//            if (!strString.toString().contains("Pa6gK3")) {
-//                return false;
-//            }
-//            int intOffset = strString.charAt(1) - 48;
-//            strString = new StringBuilder(strString.substring(8));
-//            strString = new StringBuilder(strString.substring(0, strString.length() - 4));
-//            strString = new StringBuilder(new StringBuffer(strString.toString()).reverse().toString());
-//            int i = 0;
-//            StringBuilder strTemp = new StringBuilder();
-//            while (i < strString.length()) {
-//                char c = strString.charAt(i);
-//                c = (char) (c - intOffset);
-//                strTemp.append(c);
-//                i++;
-//            }
-//            strString = new StringBuilder(strTemp.toString());
-//            setClub(strString.toString());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//        return true;
 //    }
 
 // ******************************************************************************
@@ -875,7 +836,7 @@ public class MainActivity extends Activity {
 
 // ******************************************************************************
 
-    private void setupVariables() {
+    private void setupGameVariables() {
 
 //        int intSetsForDeuce = 0;
 

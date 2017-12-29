@@ -13,7 +13,7 @@
         android:background="@color/grey"
         android:text="@string/Game_Rules"
         android:textColor="#0000ff"
-        android:textSize="@dimen/f_team" />
+        android:textSize="@dimen/f_text_30" />
 
     <LinearLayout
         android:id="@+id/leftCol"
@@ -234,6 +234,6 @@
         android:background="@drawable/button3"
         android:onClick="onClick"
         android:text="Store"
-        android:textSize="@dimen/f_bott_button" />
+        android:textSize="@dimen/f_text_15" />
 
 </RelativeLayout>

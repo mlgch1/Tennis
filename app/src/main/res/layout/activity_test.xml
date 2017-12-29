@@ -13,7 +13,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/test_the_scoreboard"
         android:textColor="#0000ff"
-        android:textSize="@dimen/f_team" />
+        android:textSize="@dimen/f_text_30" />
 
     <Button
         android:id="@+id/b_test"
@@ -21,7 +21,7 @@
         android:layout_centerHorizontal="true"
         android:layout_height="@dimen/b_bott_size"
         android:layout_below="@+id/test"
-		android:textSize="@dimen/f_bott_button"   
+		android:textSize="@dimen/f_text_15"
         android:text="@string/test" 
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10sp"
@@ -34,7 +34,7 @@
         android:layout_centerHorizontal="true"
         android:layout_height="@dimen/b_bott_size"
         android:layout_below="@+id/b_test"
-		android:textSize="@dimen/f_bott_button"   
+		android:textSize="@dimen/f_text_15"
         android:text="@string/stop_test" 
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10sp"
@@ -52,7 +52,7 @@
         android:background="@drawable/button3"
         android:onClick="onClick"
         android:text="@string/close"
-        android:textSize="@dimen/f_bott_button" />
+        android:textSize="@dimen/f_text_15" />
 
 
 </RelativeLayout>

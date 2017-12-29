@@ -12,6 +12,6 @@
         android:background="@color/green"
         android:text="Deuce"
         android:textColor="#000000"
-        android:textSize="40px"/>
+        android:textSize="40sp"/>
 
 </RelativeLayout>
