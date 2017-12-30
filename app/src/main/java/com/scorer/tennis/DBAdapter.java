@@ -151,7 +151,7 @@ public class DBAdapter {
             db.execSQL(CREATE_TABLE_SYSTEM);
             // Insert a zero row in system table.
             ContentValues initialValues = new ContentValues();
-            initialValues.put(KEY_SYSTEM_CLUB, " ");
+            initialValues.put(KEY_SYSTEM_CLUB, "This is an ILLEGAL copy!");
             initialValues.put(KEY_SYSTEM_NAME_A, " ");
             initialValues.put(KEY_SYSTEM_NAME_B, " ");
             initialValues.put(KEY_SYSTEM_POINTS_A, "0");

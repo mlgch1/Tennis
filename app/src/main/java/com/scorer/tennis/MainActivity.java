@@ -230,7 +230,7 @@ public class MainActivity extends Activity {
         setSSID(myDb.readSystem(DBAdapter.KEY_SYSTEM_SSID));
         setChannel(myDb.readSystem(DBAdapter.KEY_SYSTEM_CHANNEL));
 
-//        setClub(myDb.readSystemStr(DBAdapter.KEY_SYSTEM_CLUB));
+        setClub(myDb.readSystemStr(DBAdapter.KEY_SYSTEM_CLUB));
 
     }
 // ******************************************************************************
