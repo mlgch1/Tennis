@@ -170,6 +170,31 @@ public class MainActivity extends Activity {
         WifiSSID = "scorer_" + getSSID();
 
         start_wifiTimer();
+
+
+
+
+// To be deleted
+
+        TextView tv =(TextView)findViewById(R.id.wifi_message);
+
+        tv.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent dbmanager = new Intent(MainActivity.this,AndroidDatabaseManager.class);
+                startActivity(dbmanager);
+            }
+        });
+
+
+
+
+
+
+
+
+
+
     }
 
 // ******************************************************************************
@@ -204,6 +229,8 @@ public class MainActivity extends Activity {
 
         setSSID(myDb.readSystem(DBAdapter.KEY_SYSTEM_SSID));
         setChannel(myDb.readSystem(DBAdapter.KEY_SYSTEM_CHANNEL));
+
+//        setClub(myDb.readSystemStr(DBAdapter.KEY_SYSTEM_CLUB));
 
     }
 // ******************************************************************************
