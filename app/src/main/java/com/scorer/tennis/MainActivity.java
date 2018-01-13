@@ -140,6 +140,8 @@ public class MainActivity extends Activity {
     //    private boolean boolFast4;
     private boolean boolShortSets = false;
 
+    private String f_audio;
+
 // ******************************************************************************
 
     @Override
@@ -931,6 +933,9 @@ public class MainActivity extends Activity {
 
             switch (result) {
                 case 0:
+
+                    f_audio = "B";
+
                     break;
                 case 1:
                     Games("Adv");
@@ -1027,6 +1032,8 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this, GameSplashActivity.class);
                 startActivity(intent);
 
+                f_audio = "G";
+
                 return;
             }
 
@@ -1038,6 +1045,8 @@ public class MainActivity extends Activity {
                 if (!Match()) {
                     Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
                     startActivity(intent);
+
+                    f_audio = "S";
                 }
                 return;
             }
@@ -1050,6 +1059,8 @@ public class MainActivity extends Activity {
                 if (!Match()) {
                     Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
                     startActivity(intent);
+
+                    f_audio = "S";
                 }
             }
 
@@ -1069,6 +1080,8 @@ public class MainActivity extends Activity {
             } else {
                 Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
                 startActivity(intent);
+
+                f_audio = "S";
             }
             c_games_h = 0;
             c_games_v = 0;
@@ -1083,6 +1096,8 @@ public class MainActivity extends Activity {
 
             Intent intent = new Intent(MainActivity.this, MatchSplashActivity.class);
             startActivity(intent);
+
+            f_audio = "M";
 
             AllButtonsOff();
 
@@ -1137,6 +1152,8 @@ public class MainActivity extends Activity {
 
         Intent intent = new Intent(MainActivity.this, DeuceSplashActivity.class);
         startActivity(intent);
+
+        f_audio = "D";
     }
 
 // ******************************************************************************
@@ -1145,6 +1162,8 @@ public class MainActivity extends Activity {
 
         Intent intent = new Intent(MainActivity.this, AdvSplashActivity.class);
         startActivity(intent);
+
+        f_audio = "A";
     }
 
 // ******************************************************************************
@@ -1153,6 +1172,8 @@ public class MainActivity extends Activity {
 
         Intent intent = new Intent(MainActivity.this, DeuceSplashActivity.class);
         startActivity(intent);
+
+        f_audio = "D";
 
         c_points_h--;
         c_points_v--;
@@ -1794,7 +1815,8 @@ public class MainActivity extends Activity {
                 s1 = "GJCXXXZBBBBBBBBBB";
             }
         } else {
-            s1 = "GJCXXX" //+ "Z8888888888";
+            s1 = "GJCXX" //+ "Z8888888888";
+                    + f_audio
                     + server
                     + String.valueOf(c_sets_v)
                     + String.valueOf(padLeftZero(c_games_v, 2))
@@ -1802,6 +1824,8 @@ public class MainActivity extends Activity {
                     + String.valueOf(c_sets_h)
                     + String.valueOf(padLeftZero(c_games_h, 2))
                     + String.valueOf(convert_Points_Trans(c_points_h));
+
+            f_audio = "X";
         }
 
         return s1;
