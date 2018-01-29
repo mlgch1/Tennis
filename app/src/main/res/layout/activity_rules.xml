@@ -23,7 +23,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/head_0"
+            android:id="@+id/head_No_Sets"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -33,43 +33,40 @@
             android:textSize="20sp" />
 
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/radioGroup0"
+            android:id="@+id/radioGroup_No_Sets"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/head_0"
+            android:layout_below="@+id/head_No_Sets"
             android:orientation="vertical">
 
             <RadioButton
-                android:id="@+id/radioButton01"
+                android:id="@+id/radioButton_1_Set"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="29dp"
-                android:onClick="onClick_Click"
                  android:text="  1 Set"
                 android:textColor="@color/black" />
 
             <RadioButton
-                android:id="@+id/radioButton02"
+                android:id="@+id/radioButton_3_Set"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="29dp"
-                android:onClick="onClick_Click"
                 android:text="  3 Sets"
                 android:textColor="@color/black" />
 
             <RadioButton
-                android:id="@+id/radioButton03"
+                android:id="@+id/radioButton_5_Set"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="29dp"
-                android:onClick="onClick_Click"
                 android:text="  5 Sets"
                 android:textColor="@color/black" />
 
         </RadioGroup>
 
         <TextView
-            android:id="@+id/head_1"
+            android:id="@+id/head_Type_of_Set"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -79,14 +76,14 @@
             android:textSize="20sp" />
 
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/radioGroup1"
+            android:id="@+id/radioGroup_Type_of_Set"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/head_1"
+            android:layout_below="@+id/head_Type_of_Set"
             android:orientation="vertical">
 
             <RadioButton
-                android:id="@+id/radioButton11"
+                android:id="@+id/radioButton_Adv_Set"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="29dp"
@@ -96,7 +93,7 @@
                 android:textColor="@color/black" />
 
             <RadioButton
-                android:id="@+id/radioButton12"
+                android:id="@+id/radioButton_Tb_Set"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="29dp"
@@ -107,7 +104,7 @@
         </RadioGroup>
 
         <TextView
-            android:id="@+id/head_2"
+            android:id="@+id/head_Last_Set"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -117,30 +114,30 @@
             android:textSize="20sp"
             android:visibility="invisible" />
 
-        <RadioGroup
-            android:id="@+id/radioGroup2"
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/radioGroup_Last_Set"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/head_2"
+            android:layout_below="@+id/head_Last_Set"
             android:orientation="vertical"
             android:visibility="invisible">
 
             <RadioButton
-                android:id="@+id/radioButton21"
+                android:id="@+id/radioButton_LS_Adv_Set"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="29dp"
                 android:checked="true"
-                android:onClick="onClick_Click"
+                android:onClick="onClick_Ls_Advantage"
                 android:text="  Advantage Set"
                 android:textColor="@color/black" />
 
             <RadioButton
-                android:id="@+id/radioButton22"
+                android:id="@+id/radioButton_LS_Tb_Set"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="29dp"
-                android:onClick="onClick_Click"
+                android:onClick="onClick_Ls_TieBreak"
                 android:text="  Tie Break Set"
                 android:textColor="@color/black" />
 
@@ -158,68 +155,68 @@
         android:orientation="vertical">
 
         <CheckBox
-            android:id="@+id/checkBox1"
+            android:id="@+id/checkBox_No_Adv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:text="No Advantage (Sudden Death Deuce)"
-            android:onClick="onClick_Click"
+            android:text="No Advantage Game (Sudden Death Deuce)"
+            android:onClick="onClick_No_Adv"
             android:layout_marginTop="10dp" />
 
         <CheckBox
-            android:id="@+id/checkBox2"
+            android:id="@+id/checkBox_Fast4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:onClick="onClick_Fast4"
+            android:text="FAST4 Format"
+            android:layout_marginTop="30dp" />
+
+        <CheckBox
+            android:id="@+id/checkBox_Short_Sets"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:text="Short Sets"
-            android:onClick="onClick_Click"
+            android:onClick="onClick_Short_Sets"
             android:layout_marginTop="10dp" />
 
-        <!--<CheckBox-->
-            <!--android:id="@+id/checkBox3"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textColor="@color/black"-->
-            <!--android:text="Match Tie Break"-->
-            <!--android:onClick="onClick_Mtb"-->
-            <!--android:layout_marginTop="10dp" />-->
+        <CheckBox
+            android:id="@+id/checkBox_Match_Tb_Game"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Match Tie Break Game"
+            android:onClick="onClick_Mtb"
+            android:layout_marginTop="10dp" />
 
-        <!--<RadioGroup-->
-            <!--android:id="@+id/radioGroup3"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical"-->
-            <!--android:visibility="invisible">-->
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/radioGroup_Match_Tb_Game"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
 
-            <!--<RadioButton-->
-                <!--android:id="@+id/radioButton31"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginStart="29dp"-->
-                <!--android:checked="true"-->
-                <!--android:onClick="onClick_Click"-->
-                <!--android:text="  7 Points"-->
-                <!--android:textColor="@color/black" />-->
+            <RadioButton
+                android:id="@+id/radioButton_7_Points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="29dp"
+                android:checked="true"
+                android:onClick="onClick_7_Points"
+                android:text="  7 Points"
+                android:textColor="@color/black" />
 
-            <!--<RadioButton-->
-                <!--android:id="@+id/radioButton32"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginStart="29dp"-->
-                <!--android:onClick="onClick_Click"-->
-                <!--android:text="  10 Points"-->
-                <!--android:textColor="@color/black" />-->
+            <RadioButton
+                android:id="@+id/radioButton_10_Points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="29dp"
+                android:onClick="onClick_10_Points"
+                android:text="  10 Points"
+                android:textColor="@color/black" />
 
-        <!--</RadioGroup>-->
-
-        <!--<CheckBox-->
-            <!--android:id="@+id/checkBox4"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textColor="@color/black"-->
-            <!--android:onClick="onClick_Fast4"-->
-            <!--android:text="FAST4 Format"-->
-            <!--android:layout_marginTop="10dp" />-->
+        </RadioGroup>
 
     </LinearLayout>
 
@@ -232,7 +229,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/button3"
-        android:onClick="onClick"
+        android:onClick="onClick_Store"
         android:text="Store"
         android:textSize="@dimen/f_text_15" />
 

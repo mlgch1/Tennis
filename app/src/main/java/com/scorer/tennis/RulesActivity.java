@@ -8,11 +8,22 @@ import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class RulesActivity extends Activity {
 
     DBAdapter myDb;
+
+    private int set_no_1;
+    private int set_no_3;
+    private int set_no_5;
+    private int set_type;
+    private int last_set;
+    private int fast4;
+    private int no_adv;
+    private int short_sets;
+    private int match_tb_game;
+    private int mtb_7;
+    private int mtb_10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,97 +33,19 @@ public class RulesActivity extends Activity {
         myDb = new DBAdapter(this);
         myDb.open();
 
-        // No of Sets
-        if (myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_NO_1) == 1) {
-            RadioButton rad_b = (RadioButton) findViewById(R.id.radioButton01);
-            rad_b.setChecked(true);
-        }
+        set_no_1 = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_NO_1);
+        set_no_3 = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_NO_3);
+        set_no_5 = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_NO_5);
+        set_type = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_TYPE);
+        last_set = myDb.readSystem(DBAdapter.KEY_SYSTEM_LAST_SET);
+        no_adv = myDb.readSystem(DBAdapter.KEY_SYSTEM_NO_ADV);
+        fast4 = myDb.readSystem(DBAdapter.KEY_SYSTEM_FAST4);
+        short_sets = myDb.readSystem(DBAdapter.KEY_SYSTEM_SHORT_SETS);
+        match_tb_game = myDb.readSystem(DBAdapter.KEY_SYSTEM_MATCH_TB);
+        mtb_7 = myDb.readSystem(DBAdapter.KEY_SYSTEM_MTB_7);
+        mtb_10 = myDb.readSystem(DBAdapter.KEY_SYSTEM_MTB_10);
 
-        if (myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_NO_3) == 1) {
-            RadioButton rad_b = (RadioButton) findViewById(R.id.radioButton02);
-            rad_b.setChecked(true);
-        }
-
-        if (myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_NO_5) == 1) {
-            RadioButton rad_b = (RadioButton) findViewById(R.id.radioButton03);
-            rad_b.setChecked(true);
-        }
-
-        // Set Type
-
-        if (myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_TYPE) == 0) {
-            RadioButton rad_b = (RadioButton) findViewById(R.id.radioButton11);
-            rad_b.setChecked(true);
-            rad_b = (RadioButton) findViewById(R.id.radioButton12);
-            rad_b.setChecked(false);
-        } else {
-            RadioButton rad_b = (RadioButton) findViewById(R.id.radioButton12);
-            rad_b.setChecked(true);
-            rad_b = (RadioButton) findViewById(R.id.radioButton11);
-            rad_b.setChecked(false);
-
-            TextView t = (TextView) findViewById(R.id.head_2);
-            t.setVisibility(View.VISIBLE);
-
-            RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup2);
-            rad.setVisibility(View.VISIBLE);
-
-            if (myDb.readSystem(DBAdapter.KEY_SYSTEM_LAST_SET) == 0) {
-                RadioButton rad_c = (RadioButton) findViewById(R.id.radioButton21);
-                rad_c.setChecked(true);
-            } else {
-                RadioButton rad_c = (RadioButton) findViewById(R.id.radioButton22);
-                rad_c.setChecked(true);
-            }
-        }
-
-//        // Match Tie Break
-//        if (myDb.readSystem(DBAdapter.KEY_SYSTEM_MATCH_TB) == 0) {
-//            CheckBox chkMtb = (CheckBox) findViewById(R.id.checkBox3);
-//            chkMtb.setChecked(false);
-//        } else {
-//            CheckBox chkMtb = (CheckBox) findViewById(R.id.checkBox3);
-//            chkMtb.setChecked(true);
-//
-//            RadioButton rad_b = (RadioButton) findViewById(R.id.radioButton12);
-//            rad_b.setChecked(true);
-//
-////            TextView t = (TextView) findViewById(R.id.head_2);
-////            t.setVisibility(View.VISIBLE);
-//
-//            RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup3);
-//            rad.setVisibility(View.VISIBLE);
-//
-//            if (myDb.readSystem(DBAdapter.KEY_SYSTEM_MTB_7) == 1) {
-//                RadioButton rad_c = (RadioButton) findViewById(R.id.radioButton31);
-//                rad_c.setChecked(true);
-//            }
-//
-//            if (myDb.readSystem(DBAdapter.KEY_SYSTEM_MTB_10) == 1) {
-//                RadioButton rad_c = (RadioButton) findViewById(R.id.radioButton32);
-//                rad_c.setChecked(true);
-//            }
-//        }
-
-        // No Advantage
-        CheckBox noAdv = (CheckBox) findViewById(R.id.checkBox1);
-        noAdv.setChecked((myDb.readSystem(DBAdapter.KEY_SYSTEM_NO_ADV) != 0));
-
-        // Short Sets
-        CheckBox ss = (CheckBox) findViewById(R.id.checkBox2);
-        ss.setChecked((myDb.readSystem(DBAdapter.KEY_SYSTEM_SHORT_SETS) != 0));
-
-//        // Match Tie Break
-//        CheckBox mtb = (CheckBox) findViewById(R.id.checkBox3);
-//        mtb.setChecked((myDb.readSystem(DBAdapter.KEY_SYSTEM_MATCH_TB) != 0));
-
-//        // FAST4
-//        CheckBox f4 = (CheckBox) findViewById(R.id.checkBox4);
-//        f4.setChecked((myDb.readSystem(DBAdapter.KEY_SYSTEM_FAST4) != 0));
-
-//        if (f4.isChecked()) {
-//            Fast4();
-//        }
+        display();
     }
 
     // ***********************************
@@ -132,209 +65,293 @@ public class RulesActivity extends Activity {
 
     // ***********************************
 
-    public void onClick_TieBreak(View view) {
+    public void display() {
 
-        TextView t = (TextView) findViewById(R.id.head_2);
-        t.setVisibility(View.VISIBLE);
+        TextView t_head_no_sets = (TextView) findViewById(R.id.head_No_Sets);
+        TextView t_head_type_of_set = (TextView) findViewById(R.id.head_Type_of_Set);
+        TextView t_head_last_set = (TextView) findViewById(R.id.head_Last_Set);
 
-        RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup2);
-        rad.setVisibility(View.VISIBLE);
+        RadioGroup rg_no_sets = (RadioGroup) findViewById(R.id.radioGroup_No_Sets);
+        RadioGroup rg_type_of_set = (RadioGroup) findViewById(R.id.radioGroup_Type_of_Set);
+        RadioGroup rg_last_set = (RadioGroup) findViewById(R.id.radioGroup_Last_Set);
+        RadioGroup rg_match_tb_game = (RadioGroup) findViewById(R.id.radioGroup_Match_Tb_Game);
+
+        RadioButton rb_1_set = (RadioButton) findViewById(R.id.radioButton_1_Set);
+        RadioButton rb_3_set = (RadioButton) findViewById(R.id.radioButton_3_Set);
+        RadioButton rb_5_set = (RadioButton) findViewById(R.id.radioButton_5_Set);
+        RadioButton rb_adv_set = (RadioButton) findViewById(R.id.radioButton_Adv_Set);
+        RadioButton rb_tb_set = (RadioButton) findViewById(R.id.radioButton_Tb_Set);
+        RadioButton rb_ls_adv_set = (RadioButton) findViewById(R.id.radioButton_LS_Adv_Set);
+        RadioButton rb_ls_tb_set = (RadioButton) findViewById(R.id.radioButton_LS_Tb_Set);
+        RadioButton rb_7_points = (RadioButton) findViewById(R.id.radioButton_7_Points);
+        RadioButton rb_10_points = (RadioButton) findViewById(R.id.radioButton_10_Points);
+
+        CheckBox cb_fast4 = (CheckBox) findViewById(R.id.checkBox_Fast4);
+        CheckBox cb_no_adv = (CheckBox) findViewById(R.id.checkBox_No_Adv);
+        CheckBox cb_short_sets = (CheckBox) findViewById(R.id.checkBox_Short_Sets);
+        CheckBox cb_match_tb_game = (CheckBox) findViewById(R.id.checkBox_Match_Tb_Game);
+
+        // No of Sets
+        rb_1_set.setChecked(set_no_1 == 1);
+        rb_3_set.setChecked(set_no_3 == 1);
+        rb_5_set.setChecked(set_no_5 == 1);
+
+        // FAST4
+        cb_fast4.setChecked((fast4) == 1);
+
+        if (cb_fast4.isChecked()) {
+            t_head_no_sets.setVisibility(View.VISIBLE);
+            t_head_type_of_set.setVisibility(View.INVISIBLE);
+            t_head_last_set.setVisibility(View.INVISIBLE);
+
+            rg_no_sets.setVisibility(View.VISIBLE);
+            rg_type_of_set.setVisibility(View.INVISIBLE);
+            rg_last_set.setVisibility(View.INVISIBLE);
+            rg_match_tb_game.setVisibility(View.INVISIBLE);
+
+            cb_no_adv.setVisibility(View.INVISIBLE);
+            cb_short_sets.setVisibility(View.INVISIBLE);
+            cb_match_tb_game.setVisibility(View.INVISIBLE);
+
+        } else {
+            t_head_no_sets.setVisibility(View.VISIBLE);
+            t_head_type_of_set.setVisibility(View.VISIBLE);
+            t_head_last_set.setVisibility(View.VISIBLE);
+
+            rg_no_sets.setVisibility(View.VISIBLE);
+            rg_type_of_set.setVisibility(View.VISIBLE);
+            rg_last_set.setVisibility(View.VISIBLE);
+            rg_match_tb_game.setVisibility(View.VISIBLE);
+
+            cb_no_adv.setVisibility(View.VISIBLE);
+            cb_short_sets.setVisibility(View.VISIBLE);
+            cb_match_tb_game.setVisibility(View.VISIBLE);
+
+            // Set Type
+
+            if (set_type == 0) {
+                rg_last_set.setVisibility(View.INVISIBLE);
+                t_head_last_set.setVisibility(View.INVISIBLE);
+                rb_adv_set.setChecked(true);
+                rb_tb_set.setChecked(false);
+            } else {
+                t_head_last_set.setVisibility(View.VISIBLE);
+                rg_last_set.setVisibility(View.VISIBLE);
+                rb_adv_set.setChecked(false);
+                rb_tb_set.setChecked(true);
+
+                rb_ls_adv_set.setChecked(last_set == 0);
+                rb_ls_tb_set.setChecked(last_set == 1);
+            }
+
+            // Match Tie Break
+            cb_match_tb_game.setChecked(match_tb_game != 0);
+
+            if (match_tb_game == 0) {
+                rg_match_tb_game.setVisibility(View.INVISIBLE);
+            } else {
+                rg_match_tb_game.setVisibility(View.VISIBLE);
+
+                rb_7_points.setChecked(mtb_7 == 1);
+                rb_10_points.setChecked(mtb_10 == 1);
+            }
+
+            // No Advantage
+            cb_no_adv.setChecked((no_adv) == 1);
+
+            // Short Sets
+            cb_short_sets.setChecked((short_sets) == 1);
+
+            if (short_sets == 1) {
+            t_head_last_set.setVisibility(View.INVISIBLE);
+            rg_type_of_set.setVisibility(View.VISIBLE);
+            rg_last_set.setVisibility(View.INVISIBLE);
+            }
+        }
     }
 
     // ***********************************
 
     public void onClick_Advantage(View view) {
 
-        RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup2);
+        RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup_Last_Set);
         rad.setVisibility(View.INVISIBLE);
 
-        TextView t = (TextView) findViewById(R.id.head_2);
+        TextView t = (TextView) findViewById(R.id.head_Last_Set);
         t.setVisibility(View.INVISIBLE);
-    }
 
-//    // ***********************************
-//
-//    public void onClick_Mtb(View view) {
-//
-//        RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup3);
-//
-//        CheckBox mtb = (CheckBox) findViewById(R.id.checkBox3);
-//
-//        if (mtb.isChecked()) {
-//            rad.setVisibility(View.VISIBLE);
-//        }else{
-//            rad.setVisibility(View.INVISIBLE);
-//        }
-//    }
-
-    // ***********************************
-
-//    public void onClick_Fast4(View view) {
-//        Fast4();
-//    }
-
-    // ***********************************
-
-//    public void Fast4() {
-//        CheckBox f4 = (CheckBox) findViewById(R.id.checkBox4);
-//
-//        TextView t1 = (TextView) findViewById(R.id.head_0);
-//        TextView t2 = (TextView) findViewById(R.id.head_1);
-//        TextView t3 = (TextView) findViewById(R.id.head_2);
-//
-//        RadioGroup rad0 = (RadioGroup) findViewById(R.id.radioGroup0);
-//        RadioGroup rad1 = (RadioGroup) findViewById(R.id.radioGroup1);
-//        RadioGroup rad2 = (RadioGroup) findViewById(R.id.radioGroup2);
-//
-//        RadioButton rb22 = (RadioButton) findViewById(R.id.radioButton22);
-//
-//
-//        RadioGroup rad3 = (RadioGroup) findViewById(R.id.radioGroup3);
-//
-//        CheckBox c1 = (CheckBox) findViewById(R.id.checkBox1);
-//        CheckBox c2 = (CheckBox) findViewById(R.id.checkBox2);
-//        CheckBox c3 = (CheckBox) findViewById(R.id.checkBox3);
-//
-//        if (!f4.isChecked()) {
-//            t1.setVisibility(View.VISIBLE);
-//            t2.setVisibility(View.VISIBLE);
-//            t3.setVisibility(View.VISIBLE);
-//
-//            rad0.setVisibility(View.VISIBLE);
-//            rad1.setVisibility(View.VISIBLE);
-//
-//            if (rb22.isChecked()) {
-//                rad2.setVisibility(View.VISIBLE);
-//            }
-//
-//            if (c3.isChecked()) {
-//                rad3.setVisibility(View.VISIBLE);
-//            }
-//
-//            c1.setVisibility(View.VISIBLE);
-//            c2.setVisibility(View.VISIBLE);
-//            c3.setVisibility(View.VISIBLE);
-//        }else{
-//            t1.setVisibility(View.INVISIBLE);
-//            t2.setVisibility(View.INVISIBLE);
-//            t3.setVisibility(View.INVISIBLE);
-//
-//            rad0.setVisibility(View.INVISIBLE);
-//            rad1.setVisibility(View.INVISIBLE);
-//            rad2.setVisibility(View.INVISIBLE);
-//            rad3.setVisibility(View.INVISIBLE);
-//
-//            c1.setVisibility(View.INVISIBLE);
-//            c2.setVisibility(View.INVISIBLE);
-//            c3.setVisibility(View.INVISIBLE);
-//        }
-//    }
-//
-    // ***********************************
-
-    public void onClick_Click(View view) {
+        set_type = 0;
     }
 
     // ***********************************
 
-    public void onClick(View view) {
+    public void onClick_TieBreak(View view) {
+
+        TextView t = (TextView) findViewById(R.id.head_Last_Set);
+        t.setVisibility(View.VISIBLE);
+
+        RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup_Last_Set);
+        rad.setVisibility(View.VISIBLE);
+
+        set_type = 1;
+    }
+
+    // ***********************************
+
+    public void onClick_Ls_Advantage(View view) {
+       last_set = 0;
+    }
+
+    // ***********************************
+
+    public void onClick_Ls_TieBreak(View view) {
+        last_set = 1;
+    }
+
+    // ***********************************
+
+    public void onClick_No_Adv(View view) {
+        CheckBox cb_no_adv = (CheckBox) findViewById(R.id.checkBox_No_Adv);
+        no_adv = (cb_no_adv.isChecked() ? 1 : 0);
+
+        display();
+    }
+    // ***********************************
+
+    public void onClick_Fast4(View view) {
+        CheckBox cb_fast4 = (CheckBox) findViewById(R.id.checkBox_Fast4);
+        fast4 = (cb_fast4.isChecked() ? 1 : 0);
+
+        display();
+    }
+    // ***********************************
+
+    public void onClick_Short_Sets(View view) {
+        CheckBox cb_short_sets = (CheckBox) findViewById(R.id.checkBox_Short_Sets);
+        short_sets = (cb_short_sets.isChecked() ? 1 : 0);
+
+        if (short_sets ==1) {
+            set_type = 1;
+        }else{
+            set_type = 0;
+         }
+
+        display();
+    }
+
+    // ***********************************
+
+    public void onClick_Mtb(View view) {
+        CheckBox cb_match_tb_game = (CheckBox) findViewById(R.id.checkBox_Match_Tb_Game);
+        match_tb_game = (cb_match_tb_game.isChecked() ? 1 : 0);
+
+        RadioGroup rg_match_tb_game = (RadioGroup) findViewById(R.id.radioGroup_Match_Tb_Game);
+
+        if (cb_match_tb_game.isChecked()) {
+            rg_match_tb_game.setVisibility(View.VISIBLE);
+            mtb_7 = 0;
+        } else {
+            rg_match_tb_game.setVisibility(View.INVISIBLE);
+            mtb_7 = 0;
+            mtb_10 = 0;
+        }
+
+        display();
+    }
+
+    // ***********************************
+
+    public void onClick_7_Points(View view) {
+        RadioButton rb_7_points = (RadioButton) findViewById(R.id.radioButton_7_Points);
+        RadioButton rb_10_points = (RadioButton) findViewById(R.id.radioButton_10_Points);
+        mtb_7 = (rb_7_points.isChecked() ? 1 : 0);
+        mtb_10 = (rb_10_points.isChecked() ? 1 : 0);
+
+        display();
+    }
+
+    // ***********************************
+
+    public void onClick_10_Points(View view) {
+        RadioButton rb_7_points = (RadioButton) findViewById(R.id.radioButton_7_Points);
+        RadioButton rb_10_points = (RadioButton) findViewById(R.id.radioButton_10_Points);
+        mtb_7 = (rb_7_points.isChecked() ? 1 : 0);
+        mtb_10 = (rb_10_points.isChecked() ? 1 : 0);
+
+        display();
+    }
+
+    // ***********************************
+
+    public void onClick_Store(View view) {
         Finish();
     }
 
     // ***********************************
 
     public void Finish() {
+        RadioButton rb_1_set = (RadioButton) findViewById(R.id.radioButton_1_Set);
+        RadioButton rb_3_set = (RadioButton) findViewById(R.id.radioButton_3_Set);
+        RadioButton rb_5_set = (RadioButton) findViewById(R.id.radioButton_5_Set);
+        RadioButton rb_7_points = (RadioButton) findViewById(R.id.radioButton_7_Points);
+        RadioButton rb_10_points = (RadioButton) findViewById(R.id.radioButton_10_Points);
+
+        CheckBox cb_fast4 = (CheckBox) findViewById(R.id.checkBox_Fast4);
+        CheckBox cb_no_adv = (CheckBox) findViewById(R.id.checkBox_No_Adv);
+        CheckBox cb_short_sets = (CheckBox) findViewById(R.id.checkBox_Short_Sets);
+        CheckBox cb_match_tb_game = (CheckBox) findViewById(R.id.checkBox_Match_Tb_Game);
 
         // No of sets
-        RadioGroup rad0 = (RadioGroup) findViewById(R.id.radioGroup0);
-
-        // get selected radio button from radioGroup 0
-        int selectedId = rad0.getCheckedRadioButtonId();
-
-        switch (selectedId) {
-            case R.id.radioButton01:
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_NO_1, 1);
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_NO_3, 0);
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_NO_5, 0);
-                break;
-
-            case R.id.radioButton02:
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_NO_1, 0);
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_NO_3, 1);
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_NO_5, 0);
-                break;
-
-            case R.id.radioButton03:
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_NO_1, 0);
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_NO_3, 0);
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_NO_5, 1);
-                break;
-        }
+        myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_NO_1, rb_1_set.isChecked() ? 1 : 0);
+        myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_NO_3, rb_3_set.isChecked() ? 1 : 0);
+        myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_NO_5, rb_5_set.isChecked() ? 1 : 0);
 
         // Type of Set
-        RadioGroup rad1 = (RadioGroup) findViewById(R.id.radioGroup1);
+        RadioGroup rg_type_of_set = (RadioGroup) findViewById(R.id.radioGroup_Type_of_Set);
 
-        // get selected radio button from radioGroup 1
-        selectedId = rad1.getCheckedRadioButtonId();
+        // get selected radio button from rg_type_of_set
+        int selectedId = rg_type_of_set.getCheckedRadioButtonId();
 
         switch (selectedId) {
-            case R.id.radioButton11:
+            case R.id.radioButton_Adv_Set:
                 myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_TYPE, 0);
                 break;
 
-            case R.id.radioButton12:
+            case R.id.radioButton_Tb_Set:
                 myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_TYPE, 1);
                 break;
         }
 
         // Last Set
-        RadioGroup rad2 = (RadioGroup) findViewById(R.id.radioGroup2);
+        RadioGroup rg_last_set = (RadioGroup) findViewById(R.id.radioGroup_Last_Set);
 
         // get selected radio button from radioGroup 2
-        selectedId = rad2.getCheckedRadioButtonId();
+        selectedId = rg_last_set.getCheckedRadioButtonId();
 
         switch (selectedId) {
-            case R.id.radioButton21:
+            case R.id.radioButton_LS_Adv_Set:
                 myDb.updateSystem(DBAdapter.KEY_SYSTEM_LAST_SET, 0);
                 break;
 
-            case R.id.radioButton22:
+            case R.id.radioButton_LS_Tb_Set:
                 myDb.updateSystem(DBAdapter.KEY_SYSTEM_LAST_SET, 1);
                 break;
         }
 
         // No Advantage
-        CheckBox chkNoAdv = (CheckBox) findViewById(R.id.checkBox1);
-        myDb.updateSystem(DBAdapter.KEY_SYSTEM_NO_ADV, (chkNoAdv.isChecked() ? 1 : 0));
+        myDb.updateSystem(DBAdapter.KEY_SYSTEM_NO_ADV, (cb_no_adv.isChecked() ? 1 : 0));
 
         // Short Sets
-        CheckBox chkSs = (CheckBox) findViewById(R.id.checkBox2);
-        myDb.updateSystem(DBAdapter.KEY_SYSTEM_SHORT_SETS, (chkSs.isChecked() ? 1 : 0));
+        myDb.updateSystem(DBAdapter.KEY_SYSTEM_SHORT_SETS, (cb_short_sets.isChecked() ? 1 : 0));
 
-//        // Match Tie Break
-//        CheckBox chkmtb = (CheckBox) findViewById(R.id.checkBox3);
-//        myDb.updateSystem(DBAdapter.KEY_SYSTEM_MATCH_TB, (chkmtb.isChecked() ? 1 : 0));
+        // Match Tie Break
+        myDb.updateSystem(DBAdapter.KEY_SYSTEM_MATCH_TB, (cb_match_tb_game.isChecked() ? 1 : 0));
 
-//        RadioGroup rad3 = (RadioGroup) findViewById(R.id.radioGroup3);
-//
-//        // get selected radio button from radioGroup 3
-//        selectedId = rad3.getCheckedRadioButtonId();
+        myDb.updateSystem(DBAdapter.KEY_SYSTEM_MTB_7, rb_7_points.isChecked() ? 1 : 0);
+        myDb.updateSystem(DBAdapter.KEY_SYSTEM_MTB_10, rb_10_points.isChecked() ? 1 : 0);
 
-//        switch (selectedId) {
-//            case R.id.radioButton31:
-//                myDb.updateSystem(DBAdapter.KEY_SYSTEM_MTB_7, 1);
-//                myDb.updateSystem(DBAdapter.KEY_SYSTEM_MTB_10, 0);
-//                break;
-//
-//            case R.id.radioButton32:
-//                myDb.updateSystem(DBAdapter.KEY_SYSTEM_MTB_7, 0);
-//                myDb.updateSystem(DBAdapter.KEY_SYSTEM_MTB_10, 1);
-//                break;
-//        }
-
-//        // FAST4
-//        CheckBox chkf4 = (CheckBox) findViewById(R.id.checkBox4);
-//        myDb.updateSystem(DBAdapter.KEY_SYSTEM_FAST4, (chkf4.isChecked() ? 1 : 0));
+        // FAST4
+        myDb.updateSystem(DBAdapter.KEY_SYSTEM_FAST4, (cb_fast4.isChecked() ? 1 : 0));
 
         super.finish();
     }

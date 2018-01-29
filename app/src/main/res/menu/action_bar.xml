@@ -8,6 +8,11 @@
         android:actionLayout="@layout/action_bar_reset"
         android:showAsAction="always" />
 
+    <item android:id="@+id/action_results"
+        android:title="Results"
+        android:actionLayout="@layout/action_bar_results"
+        android:showAsAction="always" />
+
     <item android:id="@+id/action_other"
           android:title="@string/action_other"
           android:actionLayout="@layout/action_bar_other"

@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
-import android.widget.Toast;
 
-import static com.scorer.tennis.GlobalClass.*;
+import static com.scorer.tennis.GlobalClass.setStartTesting;
+import static com.scorer.tennis.GlobalClass.setTest;
 
 public class TestActivity extends Activity {
 

@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -21,7 +20,7 @@ public class DBAdapter {
     // ***********************************
 
     // Database Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     // ***********************************
 
     // Table Names
@@ -70,10 +69,23 @@ public class DBAdapter {
     public static final String KEY_SYSTEM_MTB_10 = "system_mtb_10";
     public static final String KEY_SYSTEM_FAST4 = "system_fast4";
 
-    public static final String[] SYSTEM_KEYS = new String[]{KEY_SYSTEM_ID, KEY_SYSTEM_CLUB, KEY_SYSTEM_NAME_A, KEY_SYSTEM_NAME_B, KEY_SYSTEM_POINTS_A, KEY_SYSTEM_POINTS_B,
-            KEY_SYSTEM_GAMES_A, KEY_SYSTEM_GAMES_B, KEY_SYSTEM_SETS_A, KEY_SYSTEM_SETS_B, KEY_SYSTEM_SERVER, KEY_SYSTEM_SET_TYPE, KEY_SYSTEM_LAST_SET,
-            KEY_SYSTEM_SET_NO_1, KEY_SYSTEM_SET_NO_3, KEY_SYSTEM_SET_NO_5, KEY_SYSTEM_BATT_THRESH, KEY_SYSTEM_BATT_INC, KEY_SYSTEM_SSID, KEY_SYSTEM_CHANNEL, KEY_SYSTEM_NO_ADV, KEY_SYSTEM_SHORT_SETS,
-            KEY_SYSTEM_MATCH_TB, KEY_SYSTEM_MTB_7, KEY_SYSTEM_MTB_10, KEY_SYSTEM_FAST4};
+    public static final String KEY_SYSTEM_SET_1_H = "system_set_1_h";
+    public static final String KEY_SYSTEM_SET_1_V = "system_set_1_v";
+    public static final String KEY_SYSTEM_SET_2_H = "system_set_2_h";
+    public static final String KEY_SYSTEM_SET_2_V = "system_set_2_v";
+    public static final String KEY_SYSTEM_SET_3_H = "system_set_3_h";
+    public static final String KEY_SYSTEM_SET_3_V = "system_set_3_v";
+    public static final String KEY_SYSTEM_SET_4_H = "system_set_4_h";
+    public static final String KEY_SYSTEM_SET_4_V = "system_set_4_v";
+    public static final String KEY_SYSTEM_SET_5_H = "system_set_5_h";
+    public static final String KEY_SYSTEM_SET_5_V = "system_set_5_v";
+
+    public static final String[] SYSTEM_KEYS = new String[]{KEY_SYSTEM_ID, KEY_SYSTEM_CLUB, KEY_SYSTEM_NAME_A, KEY_SYSTEM_NAME_B, KEY_SYSTEM_POINTS_A,
+            KEY_SYSTEM_POINTS_B, KEY_SYSTEM_GAMES_A, KEY_SYSTEM_GAMES_B, KEY_SYSTEM_SETS_A, KEY_SYSTEM_SETS_B, KEY_SYSTEM_SERVER, KEY_SYSTEM_SET_TYPE,
+            KEY_SYSTEM_LAST_SET, KEY_SYSTEM_SET_NO_1, KEY_SYSTEM_SET_NO_3, KEY_SYSTEM_SET_NO_5, KEY_SYSTEM_BATT_THRESH, KEY_SYSTEM_BATT_INC,
+            KEY_SYSTEM_SSID, KEY_SYSTEM_CHANNEL, KEY_SYSTEM_NO_ADV, KEY_SYSTEM_SHORT_SETS, KEY_SYSTEM_MATCH_TB, KEY_SYSTEM_MTB_7, KEY_SYSTEM_MTB_10,
+            KEY_SYSTEM_FAST4, KEY_SYSTEM_SET_1_H, KEY_SYSTEM_SET_1_V, KEY_SYSTEM_SET_2_H, KEY_SYSTEM_SET_2_V, KEY_SYSTEM_SET_3_H,
+            KEY_SYSTEM_SET_3_V, KEY_SYSTEM_SET_4_H, KEY_SYSTEM_SET_4_V, KEY_SYSTEM_SET_5_H, KEY_SYSTEM_SET_5_V};
 
     // ***********************************
 
@@ -90,11 +102,15 @@ public class DBAdapter {
 
     // System table create statement
     private static final String CREATE_TABLE_SYSTEM = "CREATE TABLE if not exists " + TABLE_SYSTEM + "(" + KEY_SYSTEM_ID + " INTEGER PRIMARY KEY autoincrement ,"
-            + KEY_SYSTEM_CLUB + " TEXT," + KEY_SYSTEM_NAME_A + " TEXT," + KEY_SYSTEM_NAME_B + " TEXT," + KEY_SYSTEM_POINTS_A + " TEXT," + KEY_SYSTEM_POINTS_B + " TEXT," + KEY_SYSTEM_GAMES_A + " TEXT,"
-            + KEY_SYSTEM_GAMES_B + " TEXT," + KEY_SYSTEM_SETS_A + " TEXT,"+ KEY_SYSTEM_SETS_B + " TEXT," + KEY_SYSTEM_SERVER + " TEXT,"
-            + KEY_SYSTEM_SET_TYPE + " INTEGER," + KEY_SYSTEM_LAST_SET + " INTEGER," + KEY_SYSTEM_SET_NO_1 + " INTEGER," + KEY_SYSTEM_SET_NO_3 + " INTEGER," + KEY_SYSTEM_SET_NO_5 + " INTEGER," + KEY_SYSTEM_BATT_THRESH + " INTEGER,"
-            + KEY_SYSTEM_BATT_INC + " INTEGER," + KEY_SYSTEM_SSID + " INTEGER," + KEY_SYSTEM_CHANNEL + " INTEGER," + KEY_SYSTEM_NO_ADV + " INTEGER,"
-            + KEY_SYSTEM_SHORT_SETS + " INTEGER," + KEY_SYSTEM_MATCH_TB + " INTEGER," + KEY_SYSTEM_MTB_7 + " INTEGER," + KEY_SYSTEM_MTB_10 + " INTEGER," + KEY_SYSTEM_FAST4 + " INTEGER" + ")";
+            + KEY_SYSTEM_CLUB + " TEXT," + KEY_SYSTEM_NAME_A + " TEXT," + KEY_SYSTEM_NAME_B + " TEXT," + KEY_SYSTEM_POINTS_A + " TEXT," + KEY_SYSTEM_POINTS_B + " TEXT,"
+            + KEY_SYSTEM_GAMES_A + " TEXT," + KEY_SYSTEM_GAMES_B + " TEXT," + KEY_SYSTEM_SETS_A + " TEXT,"+ KEY_SYSTEM_SETS_B + " TEXT," + KEY_SYSTEM_SERVER + " TEXT,"
+            + KEY_SYSTEM_SET_TYPE + " INTEGER," + KEY_SYSTEM_LAST_SET + " INTEGER," + KEY_SYSTEM_SET_NO_1 + " INTEGER," + KEY_SYSTEM_SET_NO_3 + " INTEGER,"
+            + KEY_SYSTEM_SET_NO_5 + " INTEGER," + KEY_SYSTEM_BATT_THRESH + " INTEGER," + KEY_SYSTEM_BATT_INC + " INTEGER," + KEY_SYSTEM_SSID + " INTEGER,"
+            + KEY_SYSTEM_CHANNEL + " INTEGER," + KEY_SYSTEM_NO_ADV + " INTEGER," + KEY_SYSTEM_SHORT_SETS + " INTEGER," + KEY_SYSTEM_MATCH_TB + " INTEGER,"
+            + KEY_SYSTEM_MTB_7 + " INTEGER," + KEY_SYSTEM_MTB_10 + " INTEGER," + KEY_SYSTEM_FAST4 + " INTEGER" + ")" + KEY_SYSTEM_SET_1_H + " INTEGER" + ")"
+            + KEY_SYSTEM_SET_1_V + " INTEGER" + ")" + KEY_SYSTEM_SET_2_H + " INTEGER" + ")" + KEY_SYSTEM_SET_2_V + " INTEGER" + ")" + KEY_SYSTEM_SET_3_H + " INTEGER" + ")"
+            + KEY_SYSTEM_SET_3_V + " INTEGER" + ")" + KEY_SYSTEM_SET_4_H + " INTEGER" + ")" + KEY_SYSTEM_SET_4_V + " INTEGER" + ")" + KEY_SYSTEM_SET_5_H + " INTEGER" + ")"
+            + KEY_SYSTEM_SET_5_V + " INTEGER" + ")";
 
     // Log table create statement
     private static final String CREATE_TABLE_LOG = "CREATE TABLE if not exists " + TABLE_LOG + "(" + KEY_LOG_ID + " INTEGER PRIMARY KEY autoincrement ," + KEY_LOG_DATE + " TEXT,"
@@ -180,6 +196,17 @@ public class DBAdapter {
             initialValues.put(KEY_SYSTEM_MTB_10, "0");
             initialValues.put(KEY_SYSTEM_FAST4, "0");
 
+            initialValues.put(KEY_SYSTEM_SET_1_H, "0");
+            initialValues.put(KEY_SYSTEM_SET_1_V, "0");
+            initialValues.put(KEY_SYSTEM_SET_2_H, "0");
+            initialValues.put(KEY_SYSTEM_SET_2_V, "0");
+            initialValues.put(KEY_SYSTEM_SET_3_H, "0");
+            initialValues.put(KEY_SYSTEM_SET_3_V, "0");
+            initialValues.put(KEY_SYSTEM_SET_4_H, "0");
+            initialValues.put(KEY_SYSTEM_SET_4_V, "0");
+            initialValues.put(KEY_SYSTEM_SET_5_H, "0");
+            initialValues.put(KEY_SYSTEM_SET_5_V, "0");
+
             db.insert(TABLE_SYSTEM, null, initialValues);
             db.execSQL(CREATE_TABLE_LOG);
         }
@@ -196,6 +223,19 @@ public class DBAdapter {
             switch (newVersion) {
                 case 3:
                     db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_CLUB + " TEXT");
+                    break;
+
+                case 4:
+                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_1_H + " INTEGER");
+                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_1_V + " INTEGER");
+                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_2_H + " INTEGER");
+                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_2_V + " INTEGER");
+                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_3_H + " INTEGER");
+                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_3_V + " INTEGER");
+                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_4_H + " INTEGER");
+                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_4_V + " INTEGER");
+                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_5_H + " INTEGER");
+                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_5_V + " INTEGER");
                     break;
 
 

@@ -91,5 +91,10 @@ Please contact us by email at <b>enquiries@score-count-time.com</b>  or by phone
     <string name="shortsets">Short Sets</string>
     <string name="suddeath">Sudden Death Deuce</string>
     <string name="sdcard">/root/sdcard/f87297.azc</string>
+    <string name="set_5">Set 5</string>
+    <string name="set_4">Set 4</string>
+    <string name="set_3">Set 3</string>
+    <string name="set_2">Set 2</string>
+    <string name="set_1">Set 1</string>
 
 </resources>
