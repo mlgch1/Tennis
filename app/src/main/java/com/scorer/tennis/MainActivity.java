@@ -824,6 +824,11 @@ public class MainActivity extends Activity {
             Points_Tb();
         }
 
+
+
+
+
+
         myDb.updateSystemStr(DBAdapter.KEY_SYSTEM_POINTS_A, String.valueOf(c_points_h));
         myDb.updateSystemStr(DBAdapter.KEY_SYSTEM_POINTS_B, String.valueOf(c_points_v));
 
