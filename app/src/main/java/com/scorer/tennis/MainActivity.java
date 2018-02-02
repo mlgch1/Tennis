@@ -133,7 +133,7 @@ public class MainActivity extends Activity {
 
 //    private int mtb_points;
 
-    private boolean advSetType = true;
+    private boolean advSet = true;
     private boolean advLastSet = true;
     private boolean noAdv = false;
     //    private boolean matchTb;
@@ -373,21 +373,35 @@ public class MainActivity extends Activity {
 
         t.setText(setNo);
 
+        // No Advantage
+
+        t = (TextView) findViewById(id.no_adv);
+        tt = (TextView) findViewById(id.set_type);
+        ttt = (TextView) findViewById(id.last_set);
+
+        if (no_adv == 1) {
+            t.setVisibility(View.VISIBLE);
+            tt.setVisibility(View.INVISIBLE);
+            ttt.setVisibility(View.INVISIBLE);
+        } else {
+            t.setVisibility(View.INVISIBLE);
+            tt.setVisibility(View.VISIBLE);
+            ttt.setVisibility(View.VISIBLE);
+        }
+
         // Type of Set
 
-        tt = (TextView) findViewById(id.set_type);
         tt.setVisibility(View.VISIBLE);
 
         if (set_type == 0) {
-            t.setText("Adv Sets");
+            tt.setText("Adv Sets");
 
         } else {
-            t.setText("Tb Sets");
+            tt.setText("Tb Sets");
         }
 
         // Last Set
 
-        ttt = (TextView) findViewById(id.last_set);
         ttt.setVisibility(View.VISIBLE);
 
         if (set_type == 1) {
@@ -428,22 +442,6 @@ public class MainActivity extends Activity {
             t.setVisibility(View.VISIBLE);
         } else {
             t.setVisibility(View.INVISIBLE);
-        }
-
-        // No Advantage
-
-        t = (TextView) findViewById(id.no_adv);
-        tt = (TextView) findViewById(id.set_type);
-        ttt = (TextView) findViewById(id.last_set);
-
-        if (no_adv == 1) {
-            t.setVisibility(View.VISIBLE);
-            tt.setVisibility(View.INVISIBLE);
-            ttt.setVisibility(View.INVISIBLE);
-        } else {
-            t.setVisibility(View.INVISIBLE);
-            tt.setVisibility(View.VISIBLE);
-            ttt.setVisibility(View.VISIBLE);
         }
 
         // FAST4
@@ -677,13 +675,13 @@ public class MainActivity extends Activity {
 
 // ******************************************************************************
 
-    private void setupGameVariables() {
+    public void setupGameVariables() {
 
         set_no_1 = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_NO_1);
         set_no_3 = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_NO_3);
         set_no_5 = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_NO_5);
-        set_type = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_TYPE);
-        last_set = myDb.readSystem(DBAdapter.KEY_SYSTEM_LAST_SET);
+        set_type = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_TYPE);  // 0-AdvSet  1-TbSet
+        last_set = myDb.readSystem(DBAdapter.KEY_SYSTEM_LAST_SET);  // 0-AdvSet  1-TbSet
         fast4 = myDb.readSystem(DBAdapter.KEY_SYSTEM_FAST4);
         no_adv = myDb.readSystem(DBAdapter.KEY_SYSTEM_NO_ADV);
         short_sets = myDb.readSystem(DBAdapter.KEY_SYSTEM_SHORT_SETS);
@@ -717,9 +715,9 @@ public class MainActivity extends Activity {
 
         noAdv = (myDb.readSystem(DBAdapter.KEY_SYSTEM_NO_ADV) == 1);
 
-        advSetType = (myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_TYPE) == 0);
+        advSet = (myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_TYPE) == 0);
 
-        if (!advSetType) {
+        if (!advSet) {
             advLastSet = (myDb.readSystem(DBAdapter.KEY_SYSTEM_LAST_SET) == 0);
         }
     }
@@ -824,11 +822,6 @@ public class MainActivity extends Activity {
             Points_Tb();
         }
 
-
-
-
-
-
         myDb.updateSystemStr(DBAdapter.KEY_SYSTEM_POINTS_A, String.valueOf(c_points_h));
         myDb.updateSystemStr(DBAdapter.KEY_SYSTEM_POINTS_B, String.valueOf(c_points_v));
 
@@ -838,6 +831,7 @@ public class MainActivity extends Activity {
         myDb.updateSystemStr(DBAdapter.KEY_SYSTEM_SETS_A, String.valueOf(c_sets_h));
         myDb.updateSystemStr(DBAdapter.KEY_SYSTEM_SETS_B, String.valueOf(c_sets_v));
 
+        onResume();
     }
 
 // ******************************************************************************
@@ -981,10 +975,34 @@ public class MainActivity extends Activity {
 
             if ((c_games_h >= minGamesToWinSet) && (c_games_v <= (c_games_h - 2))) {
                 c_sets_h++;
+
+                c_games_h = 0;
+                c_games_v = 0;
+
+                if (!Match()) {
+                    Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
+                    startActivity(intent);
+
+                    L.d("Sets Adv");
+
+                    f_audio = "S";
+                }
             }
 
             if ((c_games_v >= minGamesToWinSet) && (c_games_h <= (c_games_v - 2))) {
                 c_sets_v++;
+
+                c_games_h = 0;
+                c_games_v = 0;
+
+                if (!Match()) {
+                    Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
+                    startActivity(intent);
+
+                    L.d("Sets Adv");
+
+                    f_audio = "S";
+                }
             }
 
             int tot_sets = c_sets_h + c_sets_v;
@@ -1022,21 +1040,6 @@ public class MainActivity extends Activity {
 
                 default:
             }
-
-            c_games_h = 0;
-            c_games_v = 0;
-
-
-            if (!Match()) {
-                Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
-                startActivity(intent);
-
-                L.d("Sets Adv");
-
-                f_audio = "S";
-            }
-
-            return;
 
         } else {
 
@@ -1093,14 +1096,13 @@ public class MainActivity extends Activity {
 
     private void NextGame() {
         tieBreakGame = false;           // Advantage Game
-        GameNotice(false);
+//        GameNotice(false);
 
-        if (!advSetType) {               // Advantage Game
-            // Tie Break
+        if (!advSet) {                  // Tie Break
             if ((c_games_h == minGamesToWinSet) && (c_games_v == minGamesToWinSet)) {
                 if (!advLastSet) {
                     tieBreakGame = true;
-                    GameNotice(true);
+//                    GameNotice(true);
                 }
                 if ((c_sets_h == nextToLastSet) && (c_sets_v == nextToLastSet)) {
                     lastSet = true;
@@ -1111,7 +1113,7 @@ public class MainActivity extends Activity {
 
 // ******************************************************************************
 
-    private void GameNotice(boolean type) {             // 'true' for Tie Brea
+//    private void GameNotice(boolean type) {             // 'true' for Tie Break
 //       if (!type) {
 //            t = (TextView) findViewById(id.advantage);          // Temporary to remove "Advantage"
 //            t.setVisibility(View.VISIBLE);
@@ -1125,7 +1127,7 @@ public class MainActivity extends Activity {
 //            t = (TextView) findViewById(id.tie_break);
 //            t.setVisibility(View.VISIBLE);
 //        }
-    }
+//    }
 
 // ******************************************************************************
 
@@ -1185,7 +1187,7 @@ public class MainActivity extends Activity {
 
         strPlayerButton = player;
 
-        start_ButtonTimer();
+//        start_ButtonTimer();
 
         t = (TextView) findViewById(id.b_pointsPlus_a);
         t.setVisibility(View.INVISIBLE);
@@ -1198,6 +1200,13 @@ public class MainActivity extends Activity {
 
         t = (TextView) findViewById(id.b_pointsNeg_b);
         t.setVisibility(View.INVISIBLE);
+
+
+
+        ButtonsOn();
+
+
+
     }
 
 // ******************************************************************************

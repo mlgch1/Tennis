@@ -181,6 +181,7 @@ public class RulesActivity extends Activity {
         t.setVisibility(View.INVISIBLE);
 
         set_type = 0;
+        last_set = 0;
     }
 
     // ***********************************
