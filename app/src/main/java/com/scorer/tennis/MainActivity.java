@@ -976,6 +976,8 @@ public class MainActivity extends Activity {
             if ((c_games_h >= minGamesToWinSet) && (c_games_v <= (c_games_h - 2))) {
                 c_sets_h++;
 
+                Results();
+
                 c_games_h = 0;
                 c_games_v = 0;
 
@@ -992,6 +994,8 @@ public class MainActivity extends Activity {
             if ((c_games_v >= minGamesToWinSet) && (c_games_h <= (c_games_v - 2))) {
                 c_sets_v++;
 
+                Results();
+
                 c_games_h = 0;
                 c_games_v = 0;
 
@@ -1005,52 +1009,18 @@ public class MainActivity extends Activity {
                 }
             }
 
-            int tot_sets = c_sets_h + c_sets_v;
-
-            switch (tot_sets) {
-                case 1:
-                    myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_1_H, c_games_h);
-                    myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_1_V, c_games_v);
-
-                    break;
-
-                case 2:
-                    myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_2_H, c_games_h);
-                    myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_2_V, c_games_v);
-
-                    break;
-
-                case 3:
-                    myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_3_H, c_games_h);
-                    myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_3_V, c_games_v);
-
-                    break;
-
-                case 4:
-                    myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_4_H, c_games_h);
-                    myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_4_V, c_games_v);
-
-                    break;
-
-                case 5:
-                    myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_5_H, c_games_h);
-                    myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_5_V, c_games_v);
-
-                    break;
-
-                default:
-            }
-
         } else {
 
             // Tie Break Set
 
             if (lastSet) {
-                if (c_games_h > c_games_v) {
-                    c_sets_h++;
+                if (c_points_h > c_points_v) {
+                    c_games_h++;
                 } else {
-                    c_sets_v++;
+                    c_games_v++;
                 }
+
+                Results();
 
                 Match();
 
@@ -1062,8 +1032,12 @@ public class MainActivity extends Activity {
 
                 f_audio = "S";
             }
+
+            Results();
+
             c_games_h = 0;
             c_games_v = 0;
+
         }
     }
 
@@ -1112,6 +1086,47 @@ public class MainActivity extends Activity {
     }
 
 // ******************************************************************************
+
+    private void Results() {
+
+        int tot_sets = c_sets_h + c_sets_v;
+
+        switch (tot_sets) {
+            case 1:
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_1_H, c_games_h);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_1_V, c_games_v);
+
+                break;
+
+            case 2:
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_2_H, c_games_h);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_2_V, c_games_v);
+
+                break;
+
+            case 3:
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_3_H, c_games_h);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_3_V, c_games_v);
+
+                break;
+
+            case 4:
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_4_H, c_games_h);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_4_V, c_games_v);
+
+                break;
+
+            case 5:
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_5_H, c_games_h);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_5_V, c_games_v);
+
+                break;
+
+            default:
+        }
+    }
+
+    // ******************************************************************************
 
 //    private void GameNotice(boolean type) {             // 'true' for Tie Break
 //       if (!type) {
