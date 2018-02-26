@@ -21,6 +21,7 @@ import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.Process;
 import android.support.v4.content.ContextCompat;
 import android.view.Menu;
@@ -85,6 +86,8 @@ public class MainActivity extends Activity {
 
     private boolean matchComplete = false;
 
+    private boolean blink_exit = false;
+
     // Timers
     private resumeTimer res_counter;
     private boolean res_timerActive = false;
@@ -92,6 +95,8 @@ public class MainActivity extends Activity {
     private flashTimer flash_counter;
 
     private illegal_flashTimer illegal_flash_counter;
+
+    private server_flashTimer server_flash_counter;
 
     private wifiTimer wifi_counter;
     private String WifiSSID;
@@ -139,7 +144,17 @@ public class MainActivity extends Activity {
     //    private boolean matchTb;
     private boolean ShortSets = false;
 
-    private String f_audio;
+    private String c_audio;
+    private String c_audio_temp;
+
+//    G - Game
+//    S - Set
+//    M - Match
+//    D - Deuce
+//    A - Advantage Server
+//    a - Advantage Receiver
+//    C - Change Ends
+//    X - Nothing
 
     private int set_no_1;
     private int set_no_3;
@@ -200,7 +215,8 @@ public class MainActivity extends Activity {
 
     }
 
-// ******************************************************************************
+
+    // ******************************************************************************
 
     @Override
     public void onBackPressed() {
@@ -321,8 +337,13 @@ public class MainActivity extends Activity {
 
         server = myDb.readSystemStr(DBAdapter.KEY_SYSTEM_SERVER);
 
-        if (server == null) {
+        if ((server.equals(null))) {
             server = "Z";
+        }
+
+        if (server.equals("Z")) {
+
+            start_server_flashTimer();
         }
 
         switch (server) {
@@ -334,6 +355,7 @@ public class MainActivity extends Activity {
                 t.setVisibility(View.INVISIBLE);
 
                 break;
+
             case "V":
                 t = (TextView) findViewById(id.server_mark_a);
                 t.setVisibility(View.INVISIBLE);
@@ -394,10 +416,10 @@ public class MainActivity extends Activity {
         tt.setVisibility(View.VISIBLE);
 
         if (set_type == 0) {
-            tt.setText("Adv Sets");
+            tt.setText("Adv Set(s)");
 
         } else {
-            tt.setText("Tb Sets");
+            tt.setText("Tb Set(s)");
         }
 
         // Last Set
@@ -474,8 +496,11 @@ public class MainActivity extends Activity {
         t = (TextView) findViewById(id.mtb);
         t.setVisibility(View.INVISIBLE);
 
-//        t = (TextView) findViewById(id.tb);
-//        t.setVisibility(View.INVISIBLE);
+        t = (TextView) findViewById(id.tie_break);
+        t.setVisibility(View.INVISIBLE);
+
+        t = (TextView) findViewById(id.set_server);
+        t.setVisibility(View.INVISIBLE);
     }
 
 // ******************************************************************************
@@ -623,6 +648,8 @@ public class MainActivity extends Activity {
         t.setVisibility(View.VISIBLE);
         t = (TextView) findViewById(id.server_mark_b);
         t.setVisibility(View.INVISIBLE);
+
+        stop_server_flashTimer();
     }
 
 // ******************************************************************************
@@ -636,6 +663,8 @@ public class MainActivity extends Activity {
         t.setVisibility(View.INVISIBLE);
         t = (TextView) findViewById(id.server_mark_b);
         t.setVisibility(View.VISIBLE);
+
+        stop_server_flashTimer();
     }
 
 // ******************************************************************************
@@ -726,7 +755,7 @@ public class MainActivity extends Activity {
 
     public void pointsPlus_a() {
         if (!matchComplete) {
-            if (serverSet()) {
+            if (setServer()) {
                 Buttons_Off("H");
                 history();
 
@@ -740,7 +769,7 @@ public class MainActivity extends Activity {
 
     public void pointsPlus_b() {
         if (!matchComplete) {
-            if (serverSet()) {
+            if (setServer()) {
                 Buttons_Off("V");
                 history();
 
@@ -754,7 +783,7 @@ public class MainActivity extends Activity {
 
     public void onClick_pointsPlus_a(View view) {
         if (!matchComplete) {
-            if (serverSet()) {
+            if (setServer()) {
                 Buttons_Off("H");
                 history();
 
@@ -768,7 +797,7 @@ public class MainActivity extends Activity {
 
     public void onClick_pointsNeg_a(View view) {
         if (!matchComplete) {
-            if (serverSet()) {
+            if (setServer()) {
                 t = (TextView) findViewById(id.b_pointsNeg_a);
                 t.setVisibility(View.INVISIBLE);
 
@@ -782,7 +811,7 @@ public class MainActivity extends Activity {
 
     public void onClick_pointsPlus_b(View view) {
         if (!matchComplete) {
-            if (serverSet()) {
+            if (setServer()) {
 
                 Buttons_Off("V");
 
@@ -798,7 +827,7 @@ public class MainActivity extends Activity {
 
     public void onClick_pointsNeg_b(View view) {
         if (!matchComplete) {
-            if (serverSet()) {
+            if (setServer()) {
 
                 t = (TextView) findViewById(id.b_pointsNeg_b);
                 t.setVisibility(View.INVISIBLE);
@@ -822,6 +851,8 @@ public class MainActivity extends Activity {
             Points_Tb();
         }
 
+        c_audio = c_audio_temp;
+
         myDb.updateSystemStr(DBAdapter.KEY_SYSTEM_POINTS_A, String.valueOf(c_points_h));
         myDb.updateSystemStr(DBAdapter.KEY_SYSTEM_POINTS_B, String.valueOf(c_points_v));
 
@@ -840,37 +871,32 @@ public class MainActivity extends Activity {
 
         // Normal Game
 
-        int res_arr[][] = {{0, 0, 0, 0, 1, 5}, {0, 0, 0, 0, 1, 5}, {0, 0, 0, 0, 1, 5}, {0, 0, 0, 2,
-                3, 1}, {1, 1, 1, 3, 4, 5}, {5, 5, 5, 1, 5, 5}};
+        int res_arr[][] = {{0, 0, 0, 0, 1, 5}, {0, 0, 0, 0, 1, 5}, {0, 0, 0, 0, 1, 5}, {0, 0, 0, 2, 3, 1}, {1, 1, 1, 6, 4, 5}, {5, 5, 5, 1, 5, 5}};
 
         // 0 - Add to score
         // 1 - Win game
         // 2 - Deuce
-        // 3 - Advantage
+        // 3 - Advantage B
         // 4 - Back to deuce
         // 5 - No action
+        // 6 - Advantage A
 
         int result = res_arr[c_points_h][c_points_v];
 
         switch (result) {
             case 0:
-
-                L.d("Beep Adv");
-
-                f_audio = "B";
-
                 break;
             case 1:
-                Games("Adv");
+                Win_Adv_Game();
                 break;
             case 2:
                 Deuce();
                 break;
             case 3:
                 if (noAdv) {
-                    Games("Adv");
+                    Win_Adv_Game();
                 } else {
-                    Advantage();
+                    Advantage_B();
                 }
                 break;
             case 4:
@@ -878,64 +904,19 @@ public class MainActivity extends Activity {
                 break;
             case 5:
                 break;
+            case 6:
+                if (noAdv) {
+                    Win_Adv_Game();
+                } else {
+                    Advantage_A();
+                }
+                break;
         }
-
     }
 
 // ******************************************************************************
 
-    private void Points_Tb() {
-
-        // Tie Break Game
-
-        boolean f_beep = true;
-
-        if ((c_points_h >= 7) && (c_points_v <= (c_points_h - 2))) {
-            flipFlag = false;
-            flipCntr = 2;
-            f_beep = false;
-
-            L.d("Game Tb Home");
-
-            Games("Tb");
-        }
-
-        if ((c_points_v >= 7) && (c_points_h <= (c_points_v - 2))) {
-            flipFlag = false;
-            flipCntr = 2;
-
-            f_beep = false;
-
-            L.d("Game Tb Visitor");
-
-            Games("Tb");
-        }
-
-        if (!flipFlag) {
-            flipFlag = true;
-
-            flip_server();
-        } else {
-            flipCntr--;
-            if (flipCntr == 0) {
-                flipCntr = 2;
-
-                flip_server();
-            }
-        }
-
-        if (f_beep) {
-            L.d("Beep Tb");
-
-            f_audio = "B";
-        }
-
-        onResume();
-    }
-
-// ******************************************************************************
-
-    private void Games(String gameType) {
+    private void Win_Adv_Game() {
 
         if (c_points_h > c_points_v) {
             c_games_h++;
@@ -948,81 +929,157 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(MainActivity.this, GameSplashActivity.class);
         startActivity(intent);
 
-        L.d("Game");
+        L.d("Game_Adv");
 
-        f_audio = "G";
+        c_audio_temp = "G";
 
         flip_server();
 
-        Sets(gameType);
+        Set_Adv();
 
         NextGame();
     }
 
 // ******************************************************************************
 
-    private void Sets(String gameType) {
+    private void Advantage_A() {
 
-        L.d("Sets");
+        Intent intent = new Intent(MainActivity.this, AdvSplashActivity.class);
+        startActivity(intent);
 
-        if (Objects.equals(gameType, "Adv")) {
+        L.d("Adv");
 
-            // Advantage Set
-
-            if ((c_games_h < minGamesToWinSet) && (c_games_v < minGamesToWinSet)) {
-                return;
-            }
-
-            if ((c_games_h >= minGamesToWinSet) && (c_games_v <= (c_games_h - 2))) {
-                c_sets_h++;
-
-                Results();
-
-                c_games_h = 0;
-                c_games_v = 0;
-
-                if (!Match()) {
-                    Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
-                    startActivity(intent);
-
-                    L.d("Sets Adv");
-
-                    f_audio = "S";
-                }
-            }
-
-            if ((c_games_v >= minGamesToWinSet) && (c_games_h <= (c_games_v - 2))) {
-                c_sets_v++;
-
-                Results();
-
-                c_games_h = 0;
-                c_games_v = 0;
-
-                if (!Match()) {
-                    Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
-                    startActivity(intent);
-
-                    L.d("Sets Adv");
-
-                    f_audio = "S";
-                }
-            }
-
+        if (server.equals("H")) {
+            c_audio_temp = "A";
         } else {
+            c_audio_temp = "a";
+        }
+    }
 
-            // Tie Break Set
+// ******************************************************************************
+
+    private void Advantage_B() {
+
+        Intent intent = new Intent(MainActivity.this, AdvSplashActivity.class);
+        startActivity(intent);
+
+        L.d("Adv");
+
+        if (server.equals("V")) {
+            c_audio_temp = "A";
+        } else {
+            c_audio_temp = "a";
+        }
+    }
+
+// ******************************************************************************
+
+    private void Deuce() {
+
+        Intent intent = new Intent(MainActivity.this, DeuceSplashActivity.class);
+        startActivity(intent);
+
+        L.d("Deuce");
+
+        c_audio_temp = "D";
+    }
+
+// ******************************************************************************
+
+    private void Back_to_Deuce() {
+
+        Intent intent = new Intent(MainActivity.this, DeuceSplashActivity.class);
+        startActivity(intent);
+
+        L.d("Back to Deuce");
+
+        c_audio_temp = "D";
+
+        c_points_h--;
+        c_points_v--;
+    }
+
+// ******************************************************************************
+
+    private void Set_Adv() {
+
+        // Advantage Set
+
+        if ((c_games_h < minGamesToWinSet) && (c_games_v < minGamesToWinSet)) {
+            return;
+        }
+
+        if ((c_games_h >= minGamesToWinSet) && (c_games_v <= (c_games_h - 2))) {
+            c_sets_h++;
+
+            Set_Results();
+
+            c_games_h = 0;
+            c_games_v = 0;
+
+            if (!Match()) {
+                Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
+                startActivity(intent);
+
+                L.d("Sets Adv");
+
+                c_audio_temp = "S";
+            }
+        }
+
+        if ((c_games_v >= minGamesToWinSet) && (c_games_h <= (c_games_v - 2))) {
+            c_sets_v++;
+
+            Set_Results();
+
+            c_games_h = 0;
+            c_games_v = 0;
+
+            if (!Match()) {
+                Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
+                startActivity(intent);
+
+                L.d("Sets Adv");
+
+                c_audio_temp = "S";
+            }
+        }
+    }
+
+    // ******************************************************************************
+
+    private void Points_Tb() {
+
+        // Tie Break Game
+
+        if (((c_points_h >= 7) && (c_points_v <= (c_points_h - 2))) | ((c_points_v >= 7) && (c_points_h <= (c_points_v - 2)))) {
+
+            if (c_points_h > c_points_v) {
+                c_games_h++;
+            } else {
+                c_games_v++;
+            }
+
+            if ((c_games_h > c_games_v)) {
+                c_sets_h++;
+            } else {
+                c_sets_v++;
+            }
 
             if (lastSet) {
-                if (c_points_h > c_points_v) {
-                    c_games_h++;
-                } else {
-                    c_games_v++;
-                }
+                L.d("Match");
 
-                Results();
+                c_audio_temp = "M";
+
+                Set_Results();
 
                 Match();
+
+                c_points_h = 0;
+                c_points_v = 0;
+
+                c_games_h = 0;
+                c_games_v = 0;
 
             } else {
                 Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
@@ -1030,14 +1087,119 @@ public class MainActivity extends Activity {
 
                 L.d("Sets Tb");
 
-                f_audio = "S";
+                c_audio_temp = "S";
+
+                c_points_h = 0;
+                c_points_v = 0;
+
+                c_games_h = 0;
+                c_games_v = 0;
+            }
+        } else {
+
+
+            if ((c_points_h >= 7) & (c_points_v <= (c_points_h - 2))) {
+                flipFlag = false;
+                flipCntr = 2;
+
+                L.d("Game Tb Home");
+
+                Games_Tb();
             }
 
-            Results();
+            if ((c_points_v >= 7) && (c_points_h <= (c_points_v - 2))) {
+                flipFlag = false;
+                flipCntr = 2;
+
+                L.d("Game Tb Visitor");
+
+                Games_Tb();
+            }
+
+            if (!flipFlag) {
+                flipFlag = true;
+
+                flip_server();
+            } else {
+                flipCntr--;
+                if (flipCntr == 0) {
+                    flipCntr = 2;
+
+                    flip_server();
+                }
+            }
+        }
+    }
+// ******************************************************************************
+
+    private void Games_Tb() {
+
+        if (c_points_h > c_points_v) {
+            c_games_h++;
+        } else {
+            c_games_v++;
+        }
+        c_points_h = 0;
+        c_points_v = 0;
+
+        Intent intent = new Intent(MainActivity.this, GameSplashActivity.class);
+        startActivity(intent);
+
+        L.d("Game_Tb");
+
+        c_audio_temp = "G";
+
+        flip_server();
+
+        Set_Tb();
+
+        NextGame();
+    }
+
+// ******************************************************************************
+
+    private void Set_Tb() {
+
+        // Tie Break Set
+
+        if ((c_games_h < minGamesToWinSet) & (c_games_v < minGamesToWinSet)) {
+            return;
+        }
+
+        if ((c_games_h >= minGamesToWinSet) & (c_games_v <= (c_games_h - 2))) {
+            c_sets_h++;
+
+            Set_Results();
 
             c_games_h = 0;
             c_games_v = 0;
 
+            if (!Match()) {
+                Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
+                startActivity(intent);
+
+                L.d("Sets Tb");
+
+                c_audio_temp = "S";
+            }
+        }
+
+        if ((c_games_v >= minGamesToWinSet) && (c_games_h <= (c_games_v - 2))) {
+            c_sets_v++;
+
+            Set_Results();
+
+            c_games_h = 0;
+            c_games_v = 0;
+
+            if (!Match()) {
+                Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
+                startActivity(intent);
+
+                L.d("Sets Tb");
+
+                c_audio_temp = "S";
+            }
         }
     }
 
@@ -1052,7 +1214,7 @@ public class MainActivity extends Activity {
 
             L.d("Match");
 
-            f_audio = "M";
+            c_audio_temp = "M";
 
             AllButtonsOff();
 
@@ -1070,13 +1232,13 @@ public class MainActivity extends Activity {
 
     private void NextGame() {
         tieBreakGame = false;           // Advantage Game
-//        GameNotice(false);
+        GameNotice(false);
 
         if (!advSet) {                  // Tie Break
             if ((c_games_h == minGamesToWinSet) && (c_games_v == minGamesToWinSet)) {
                 if (!advLastSet) {
                     tieBreakGame = true;
-//                    GameNotice(true);
+                    GameNotice(true);
                 }
                 if ((c_sets_h == nextToLastSet) && (c_sets_v == nextToLastSet)) {
                     lastSet = true;
@@ -1087,7 +1249,7 @@ public class MainActivity extends Activity {
 
 // ******************************************************************************
 
-    private void Results() {
+    private void Set_Results() {
 
         int tot_sets = c_sets_h + c_sets_v;
 
@@ -1128,63 +1290,25 @@ public class MainActivity extends Activity {
 
     // ******************************************************************************
 
-//    private void GameNotice(boolean type) {             // 'true' for Tie Break
-//       if (!type) {
-//            t = (TextView) findViewById(id.advantage);          // Temporary to remove "Advantage"
-//            t.setVisibility(View.VISIBLE);
-//
-//            t = (TextView) findViewById(id.tie_break);
-//            t.setVisibility(View.INVISIBLE);
-//        } else {
-//            t = (TextView) findViewById(id.advantage);
-//            t.setVisibility(View.INVISIBLE);
-//
-//            t = (TextView) findViewById(id.tie_break);
-//            t.setVisibility(View.VISIBLE);
-//        }
-//    }
+    private void GameNotice(boolean type) {             // 'true' for Tie Break
+        if (!type) {
+            t = (TextView) findViewById(id.advantage);
+            t.setVisibility(View.VISIBLE);
 
-// ******************************************************************************
+            t = (TextView) findViewById(id.tie_break);
+            t.setVisibility(View.INVISIBLE);
+        } else {
+            t = (TextView) findViewById(id.advantage);
+            t.setVisibility(View.INVISIBLE);
 
-    private void Deuce() {
-
-        Intent intent = new Intent(MainActivity.this, DeuceSplashActivity.class);
-        startActivity(intent);
-
-        L.d("Deuce");
-
-        f_audio = "D";
+            t = (TextView) findViewById(id.tie_break);
+            t.setVisibility(View.VISIBLE);
+        }
     }
 
-// ******************************************************************************
+ // ******************************************************************************
 
-    private void Advantage() {
-
-        Intent intent = new Intent(MainActivity.this, AdvSplashActivity.class);
-        startActivity(intent);
-
-        L.d("Adv");
-
-        f_audio = "A";
-    }
-
-// ******************************************************************************
-
-    private void Back_to_Deuce() {
-
-        Intent intent = new Intent(MainActivity.this, DeuceSplashActivity.class);
-        startActivity(intent);
-
-        L.d("Back to Deuce");
-
-        f_audio = "D";
-
-        c_points_h--;
-        c_points_v--;
-    }
-// ******************************************************************************
-
-    public boolean serverSet() {
+    public boolean setServer() {
         switch (server) {
             case "Z":
                 Toast toast = Toast.makeText(getApplicationContext(), "Cannot score until 1st. " +
@@ -1217,9 +1341,7 @@ public class MainActivity extends Activity {
         t.setVisibility(View.INVISIBLE);
 
 
-
         ButtonsOn();
-
 
 
     }
@@ -1344,6 +1466,11 @@ public class MainActivity extends Activity {
                 server = "Z";
                 myDb.updateSystemStr(DBAdapter.KEY_SYSTEM_SERVER, server);
 
+
+                t = (TextView) findViewById(id.set_server);
+                t.setVisibility(View.VISIBLE);
+
+
                 flipFlag = false;
                 flipCntr = 2;
 
@@ -1420,30 +1547,30 @@ public class MainActivity extends Activity {
 
 // ******************************************************************************
 
-private class resumeTimer extends CountDownTimer {
+    private class resumeTimer extends CountDownTimer {
 
-    private resumeTimer(long res_millisInFuture, long countDownInterval) {
+        private resumeTimer(long res_millisInFuture, long countDownInterval) {
 
-        super(res_millisInFuture, countDownInterval);
+            super(res_millisInFuture, countDownInterval);
+        }
+
+        // ******************************************************************************
+
+        @Override
+        public void onFinish() {
+
+            onResume();
+            res_counter = null;
+            res_timerActive = false;
+        }
+
+        // ******************************************************************************
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+        }
     }
-
-    // ******************************************************************************
-
-    @Override
-    public void onFinish() {
-
-        onResume();
-        res_counter = null;
-        res_timerActive = false;
-    }
-
-    // ******************************************************************************
-
-    @Override
-    public void onTick(long millisUntilFinished) {
-
-    }
-}
 
 // ******************************************************************************
 // Timer to show scoring buttons after a delay
@@ -1466,29 +1593,29 @@ private class resumeTimer extends CountDownTimer {
 
 // ******************************************************************************
 
-private class buttonTimer extends CountDownTimer {
+    private class buttonTimer extends CountDownTimer {
 
-    buttonTimer(long button_millisInFuture, long countDownInterval) {
+        buttonTimer(long button_millisInFuture, long countDownInterval) {
 
-        super(button_millisInFuture, countDownInterval);
+            super(button_millisInFuture, countDownInterval);
+        }
+
+        // ******************************************************************************
+
+        @Override
+        public void onFinish() {
+
+            ButtonsOn();
+            button_counter = null;
+        }
+
+        // ******************************************************************************
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+        }
     }
-
-    // ******************************************************************************
-
-    @Override
-    public void onFinish() {
-
-        ButtonsOn();
-        button_counter = null;
-    }
-
-    // ******************************************************************************
-
-    @Override
-    public void onTick(long millisUntilFinished) {
-
-    }
-}
 
 // ******************************************************************************
 // Timer for repetitive battery level tests
@@ -1515,49 +1642,49 @@ private class buttonTimer extends CountDownTimer {
 
 // ******************************************************************************
 
-private class batteryTimer extends CountDownTimer {
+    private class batteryTimer extends CountDownTimer {
 
-    batteryTimer(long battery_millisInFuture, long countDownInterval) {
+        batteryTimer(long battery_millisInFuture, long countDownInterval) {
 
-        super(battery_millisInFuture, countDownInterval);
-    }
+            super(battery_millisInFuture, countDownInterval);
+        }
 
-    // ******************************************************************************
+        // ******************************************************************************
 
-    @Override
-    public void onFinish() {
+        @Override
+        public void onFinish() {
 
-        battery_counter = null;
-        start_batteryTimer();
+            battery_counter = null;
+            start_batteryTimer();
             /*
               Computes the battery level by registering a receiver to the intent triggered
               by a battery status/level change.
              */
-        BroadcastReceiver batteryLevelReceiver = new BroadcastReceiver() {
+            BroadcastReceiver batteryLevelReceiver = new BroadcastReceiver() {
 
-            @Override
-            public void onReceive(Context context, Intent intent) {
+                @Override
+                public void onReceive(Context context, Intent intent) {
 
-                context.unregisterReceiver(this);
-                int rawlevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-                int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-                int level;
-                if (rawlevel >= 0 && scale > 0) {
-                    level = (rawlevel * 100) / scale;
-                    checkBattery(level);
+                    context.unregisterReceiver(this);
+                    int rawlevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+                    int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+                    int level;
+                    if (rawlevel >= 0 && scale > 0) {
+                        level = (rawlevel * 100) / scale;
+                        checkBattery(level);
+                    }
                 }
-            }
-        };
-        IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        registerReceiver(batteryLevelReceiver, batteryLevelFilter);
-    }
+            };
+            IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+            registerReceiver(batteryLevelReceiver, batteryLevelFilter);
+        }
 
-    // ******************************************************************************
+        // ******************************************************************************
 
-    @Override
-    public void onTick(long millisUntilFinished) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+        }
     }
-}
 
 // ******************************************************************************
 
@@ -1732,48 +1859,48 @@ private class batteryTimer extends CountDownTimer {
 
 // ******************************************************************************
 
-/**
- * Broadcast receiver for wifi scanning related events
- */
-private class ScanReceiver extends BroadcastReceiver {
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(WIFI_SERVICE);
-        List<ScanResult> scanResultList = null;
-        if (wifi != null) {
-            scanResultList = wifi.getScanResults();
-        }
-        boolean found = false;
-        for (ScanResult scanResult : scanResultList) {
-            if (scanResult.SSID.equals(WifiSSID)) {
-                found = true;
-                break;                  // found don't need continue
+    /**
+     * Broadcast receiver for wifi scanning related events
+     */
+    private class ScanReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(WIFI_SERVICE);
+            List<ScanResult> scanResultList = null;
+            if (wifi != null) {
+                scanResultList = wifi.getScanResults();
             }
-        }
-        if (!found) {
-            unregisterReceiver(ScanReceiver.this);
-            connect_in_progress = false;
+            boolean found = false;
+            for (ScanResult scanResult : scanResultList) {
+                if (scanResult.SSID.equals(WifiSSID)) {
+                    found = true;
+                    break;                  // found don't need continue
+                }
+            }
+            if (!found) {
+                unregisterReceiver(ScanReceiver.this);
+                connect_in_progress = false;
 
-        } else {
-            // configure based on security
-            final WifiConfiguration conf = new WifiConfiguration();
-            conf.SSID = "\"" + WifiSSID + "\"";
+            } else {
+                // configure based on security
+                final WifiConfiguration conf = new WifiConfiguration();
+                conf.SSID = "\"" + WifiSSID + "\"";
 
 //                String SS = padLeftZero("" + getSSID(), 2);
-            String SS = "" + getSSID();
+                String SS = "" + getSSID();
 
-            String wifiPass = "1" + SS + "2" + SS + "3" + SS + "4";
-            conf.preSharedKey = "\"" + wifiPass + "\"";
+                String wifiPass = "1" + SS + "2" + SS + "3" + SS + "4";
+                conf.preSharedKey = "\"" + wifiPass + "\"";
 
-            int netId = wifi.addNetwork(conf);
-            wifi.disconnect();
-            wifi.enableNetwork(netId, true);
-            wifi.reconnect();
+                int netId = wifi.addNetwork(conf);
+                wifi.disconnect();
+                wifi.enableNetwork(netId, true);
+                wifi.reconnect();
 
-            unregisterReceiver(this);
+                unregisterReceiver(this);
+            }
         }
     }
-}
 
 // ******************************************************************************
 
@@ -1791,147 +1918,142 @@ private class ScanReceiver extends BroadcastReceiver {
 //      Send Thread
 // ******************************************************************************
 
-private class SendThread implements Runnable {
-    SendThread() {
+    private class SendThread implements Runnable {
+        SendThread() {
 //        puts the thread in the background
-        android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
-    }
-
-    @Override
-    public void run() {
-
-        try {
-            socket = new Socket("1.2.3.4", 2000);
-        } catch (IOException e) {
-            e.printStackTrace();
+            android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
         }
 
+        @Override
+        public void run() {
 
-        sleep(1000);
+            try {
+                socket = new Socket("1.2.3.4", 2000);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        while (!stopSendThread) {
-            if (wifiEnabled) {
-                if (wifiConnected) {
+            sleep(1000);
 
-                    try {
-                        dataOut = new DataOutputStream(socket.getOutputStream());
-                        dataOut.writeUTF(dataString());
-                    } catch (IOException ignored) {
+            while (!stopSendThread) {
+                if (wifiEnabled) {
+                    if (wifiConnected) {
+
+                        try {
+                            dataOut = new DataOutputStream(socket.getOutputStream());
+                            dataOut.writeUTF(dataString());
+                        } catch (IOException ignored) {
+                        }
+
+                        sleep(1000);
+                    } else {
+                        sleep(1000);
                     }
-
-                    sleep(1000);
                 } else {
                     sleep(1000);
                 }
-            } else {
-                sleep(1000);
             }
-        }
 
-        if (socket != null) {
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (socket != null) {
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        }
 
-        if (dataOut == null) {
-            try {
-                dataOut.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (dataOut == null) {
+                try {
+                    dataOut.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
-}
 
 // ******************************************************************************
 //      Receive Thread
 // ******************************************************************************
 
-private class ReceiveThread implements Runnable {
-    ReceiveThread() {
-//        puts the thread in the background
-        android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
-    }
+    private class ReceiveThread implements Runnable {
+//        ReceiveThread() {
+////        puts the thread in the background
+//            android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
+//        }
 
-    public void run() {
+        public void run() {
 
-        char[] buff = new char[4];
+            char[] buff = new char[4];
 
-        while (true) {
-            if (!(socket == null)) break;
-        }
+            while (true) {
+                if (!(socket == null)) break;
+            }
 
-        try {
-            dataIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        while (!stopRecvThread) {
             try {
-                final int read = dataIn.read(buff, 0, 4);
+                dataIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-                String result = new String(buff);
+            while (!stopRecvThread) {
+                try {
+                    final int read = dataIn.read(buff, 0, 4);
 
-                if (result.substring(0, 3).equals("GJC")) {
-                    String recvResult = result.substring(3, 4);
+                    final String result = new String(buff);
 
-                    if (recvResult.equals("0")) {
-                        stopRecv = false;
+                    if (result.substring(0, 3).equals("GJC")) {
+                        String recvResult = result.substring(3, 4);
+
+                        if (recvResult.equals("0")) {
+                            stopRecv = false;
+                        }
+                        if (recvResult.equals("3") && !stopRecv) {
+                            stopRecv = true;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    pointsPlus_b();
+                                }
+                            });
+                        }
+                        if (recvResult.equals("2") && !stopRecv) {
+                            stopRecv = true;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    pointsPlus_a();
+                                }
+                            });
+                        }
                     }
-                    if (recvResult.equals("3") && !stopRecv) {
-                        stopRecv = true;
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                pointsPlus_b();
-                            }
-                        });
-                    }
-                    if (recvResult.equals("2") && !stopRecv) {
-                        stopRecv = true;
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                pointsPlus_a();
-                            }
-                        });
-                    }
+                } catch (IOException ignored) {
                 }
-            } catch (IOException ignored) {
+
+                sleep(500);
             }
 
-            sleep(500);
-        }
-
-        if (socket != null) {
-            try {
-                socket.close();
-                socket = null;
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (socket != null) {
+                try {
+                    socket.close();
+                    socket = null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-        if (dataIn == null) {
-            try {
-                dataIn.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (dataIn == null) {
+                try {
+                    dataIn.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
-}
 
 // ******************************************************************************
 
     private String dataString() {
-
-        // Length of string should be a multple of 4 characters
-
-
         String s1;
         if (getStartTesting()) {
             if (getTest()) {
@@ -1944,8 +2066,8 @@ private class ReceiveThread implements Runnable {
                 s1 = "GJCXXXZBBBBBBBBBB";
             }
         } else {
-            s1 = "GJCXX" //+ "Z8888888888";
-                    + f_audio
+            s1 = "GJCXX"                    //+ "Z8888888888";
+                    + c_audio
                     + server
                     + String.valueOf(c_sets_v)
                     + String.valueOf(padLeftZero(c_games_v, 2))
@@ -1954,9 +2076,8 @@ private class ReceiveThread implements Runnable {
                     + String.valueOf(padLeftZero(c_games_h, 2))
                     + String.valueOf(convert_Points_Trans(c_points_h));
 
-            f_audio = "X";
+            c_audio = "X";
         }
-
         return s1;
     }
 
@@ -1984,38 +2105,38 @@ private class ReceiveThread implements Runnable {
 
 // ******************************************************************************
 
-private class wifiTimer extends CountDownTimer {
+    private class wifiTimer extends CountDownTimer {
 
-    wifiTimer(long wifi_millisInFuture, long countDownInterval) {
+        wifiTimer(long wifi_millisInFuture, long countDownInterval) {
 
-        super(wifi_millisInFuture, countDownInterval);
-    }
-
-    // ******************************************************************************
-
-    @Override
-    public void onFinish() {
-        if (checkWiFiEnabled()) {
-            if (checkWiFiConnected()) {
-
-                connect_in_progress = false;
-
-            } else {
-                connectToSpecificNetwork();
-            }
-        } else {
-            wifi_enable_off();
+            super(wifi_millisInFuture, countDownInterval);
         }
-        wifi_counter = null;
-        start_wifiTimer();
-    }
 
-    // ******************************************************************************
+        // ******************************************************************************
 
-    @Override
-    public void onTick(long millisUntilFinished) {
+        @Override
+        public void onFinish() {
+            if (checkWiFiEnabled()) {
+                if (checkWiFiConnected()) {
+
+                    connect_in_progress = false;
+
+                } else {
+                    connectToSpecificNetwork();
+                }
+            } else {
+                wifi_enable_off();
+            }
+            wifi_counter = null;
+            start_wifiTimer();
+        }
+
+        // ******************************************************************************
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+        }
     }
-}
 
 // ******************************************************************************
 // Timer for flashing WiFi Box Connected
@@ -2049,30 +2170,30 @@ private class wifiTimer extends CountDownTimer {
 
 // ******************************************************************************
 
-private class flashTimer extends CountDownTimer {
-    flashTimer(long flash_millisInFuture, long countDownInterval) {
-        super(flash_millisInFuture, countDownInterval);
-    }
-
-    @Override
-    public void onFinish() {
-        flash_counter = null;
-
-        if (flash) {
-            i = (ImageView) findViewById(R.id.wifi_dot);
-            i.setVisibility(View.VISIBLE);
-        } else {
-            i = (ImageView) findViewById(R.id.wifi_dot);
-            i.setVisibility(View.INVISIBLE);
+    private class flashTimer extends CountDownTimer {
+        flashTimer(long flash_millisInFuture, long countDownInterval) {
+            super(flash_millisInFuture, countDownInterval);
         }
-        start_flashTimer();
-    }
 
-    @Override
-    public void onTick(long millisUntilFinished) {
-    }
+        @Override
+        public void onFinish() {
+            flash_counter = null;
 
-}
+            if (flash) {
+                i = (ImageView) findViewById(R.id.wifi_dot);
+                i.setVisibility(View.VISIBLE);
+            } else {
+                i = (ImageView) findViewById(R.id.wifi_dot);
+                i.setVisibility(View.INVISIBLE);
+            }
+            start_flashTimer();
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+        }
+
+    }
 
 // ******************************************************************************
 // Timer for flashing ILLEGAL title
@@ -2106,32 +2227,87 @@ private class flashTimer extends CountDownTimer {
 
 // ******************************************************************************
 
-private class illegal_flashTimer extends CountDownTimer {
-    illegal_flashTimer(long illegal_flash_millisInFuture, long countDownInterval) {
-        super(illegal_flash_millisInFuture, countDownInterval);
-    }
-
-    @Override
-    public void onFinish() {
-        illegal_flash_counter = null;
-
-        if (illegal_flash) {
-            t = (TextView) findViewById(R.id.club);
-            t.setVisibility(View.VISIBLE);
-        } else {
-            t = (TextView) findViewById(R.id.club);
-            t.setVisibility(View.INVISIBLE);
+    private class illegal_flashTimer extends CountDownTimer {
+        illegal_flashTimer(long illegal_flash_millisInFuture, long countDownInterval) {
+            super(illegal_flash_millisInFuture, countDownInterval);
         }
-        start_illegal_flashTimer();
-    }
 
-    @Override
-    public void onTick(long millisUntilFinished) {
-    }
+        @Override
+        public void onFinish() {
+            illegal_flash_counter = null;
 
-}
+            if (illegal_flash) {
+                t = (TextView) findViewById(R.id.club);
+                t.setVisibility(View.VISIBLE);
+            } else {
+                t = (TextView) findViewById(R.id.club);
+                t.setVisibility(View.INVISIBLE);
+            }
+            start_illegal_flashTimer();
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+        }
+    }
 
 // ******************************************************************************
+// Timer for flashing Set Server message
+// ******************************************************************************
+
+    private boolean server_flash = true;
+
+    public void start_server_flashTimer() {
+
+        if (server_flash_counter != null) {
+            return;
+        }
+        server_flash_counter = new server_flashTimer(500, 500);
+        server_flash_counter.start();
+
+        server_flash = !server_flash;
+    }
+
+// ******************************************************************************
+
+    public void stop_server_flashTimer() {
+
+        if (server_flash_counter != null) {
+            server_flash_counter.cancel();
+            server_flash_counter = null;
+        }
+
+        t = (TextView) findViewById(R.id.set_server);
+        t.setVisibility(View.INVISIBLE);
+    }
+
+// ******************************************************************************
+
+    private class server_flashTimer extends CountDownTimer {
+        server_flashTimer(long server_flash_millisInFuture, long countDownInterval) {
+            super(server_flash_millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onFinish() {
+            server_flash_counter = null;
+
+            if (server_flash) {
+                t = (TextView) findViewById(R.id.set_server);
+                t.setVisibility(View.VISIBLE);
+            } else {
+                t = (TextView) findViewById(R.id.set_server);
+                t.setVisibility(View.INVISIBLE);
+            }
+            start_server_flashTimer();
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+        }
+    }
+
+    // ******************************************************************************
 
     public static String padLeftZero(int s, int n) {
 

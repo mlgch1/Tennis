@@ -293,21 +293,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="1000dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="50dp"
             android:visibility="invisible"
-            android:text="Tie Break"
+            android:text="Tie Break Game"
             android:textColor="#FF0000"
             android:textSize="@dimen/f_text_40"/>
 
-        <!--<TextView-->                                // Temporary to remove "Advantage"
-            <!--android:id="@+id/advantage"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginStart="1000dp"-->
-            <!--android:layout_marginTop="100dp"-->
-            <!--android:text="Advantage"-->
-            <!--android:textColor="#FF0000"-->
-            <!--android:textSize="@dimen/f_text_40"/>-->
+        <TextView
+            android:id="@+id/advantage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1000dp"
+            android:layout_marginTop="50dp"
+            android:text="Advantage Game"
+            android:textColor="#FF0000"
+            android:textSize="@dimen/f_text_40"/>
 
     </RelativeLayout>
 
@@ -358,7 +358,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
             android:layout_marginStart="50dp"
-            android:text="Adv Sets"
+            android:text="Adv Set(s)"
             android:textColor="@color/blue"
             android:textSize="@dimen/f_text_25"/>
 
@@ -392,15 +392,15 @@
             android:textColor="@color/red"
             android:textSize="@dimen/f_text_25"/>
 
-        <TextView
-            android:id="@+id/mtb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_marginStart="50dp"
-            android:text="Match Tb Game"
-            android:textColor="@color/blue"
-            android:textSize="@dimen/f_text_25"/>
+            <TextView
+                android:id="@+id/mtb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:layout_marginStart="50dp"
+                android:text="Match Tb Game"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/f_text_25"/>
 
         </LinearLayout>
 
@@ -502,6 +502,16 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_below="@id/line_h6">
+
+        <TextView
+            android:id="@+id/set_server"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:text="Set the Server"
+            android:textColor="@color/red"
+            android:textSize="@dimen/f_text_40"/>
 
         <LinearLayout
             android:id="@+id/scoringBar_a"

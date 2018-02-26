@@ -135,8 +135,13 @@ public class RulesActivity extends Activity {
                 rb_adv_set.setChecked(true);
                 rb_tb_set.setChecked(false);
             } else {
-                t_head_last_set.setVisibility(View.VISIBLE);
-                rg_last_set.setVisibility(View.VISIBLE);
+                if (!(set_no_1 == 1) ) {
+                    t_head_last_set.setVisibility(View.VISIBLE);
+                    rg_last_set.setVisibility(View.VISIBLE);
+                }else{
+                    t_head_last_set.setVisibility(View.INVISIBLE);
+                    rg_last_set.setVisibility(View.INVISIBLE);
+                }
                 rb_adv_set.setChecked(false);
                 rb_tb_set.setChecked(true);
 
@@ -172,6 +177,37 @@ public class RulesActivity extends Activity {
 
     // ***********************************
 
+    public void onClick_1_Set(View view) {
+
+        RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup_Last_Set);
+        rad.setVisibility(View.INVISIBLE);
+
+        TextView t = (TextView) findViewById(R.id.head_Last_Set);
+        t.setVisibility(View.INVISIBLE);
+
+        set_no_1 =1;
+        set_no_3 =0;
+        set_no_5 =0;
+    }
+
+    // ***********************************
+
+    public void onClick_3_Set(View view) {
+        set_no_1 =0;
+        set_no_3 =1;
+        set_no_5 =0;
+    }
+
+    // ***********************************
+
+    public void onClick_5_Set(View view) {
+        set_no_1 =0;
+        set_no_3 =0;
+        set_no_5 =1;
+    }
+
+    // ***********************************
+
     public void onClick_Advantage(View view) {
 
         RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup_Last_Set);
@@ -188,13 +224,24 @@ public class RulesActivity extends Activity {
 
     public void onClick_TieBreak(View view) {
 
-        TextView t = (TextView) findViewById(R.id.head_Last_Set);
-        t.setVisibility(View.VISIBLE);
+        if (!(set_no_1 == 1) ) {
+            TextView t = (TextView) findViewById(R.id.head_Last_Set);
+            t.setVisibility(View.VISIBLE);
 
-        RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup_Last_Set);
-        rad.setVisibility(View.VISIBLE);
+            RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup_Last_Set);
+            rad.setVisibility(View.VISIBLE);
+        }else{
+            TextView t = (TextView) findViewById(R.id.head_Last_Set);
+            t.setVisibility(View.INVISIBLE);
+
+            RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup_Last_Set);
+            rad.setVisibility(View.INVISIBLE);
+        }
 
         set_type = 1;
+        last_set = 1;
+
+        display();
     }
 
     // ***********************************

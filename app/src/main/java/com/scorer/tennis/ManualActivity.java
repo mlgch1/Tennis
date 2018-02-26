@@ -1,4 +1,3 @@
-
 package com.scorer.tennis;
 
 import android.app.Activity;
