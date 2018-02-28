@@ -49,10 +49,10 @@ public class DBAdapter {
 
     public static final String KEY_SYSTEM_SERVER = "system_server";
 
-    public static final String KEY_SYSTEM_SET_TYPE = "system_set_type";
-    public static final String KEY_SYSTEM_LAST_SET = "system_last_set";
+    public static final String KEY_SYSTEM_SET_TYPE = "system_set_type";     // 0 - Adv  1 - Tb
+    public static final String KEY_SYSTEM_LAST_SET = "system_last_set";     // 0 - Adv  1 - Tb
 
-    public static final String KEY_SYSTEM_SET_NO_1 = "system_set_no_1";
+    public static final String KEY_SYSTEM_SET_NO_1 = "system_set_no_1";     // 0 - No  1 - Yes
     public static final String KEY_SYSTEM_SET_NO_3 = "system_set_no_3";
     public static final String KEY_SYSTEM_SET_NO_5 = "system_set_no_5";
 
@@ -62,12 +62,12 @@ public class DBAdapter {
     public static final String KEY_SYSTEM_SSID = "system_ssid";
     public static final String KEY_SYSTEM_CHANNEL = "system_channel";
 
-    public static final String KEY_SYSTEM_NO_ADV = "system_no_adv";
-    public static final String KEY_SYSTEM_SHORT_SETS = "system_short_sets";
-    public static final String KEY_SYSTEM_MATCH_TB = "system_match_tb";
-    public static final String KEY_SYSTEM_MTB_7 = "system_mtb_7";
-    public static final String KEY_SYSTEM_MTB_10 = "system_mtb_10";
-    public static final String KEY_SYSTEM_FAST4 = "system_fast4";
+    public static final String KEY_SYSTEM_NO_ADV = "system_no_adv";          // 0 - No  1 - Yes
+    public static final String KEY_SYSTEM_SHORT_SETS = "system_short_sets";  // 0 - No  1 - Yes
+    public static final String KEY_SYSTEM_MATCH_TB = "system_match_tb";      // 0 - No  1 - Yes
+    public static final String KEY_SYSTEM_MTB_7 = "system_mtb_7";            // 0 - No  1 - Yes
+    public static final String KEY_SYSTEM_MTB_10 = "system_mtb_10";          // 0 - No  1 - Yes
+    public static final String KEY_SYSTEM_FAST4 = "system_fast4";            // 0 - No  1 - Yes
 
     public static final String KEY_SYSTEM_SET_1_H = "system_set_1_h";
     public static final String KEY_SYSTEM_SET_1_V = "system_set_1_v";

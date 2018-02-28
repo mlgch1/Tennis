@@ -130,10 +130,10 @@ public class MainActivity extends Activity {
     private boolean flipFlag = false;
     private int flipCntr = 2;
 
-    private int noOfGamesInSet = 0;
+    private int noOfSetsInMatch = 0;
     private int minGamesToWinSet = 0;
     private int nextToLastSet = 0;
-    private int setsToWin = 0;
+    private int setsToWinPerPlayer = 0;
 
 
 //    private int mtb_points;
@@ -381,15 +381,15 @@ public class MainActivity extends Activity {
 
         String setNo = "";
 
-        if (noOfGamesInSet == 1) {
+        if (noOfSetsInMatch == 1) {
             setNo = "1 Set";
         }
 
-        if (noOfGamesInSet == 3) {
+        if (noOfSetsInMatch == 3) {
             setNo = "3 Sets";
         }
 
-        if (noOfGamesInSet == 5) {
+        if (noOfSetsInMatch == 5) {
             setNo = "5 Sets";
         }
 
@@ -719,20 +719,20 @@ public class MainActivity extends Activity {
         mtb_10 = myDb.readSystem(DBAdapter.KEY_SYSTEM_MTB_10);
 
         if (set_no_1 == 1) {
-            noOfGamesInSet = 1;
-            setsToWin = 1;
+            noOfSetsInMatch = 1;
+            setsToWinPerPlayer = 1;
             nextToLastSet = 0;
         }
 
         if (set_no_3 == 1) {
-            noOfGamesInSet = 3;
-            setsToWin = 2;
+            noOfSetsInMatch = 3;
+            setsToWinPerPlayer = 2;
             nextToLastSet = 1;
         }
 
         if (set_no_5 == 1) {
-            noOfGamesInSet = 5;
-            setsToWin = 3;
+            noOfSetsInMatch = 5;
+            setsToWinPerPlayer = 3;
             nextToLastSet = 2;
         }
 
@@ -1207,7 +1207,7 @@ public class MainActivity extends Activity {
 
     private boolean Match() {
 
-        if (c_sets_h == setsToWin || c_sets_v == setsToWin) {
+        if (c_sets_h == setsToWinPerPlayer || c_sets_v == setsToWinPerPlayer) {
 
             Intent intent = new Intent(MainActivity.this, MatchSplashActivity.class);
             startActivity(intent);

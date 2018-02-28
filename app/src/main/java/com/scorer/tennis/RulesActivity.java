@@ -188,6 +188,8 @@ public class RulesActivity extends Activity {
         set_no_1 =1;
         set_no_3 =0;
         set_no_5 =0;
+
+        display();
     }
 
     // ***********************************
@@ -196,6 +198,8 @@ public class RulesActivity extends Activity {
         set_no_1 =0;
         set_no_3 =1;
         set_no_5 =0;
+
+        display();
     }
 
     // ***********************************
@@ -204,6 +208,8 @@ public class RulesActivity extends Activity {
         set_no_1 =0;
         set_no_3 =0;
         set_no_5 =1;
+
+        display();
     }
 
     // ***********************************
@@ -218,6 +224,8 @@ public class RulesActivity extends Activity {
 
         set_type = 0;
         last_set = 0;
+
+        display();
     }
 
     // ***********************************
@@ -248,12 +256,16 @@ public class RulesActivity extends Activity {
 
     public void onClick_Ls_Advantage(View view) {
        last_set = 0;
+
+        display();
     }
 
     // ***********************************
 
     public void onClick_Ls_TieBreak(View view) {
         last_set = 1;
+
+        display();
     }
 
     // ***********************************

@@ -378,7 +378,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
             android:layout_marginStart="50dp"
-            android:text="No Adv Sets"
+            android:text="No Adv Set(s)"
             android:textColor="@color/blue"
             android:textSize="@dimen/f_text_25"/>
 
@@ -388,7 +388,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
             android:layout_marginStart="50dp"
-             android:text="Short Sets"
+             android:text="Short Set(s)"
             android:textColor="@color/red"
             android:textSize="@dimen/f_text_25"/>
 
