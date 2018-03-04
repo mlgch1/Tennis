@@ -3,6 +3,16 @@
     tools:context="com.scorer.tennis.MainActivity" >
 
 
+    <item android:id="@+id/action_rules"
+        android:title="Rules of Tennis"
+        android:actionLayout="@layout/action_bar_rules"
+        android:showAsAction="always" />
+
+    <item android:id="@+id/action_space"
+        android:title="            "
+        android:actionLayout="@layout/action_bar_space"
+        android:showAsAction="always" />
+
     <item android:id="@+id/action_reset"
         android:title="@string/action_reset"
         android:actionLayout="@layout/action_bar_reset"

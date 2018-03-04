@@ -103,7 +103,7 @@ public class DBAdapter {
     // System table create statement
     private static final String CREATE_TABLE_SYSTEM = "CREATE TABLE if not exists " + TABLE_SYSTEM + "(" + KEY_SYSTEM_ID + " INTEGER PRIMARY KEY autoincrement ,"
             + KEY_SYSTEM_CLUB + " TEXT," + KEY_SYSTEM_NAME_A + " TEXT," + KEY_SYSTEM_NAME_B + " TEXT," + KEY_SYSTEM_POINTS_A + " TEXT," + KEY_SYSTEM_POINTS_B + " TEXT,"
-            + KEY_SYSTEM_GAMES_A + " TEXT," + KEY_SYSTEM_GAMES_B + " TEXT," + KEY_SYSTEM_SETS_A + " TEXT,"+ KEY_SYSTEM_SETS_B + " TEXT," + KEY_SYSTEM_SERVER + " TEXT,"
+            + KEY_SYSTEM_GAMES_A + " TEXT," + KEY_SYSTEM_GAMES_B + " TEXT," + KEY_SYSTEM_SETS_A + " TEXT," + KEY_SYSTEM_SETS_B + " TEXT," + KEY_SYSTEM_SERVER + " TEXT,"
             + KEY_SYSTEM_SET_TYPE + " INTEGER," + KEY_SYSTEM_LAST_SET + " INTEGER," + KEY_SYSTEM_SET_NO_1 + " INTEGER," + KEY_SYSTEM_SET_NO_3 + " INTEGER,"
             + KEY_SYSTEM_SET_NO_5 + " INTEGER," + KEY_SYSTEM_BATT_THRESH + " INTEGER," + KEY_SYSTEM_BATT_INC + " INTEGER," + KEY_SYSTEM_SSID + " INTEGER,"
             + KEY_SYSTEM_CHANNEL + " INTEGER," + KEY_SYSTEM_NO_ADV + " INTEGER," + KEY_SYSTEM_SHORT_SETS + " INTEGER," + KEY_SYSTEM_MATCH_TB + " INTEGER,"
@@ -215,9 +215,7 @@ public class DBAdapter {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
 
-
-    L.d("Upgrade");
-
+            L.d("Upgrade");
 
 
             switch (newVersion) {
@@ -237,9 +235,6 @@ public class DBAdapter {
                     db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_5_H + " INTEGER");
                     db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_5_V + " INTEGER");
                     break;
-
-
-
 
 
                 default:
@@ -273,25 +268,43 @@ public class DBAdapter {
     // Read a value in the system table.
     public int readSystem(String strValue_Name) {
         int intData = 0;
-        Cursor c = db.query(true, TABLE_SYSTEM, SYSTEM_KEYS, KEY_SYSTEM_ID + "=" + 1, null, null, null, null, null);
-        if (c != null) {
-            c.moveToFirst();
-            intData = c.getInt(c.getColumnIndex(strValue_Name));
+
+        Cursor c = null;
+        try {
+            c = db.query(true, TABLE_SYSTEM, SYSTEM_KEYS, KEY_SYSTEM_ID + "=" + 1, null, null, null, null, null);
+            if (c != null) {
+                c.moveToFirst();
+                intData = c.getInt(c.getColumnIndex(strValue_Name));
+            }
+        } finally {
+            // this gets called even if there is an exception somewhere above
+            if (c != null)
+                c.close();
         }
         return intData;
     }
+
     // ***********************************
 
     // Read a value in the system table.
     public String readSystemStr(String strValue_Name) {
         String strData = "";
-        Cursor c = db.query(true, TABLE_SYSTEM, SYSTEM_KEYS, KEY_SYSTEM_ID + "=" + 1, null, null, null, null, null);
-        if (c != null) {
-            c.moveToFirst();
-            strData = c.getString(c.getColumnIndex(strValue_Name));
+
+        Cursor c = null;
+        try {
+            c = db.query(true, TABLE_SYSTEM, SYSTEM_KEYS, KEY_SYSTEM_ID + "=" + 1, null, null, null, null, null);
+            if (c != null) {
+                c.moveToFirst();
+                strData = c.getString(c.getColumnIndex(strValue_Name));
+            }
+        } finally {
+            // this gets called even if there is an exception somewhere above
+            if (c != null)
+                c.close();
         }
         return strData;
     }
+
     // ***********************************
     // Log Table
     // ***********************************
@@ -323,12 +336,20 @@ public class DBAdapter {
 
     // Return all log rows in the database.
     public Cursor getAllLogRows() {
-        Cursor c = db.query(true, TABLE_LOG, LOG_KEYS, null, null, null, null, "_id DESC", null);
-        if (c != null) {
-            c.moveToFirst();
+        Cursor c = null;
+        try {
+            c = db.query(true, TABLE_LOG, LOG_KEYS, null, null, null, null, "_id DESC", null);
+            if (c != null) {
+                c.moveToFirst();
+            }
+        } finally {
+            // this gets called even if there is an exception somewhere above
+            if (c != null)
+                c.close();
         }
         return c;
     }
+
     // ***********************************
 
     // Delete all log rows in the database.
@@ -337,53 +358,45 @@ public class DBAdapter {
     }
 
 
+    // ***********************************
 
-
-
-// To be deleted
-
-
-
-
-    public ArrayList<Cursor> getData(String Query){
+    public ArrayList<Cursor> getData(String Query) {
         //get writable database
         SQLiteDatabase sqlDB = myDBHelper.getWritableDatabase();
-        String[] columns = new String[] { "message" };
+        String[] columns = new String[]{"message"};
         //an array list of cursor to save two cursors one has results from the query
         //other cursor stores error message if any errors are triggered
         ArrayList<Cursor> alc = new ArrayList<Cursor>(2);
-        MatrixCursor Cursor2= new MatrixCursor(columns);
+        MatrixCursor Cursor2 = new MatrixCursor(columns);
         alc.add(null);
         alc.add(null);
 
-        try{
-            String maxQuery = Query ;
+        try {
+            String maxQuery = Query;
             //execute the query results will be save in Cursor c
             Cursor c = sqlDB.rawQuery(maxQuery, null);
 
             //add value to cursor2
-            Cursor2.addRow(new Object[] { "Success" });
+            Cursor2.addRow(new Object[]{"Success"});
 
-            alc.set(1,Cursor2);
+            alc.set(1, Cursor2);
             if (null != c && c.getCount() > 0) {
 
-                alc.set(0,c);
+                alc.set(0, c);
                 c.moveToFirst();
 
-                return alc ;
+                return alc;
             }
             return alc;
-        } catch(Exception ex){
+        } catch (Exception ex) {
             Log.d("printing exception", ex.getMessage());
 
             //if any exceptions are triggered save the error message to cursor an return the arraylist
-            Cursor2.addRow(new Object[] { ""+ex.getMessage() });
-            alc.set(1,Cursor2);
+            Cursor2.addRow(new Object[]{"" + ex.getMessage()});
+            alc.set(1, Cursor2);
             return alc;
         }
     }
-
-
 
 
 }

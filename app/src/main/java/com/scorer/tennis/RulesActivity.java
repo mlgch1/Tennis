@@ -14,10 +14,10 @@ public class RulesActivity extends Activity {
     DBAdapter myDb;
 
     private int set_no_1;
-    private int set_no_3;
+    private int set_no_3 = 1;
     private int set_no_5;
     private int set_type;
-    private int last_set;
+    private int last_set_type;
     private int fast4;
     private int no_adv;
     private int short_sets;
@@ -33,18 +33,18 @@ public class RulesActivity extends Activity {
         myDb = new DBAdapter(this);
         myDb.open();
 
-        set_no_1 = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_NO_1);
-        set_no_3 = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_NO_3);
-        set_no_5 = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_NO_5);
-        set_type = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_TYPE);
-        last_set = myDb.readSystem(DBAdapter.KEY_SYSTEM_LAST_SET);
-        no_adv = myDb.readSystem(DBAdapter.KEY_SYSTEM_NO_ADV);
-        fast4 = myDb.readSystem(DBAdapter.KEY_SYSTEM_FAST4);
-        short_sets = myDb.readSystem(DBAdapter.KEY_SYSTEM_SHORT_SETS);
-        match_tb_game = myDb.readSystem(DBAdapter.KEY_SYSTEM_MATCH_TB);
-        mtb_7 = myDb.readSystem(DBAdapter.KEY_SYSTEM_MTB_7);
-        mtb_10 = myDb.readSystem(DBAdapter.KEY_SYSTEM_MTB_10);
-
+//        set_no_1 = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_NO_1);
+//        set_no_3 = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_NO_3);
+//        set_no_5 = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_NO_5);
+//        set_type = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_TYPE);
+//        last_set_type = myDb.readSystem(DBAdapter.KEY_SYSTEM_LAST_SET);
+//        no_adv = myDb.readSystem(DBAdapter.KEY_SYSTEM_NO_ADV);
+//        fast4 = myDb.readSystem(DBAdapter.KEY_SYSTEM_FAST4);
+//        short_sets = myDb.readSystem(DBAdapter.KEY_SYSTEM_SHORT_SETS);
+//        match_tb_game = myDb.readSystem(DBAdapter.KEY_SYSTEM_MATCH_TB);
+//        mtb_7 = myDb.readSystem(DBAdapter.KEY_SYSTEM_MTB_7);
+//        mtb_10 = myDb.readSystem(DBAdapter.KEY_SYSTEM_MTB_10);
+//
         display();
     }
 
@@ -53,6 +53,7 @@ public class RulesActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        myDb.close();
     }
 
     // ***********************************
@@ -60,7 +61,6 @@ public class RulesActivity extends Activity {
     @Override
     public void finish() {
         super.finish();
-        myDb.close();
     }
 
     // ***********************************
@@ -69,11 +69,11 @@ public class RulesActivity extends Activity {
 
         TextView t_head_no_sets = (TextView) findViewById(R.id.head_No_Sets);
         TextView t_head_type_of_set = (TextView) findViewById(R.id.head_Type_of_Set);
-        TextView t_head_last_set = (TextView) findViewById(R.id.head_Last_Set);
+        TextView t_head_last_set_type = (TextView) findViewById(R.id.head_last_set_type);
 
         RadioGroup rg_no_sets = (RadioGroup) findViewById(R.id.radioGroup_No_Sets);
         RadioGroup rg_type_of_set = (RadioGroup) findViewById(R.id.radioGroup_Type_of_Set);
-        RadioGroup rg_last_set = (RadioGroup) findViewById(R.id.radioGroup_Last_Set);
+        RadioGroup rg_last_set_type = (RadioGroup) findViewById(R.id.radioGroup_last_set_type);
         RadioGroup rg_match_tb_game = (RadioGroup) findViewById(R.id.radioGroup_Match_Tb_Game);
 
         RadioButton rb_1_set = (RadioButton) findViewById(R.id.radioButton_1_Set);
@@ -102,11 +102,11 @@ public class RulesActivity extends Activity {
         if (cb_fast4.isChecked()) {
             t_head_no_sets.setVisibility(View.VISIBLE);
             t_head_type_of_set.setVisibility(View.INVISIBLE);
-            t_head_last_set.setVisibility(View.INVISIBLE);
+            t_head_last_set_type.setVisibility(View.INVISIBLE);
 
             rg_no_sets.setVisibility(View.VISIBLE);
             rg_type_of_set.setVisibility(View.INVISIBLE);
-            rg_last_set.setVisibility(View.INVISIBLE);
+            rg_last_set_type.setVisibility(View.INVISIBLE);
             rg_match_tb_game.setVisibility(View.INVISIBLE);
 
             cb_no_adv.setVisibility(View.INVISIBLE);
@@ -116,11 +116,11 @@ public class RulesActivity extends Activity {
         } else {
             t_head_no_sets.setVisibility(View.VISIBLE);
             t_head_type_of_set.setVisibility(View.VISIBLE);
-            t_head_last_set.setVisibility(View.VISIBLE);
+            t_head_last_set_type.setVisibility(View.VISIBLE);
 
             rg_no_sets.setVisibility(View.VISIBLE);
             rg_type_of_set.setVisibility(View.VISIBLE);
-            rg_last_set.setVisibility(View.VISIBLE);
+            rg_last_set_type.setVisibility(View.VISIBLE);
             rg_match_tb_game.setVisibility(View.VISIBLE);
 
             cb_no_adv.setVisibility(View.VISIBLE);
@@ -129,26 +129,33 @@ public class RulesActivity extends Activity {
 
             // Set Type
 
-            if (set_type == 0) {
-                rg_last_set.setVisibility(View.INVISIBLE);
-                t_head_last_set.setVisibility(View.INVISIBLE);
-                rb_adv_set.setChecked(true);
-                rb_tb_set.setChecked(false);
+            if (no_adv == 1) {
+                rg_last_set_type.setVisibility(View.INVISIBLE);
+                t_head_last_set_type.setVisibility(View.INVISIBLE);
+
+                rg_type_of_set.setVisibility(View.INVISIBLE);
+                t_head_type_of_set.setVisibility(View.INVISIBLE);
             } else {
-                if (!(set_no_1 == 1) ) {
-                    t_head_last_set.setVisibility(View.VISIBLE);
-                    rg_last_set.setVisibility(View.VISIBLE);
-                }else{
-                    t_head_last_set.setVisibility(View.INVISIBLE);
-                    rg_last_set.setVisibility(View.INVISIBLE);
+                if (set_type == 0) {
+                    rg_last_set_type.setVisibility(View.INVISIBLE);
+                    t_head_last_set_type.setVisibility(View.INVISIBLE);
+                    rb_adv_set.setChecked(true);
+                    rb_tb_set.setChecked(false);
+                } else {
+                    if (!(set_no_1 == 1)) {
+                        t_head_last_set_type.setVisibility(View.VISIBLE);
+                        rg_last_set_type.setVisibility(View.VISIBLE);
+                    } else {
+                        t_head_last_set_type.setVisibility(View.INVISIBLE);
+                        rg_last_set_type.setVisibility(View.INVISIBLE);
+                    }
+                    rb_adv_set.setChecked(false);
+                    rb_tb_set.setChecked(true);
+
+                    rb_ls_adv_set.setChecked(last_set_type == 0);
+                    rb_ls_tb_set.setChecked(last_set_type == 1);
                 }
-                rb_adv_set.setChecked(false);
-                rb_tb_set.setChecked(true);
-
-                rb_ls_adv_set.setChecked(last_set == 0);
-                rb_ls_tb_set.setChecked(last_set == 1);
             }
-
             // Match Tie Break
             cb_match_tb_game.setChecked(match_tb_game != 0);
 
@@ -168,9 +175,19 @@ public class RulesActivity extends Activity {
             cb_short_sets.setChecked((short_sets) == 1);
 
             if (short_sets == 1) {
-            t_head_last_set.setVisibility(View.INVISIBLE);
-            rg_type_of_set.setVisibility(View.VISIBLE);
-            rg_last_set.setVisibility(View.INVISIBLE);
+                t_head_last_set_type.setVisibility(View.INVISIBLE);
+                rg_last_set_type.setVisibility(View.INVISIBLE);
+
+                t_head_type_of_set.setVisibility(View.INVISIBLE);
+                rg_type_of_set.setVisibility(View.INVISIBLE);
+
+                cb_fast4.setVisibility(View.INVISIBLE);
+                cb_match_tb_game.setVisibility(View.INVISIBLE);
+
+                last_set_type = 1;
+            }else{
+                cb_fast4.setVisibility(View.VISIBLE);
+                cb_match_tb_game.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -179,15 +196,15 @@ public class RulesActivity extends Activity {
 
     public void onClick_1_Set(View view) {
 
-        RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup_Last_Set);
+        RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup_last_set_type);
         rad.setVisibility(View.INVISIBLE);
 
-        TextView t = (TextView) findViewById(R.id.head_Last_Set);
+        TextView t = (TextView) findViewById(R.id.head_last_set_type);
         t.setVisibility(View.INVISIBLE);
 
-        set_no_1 =1;
-        set_no_3 =0;
-        set_no_5 =0;
+        set_no_1 = 1;
+        set_no_3 = 0;
+        set_no_5 = 0;
 
         display();
     }
@@ -195,9 +212,9 @@ public class RulesActivity extends Activity {
     // ***********************************
 
     public void onClick_3_Set(View view) {
-        set_no_1 =0;
-        set_no_3 =1;
-        set_no_5 =0;
+        set_no_1 = 0;
+        set_no_3 = 1;
+        set_no_5 = 0;
 
         display();
     }
@@ -205,9 +222,9 @@ public class RulesActivity extends Activity {
     // ***********************************
 
     public void onClick_5_Set(View view) {
-        set_no_1 =0;
-        set_no_3 =0;
-        set_no_5 =1;
+        set_no_1 = 0;
+        set_no_3 = 0;
+        set_no_5 = 1;
 
         display();
     }
@@ -215,15 +232,13 @@ public class RulesActivity extends Activity {
     // ***********************************
 
     public void onClick_Advantage(View view) {
+        set_type = 0;
 
-        RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup_Last_Set);
+        RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup_last_set_type);
         rad.setVisibility(View.INVISIBLE);
 
-        TextView t = (TextView) findViewById(R.id.head_Last_Set);
+        TextView t = (TextView) findViewById(R.id.head_last_set_type);
         t.setVisibility(View.INVISIBLE);
-
-        set_type = 0;
-        last_set = 0;
 
         display();
     }
@@ -231,23 +246,21 @@ public class RulesActivity extends Activity {
     // ***********************************
 
     public void onClick_TieBreak(View view) {
+        set_type = 1;
 
-        if (!(set_no_1 == 1) ) {
-            TextView t = (TextView) findViewById(R.id.head_Last_Set);
+        if (!(set_no_1 == 1)) {
+            TextView t = (TextView) findViewById(R.id.head_last_set_type);
             t.setVisibility(View.VISIBLE);
 
-            RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup_Last_Set);
+            RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup_last_set_type);
             rad.setVisibility(View.VISIBLE);
-        }else{
-            TextView t = (TextView) findViewById(R.id.head_Last_Set);
+        } else {
+            TextView t = (TextView) findViewById(R.id.head_last_set_type);
             t.setVisibility(View.INVISIBLE);
 
-            RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup_Last_Set);
+            RadioGroup rad = (RadioGroup) findViewById(R.id.radioGroup_last_set_type);
             rad.setVisibility(View.INVISIBLE);
         }
-
-        set_type = 1;
-        last_set = 1;
 
         display();
     }
@@ -255,7 +268,7 @@ public class RulesActivity extends Activity {
     // ***********************************
 
     public void onClick_Ls_Advantage(View view) {
-       last_set = 0;
+        last_set_type = 0;
 
         display();
     }
@@ -263,7 +276,7 @@ public class RulesActivity extends Activity {
     // ***********************************
 
     public void onClick_Ls_TieBreak(View view) {
-        last_set = 1;
+        last_set_type = 1;
 
         display();
     }
@@ -290,11 +303,13 @@ public class RulesActivity extends Activity {
         CheckBox cb_short_sets = (CheckBox) findViewById(R.id.checkBox_Short_Sets);
         short_sets = (cb_short_sets.isChecked() ? 1 : 0);
 
-        if (short_sets ==1) {
+        if (short_sets == 1) {
             set_type = 1;
-        }else{
+            last_set_type = 1;
+        } else {
             set_type = 0;
-         }
+            last_set_type = 0;
+        }
 
         display();
     }
@@ -383,10 +398,10 @@ public class RulesActivity extends Activity {
         }
 
         // Last Set
-        RadioGroup rg_last_set = (RadioGroup) findViewById(R.id.radioGroup_Last_Set);
+        RadioGroup rg_last_set_type = (RadioGroup) findViewById(R.id.radioGroup_last_set_type);
 
         // get selected radio button from radioGroup 2
-        selectedId = rg_last_set.getCheckedRadioButtonId();
+        selectedId = rg_last_set_type.getCheckedRadioButtonId();
 
         switch (selectedId) {
             case R.id.radioButton_LS_Adv_Set:

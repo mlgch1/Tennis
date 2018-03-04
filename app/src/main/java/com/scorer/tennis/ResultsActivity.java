@@ -5,15 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.scorer.tennis.R.id;
-
-
-
-
-
-
-
-
 public class ResultsActivity extends Activity {
 
     private TextView t;
@@ -26,17 +17,6 @@ public class ResultsActivity extends Activity {
 
         myDb = new DBAdapter(this);
         myDb.open();
-
-
-
-
-
-
-
-
-
-
-
     }
 
 // ******************************************************************************
@@ -56,8 +36,6 @@ public class ResultsActivity extends Activity {
         t = (TextView) findViewById(R.id.name_v);
         t.setText(s);
 
-
-
         int i = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_1_H);
         int I = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_1_V);
 
@@ -68,7 +46,6 @@ public class ResultsActivity extends Activity {
             t = (TextView) findViewById(R.id.set_1_v);
             t.setText(Integer.toString(I));
         }
-
 
         i = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_2_H);
         I = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_2_V);
@@ -81,8 +58,6 @@ public class ResultsActivity extends Activity {
             t.setText(Integer.toString(I));
         }
 
-
-
         i = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_3_H);
         I = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_3_V);
 
@@ -93,8 +68,6 @@ public class ResultsActivity extends Activity {
             t = (TextView) findViewById(R.id.set_3_v);
             t.setText(Integer.toString(I));
         }
-
-
 
         i = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_4_H);
         I = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_4_V);
@@ -135,6 +108,4 @@ public class ResultsActivity extends Activity {
     public void onClick(View view) {
         finish();
     }
-
-
 }

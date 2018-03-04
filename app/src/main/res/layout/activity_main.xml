@@ -288,6 +288,8 @@
             android:textColor="#2A2AFF"
             android:textSize="@dimen/f_text_40"/>
 
+        <!-- Advantage/Tie Break Notice -->
+
         <TextView
             android:id="@+id/tie_break"
             android:layout_width="wrap_content"
@@ -363,7 +365,7 @@
             android:textSize="@dimen/f_text_25"/>
 
         <TextView
-            android:id="@+id/last_set"
+            android:id="@+id/last_set_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
@@ -511,6 +513,7 @@
             android:layout_centerHorizontal="true"
             android:text="Set the Server"
             android:textColor="@color/red"
+            android:visibility="invisible"
             android:textSize="@dimen/f_text_40"/>
 
         <LinearLayout

@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Process;
+import android.os.StrictMode;
 import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -160,7 +161,7 @@ public class MainActivity extends Activity {
     private int set_no_3;
     private int set_no_5;
     private int set_type;
-    private int last_set;
+    private int last_set_type;
     private int fast4;
     private int no_adv;
     private int short_sets;
@@ -213,10 +214,21 @@ public class MainActivity extends Activity {
         });
 
 
+// To be deleted
+
+        if (BuildConfig.DEBUG) {
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectLeakedSqlLiteObjects()
+                    .detectLeakedClosableObjects()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build());
+        }
+
+
     }
 
-
-    // ******************************************************************************
+// ******************************************************************************
 
     @Override
     public void onBackPressed() {
@@ -342,7 +354,6 @@ public class MainActivity extends Activity {
         }
 
         if (server.equals("Z")) {
-
             start_server_flashTimer();
         }
 
@@ -395,11 +406,21 @@ public class MainActivity extends Activity {
 
         t.setText(setNo);
 
-        // No Advantage
+        // Type of Set
 
         t = (TextView) findViewById(id.no_adv);
         tt = (TextView) findViewById(id.set_type);
-        ttt = (TextView) findViewById(id.last_set);
+        ttt = (TextView) findViewById(id.last_set_type);
+
+        tt.setVisibility(View.VISIBLE);
+
+        if (set_type == 0) {
+            tt.setText("Adv Set(s)");
+        } else {
+            tt.setText("Tb Set(s)");
+        }
+
+        // No Advantage
 
         if (no_adv == 1) {
             t.setVisibility(View.VISIBLE);
@@ -411,24 +432,13 @@ public class MainActivity extends Activity {
             ttt.setVisibility(View.VISIBLE);
         }
 
-        // Type of Set
-
-        tt.setVisibility(View.VISIBLE);
-
-        if (set_type == 0) {
-            tt.setText("Adv Set(s)");
-
-        } else {
-            tt.setText("Tb Set(s)");
-        }
-
         // Last Set
 
         ttt.setVisibility(View.VISIBLE);
 
         if (set_type == 1) {
 
-            if (last_set == 0) {
+            if (last_set_type == 0) {
                 ttt.setText("Last Set Adv");
             } else {
                 ttt.setText("Last Set Tb");
@@ -462,6 +472,7 @@ public class MainActivity extends Activity {
 
         if (short_sets == 1) {
             t.setVisibility(View.VISIBLE);
+//            GameNotice(true);
         } else {
             t.setVisibility(View.INVISIBLE);
         }
@@ -484,7 +495,7 @@ public class MainActivity extends Activity {
         t = (TextView) findViewById(id.set_type);
         t.setVisibility(View.INVISIBLE);
 
-        t = (TextView) findViewById(id.last_set);
+        t = (TextView) findViewById(id.last_set_type);
         t.setVisibility(View.INVISIBLE);
 
         t = (TextView) findViewById(id.no_adv);
@@ -585,7 +596,16 @@ public class MainActivity extends Activity {
         resetAlertDialog();
 
         onPause();
+    }
 
+// ******************************************************************************
+
+    public void onClick_Rules(View view) {
+
+        Intent intent = new Intent(MainActivity.this, PDFActivity.class);
+        startActivity(intent);
+
+        myDb.K_Log("Open Rules");
     }
 
 // ******************************************************************************
@@ -710,7 +730,7 @@ public class MainActivity extends Activity {
         set_no_3 = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_NO_3);
         set_no_5 = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_NO_5);
         set_type = myDb.readSystem(DBAdapter.KEY_SYSTEM_SET_TYPE);  // 0-AdvSet  1-TbSet
-        last_set = myDb.readSystem(DBAdapter.KEY_SYSTEM_LAST_SET);  // 0-AdvSet  1-TbSet
+        last_set_type = myDb.readSystem(DBAdapter.KEY_SYSTEM_LAST_SET);  // 0-AdvSet  1-TbSet
         fast4 = myDb.readSystem(DBAdapter.KEY_SYSTEM_FAST4);
         no_adv = myDb.readSystem(DBAdapter.KEY_SYSTEM_NO_ADV);
         short_sets = myDb.readSystem(DBAdapter.KEY_SYSTEM_SHORT_SETS);
@@ -853,6 +873,17 @@ public class MainActivity extends Activity {
 
         c_audio = c_audio_temp;
 
+        if (matchComplete) {
+            c_points_h = 0;
+            c_points_v = 0;
+
+            c_games_h = 0;
+            c_games_v = 0;
+
+            c_sets_h = 0;
+            c_sets_v = 0;
+        }
+
         myDb.updateSystemStr(DBAdapter.KEY_SYSTEM_POINTS_A, String.valueOf(c_points_h));
         myDb.updateSystemStr(DBAdapter.KEY_SYSTEM_POINTS_B, String.valueOf(c_points_v));
 
@@ -937,7 +968,345 @@ public class MainActivity extends Activity {
 
         Set_Adv();
 
-        NextGame();
+        Next_Game();
+    }
+
+// ******************************************************************************
+
+    private void Set_Adv() {
+
+        // Advantage Set
+
+        if ((c_games_h < minGamesToWinSet) && (c_games_v < minGamesToWinSet)) {
+            return;
+        }
+
+        if ((c_games_h >= minGamesToWinSet) && (c_games_v <= (c_games_h - 2))) {
+            c_sets_h++;
+
+            Set_Results();
+
+            c_games_h = 0;
+            c_games_v = 0;
+
+            if (!Match()) {
+                Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
+                startActivity(intent);
+
+                L.d("Sets Adv");
+
+                c_audio_temp = "S";
+            }
+        }
+
+        if ((c_games_v >= minGamesToWinSet) && (c_games_h <= (c_games_v - 2))) {
+            c_sets_v++;
+
+            Set_Results();
+
+            c_games_h = 0;
+            c_games_v = 0;
+
+            if (!Match()) {
+                Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
+                startActivity(intent);
+
+                L.d("Sets Adv");
+
+                c_audio_temp = "S";
+            }
+        }
+    }
+
+    // ******************************************************************************
+
+    private void Points_Tb() {
+
+        // Tie Break Game
+
+        if (((c_points_h >= 7) && (c_points_v <= (c_points_h - 2))) | ((c_points_v >= 7) && (c_points_h <= (c_points_v - 2)))) {    // Is it a game?
+
+            if (c_points_h > c_points_v) {
+                c_games_h++;
+            } else {
+                c_games_v++;
+            }
+
+            if ((c_games_h > c_games_v)) {
+                c_sets_h++;
+            } else {
+                c_sets_v++;
+            }
+
+            Set_Results();
+
+            if (lastSet) {
+                L.d("Match");
+
+                Match();
+
+                c_points_h = 0;
+                c_points_v = 0;
+
+                c_games_h = 0;
+                c_games_v = 0;
+
+                c_sets_h = 0;
+                c_sets_v = 0;
+
+                return;
+            } else {
+                Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
+                startActivity(intent);
+
+                L.d("Sets Tb");
+
+                c_audio_temp = "S";
+            }
+
+            c_points_h = 0;
+            c_points_v = 0;
+
+            c_games_h = 0;
+            c_games_v = 0;
+
+            flipFlag = false;
+            flipCntr = 2;
+
+            if ((c_points_h >= 7) & (c_points_v <= (c_points_h - 2))) {
+                L.d("Game Tb Home");
+            }else{
+                L.d("Game Tb Visitor");
+            }
+
+            Next_Game();
+ //           Win_Tb_Game();
+
+            c_points_h = 0;
+            c_points_v = 0;
+
+            c_games_h = 0;
+            c_games_v = 0;
+
+        } else {
+            if (!flipFlag) {
+                flipFlag = true;
+
+                flip_server();
+            } else {
+                flipCntr--;
+                if (flipCntr == 0) {
+                    flipCntr = 2;
+
+                    flip_server();
+                }
+            }
+        }
+    }
+
+// ******************************************************************************
+
+    private void Win_Tb_Game() {
+
+        if (c_points_h > c_points_v) {
+            c_games_h++;
+        } else {
+            c_games_v++;
+        }
+        c_points_h = 0;
+        c_points_v = 0;
+
+        Intent intent = new Intent(MainActivity.this, GameSplashActivity.class);
+        startActivity(intent);
+
+        L.d("Game_Tb");
+
+        c_audio_temp = "G";
+
+        flip_server();
+
+//        Set_Tb();
+
+        Next_Game();
+    }
+
+// ******************************************************************************
+
+    private void Set_Tb() {
+
+        // Tie Break Set
+
+        if ((c_games_h < minGamesToWinSet) & (c_games_v < minGamesToWinSet)) {
+            return;
+        }
+
+        if ((c_games_h >= minGamesToWinSet) & (c_games_v <= (c_games_h - 2))) {
+            c_sets_h++;
+
+            Set_Results();
+
+            c_games_h = 0;
+            c_games_v = 0;
+
+            if (!Match()) {
+                Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
+                startActivity(intent);
+
+                L.d("Sets Tb");
+
+                c_audio_temp = "S";
+            }
+        }
+
+        if ((c_games_v >= minGamesToWinSet) && (c_games_h <= (c_games_v - 2))) {
+            c_sets_v++;
+
+            Set_Results();
+
+            c_games_h = 0;
+            c_games_v = 0;
+
+            if (!Match()) {
+                Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
+                startActivity(intent);
+
+                L.d("Sets Tb");
+
+                c_audio_temp = "S";
+            }
+        }
+    }
+
+// ******************************************************************************
+
+    private boolean Match() {
+
+        if (c_sets_h == setsToWinPerPlayer || c_sets_v == setsToWinPerPlayer) {
+
+            L.d("Match");
+
+            c_audio_temp = "M";
+
+            AllButtonsOff();
+
+            matchComplete = true;
+
+            Intent intent = new Intent(MainActivity.this, ResultsActivity.class);
+            startActivity(intent);
+
+            intent = new Intent(MainActivity.this, MatchSplashActivity.class);
+            startActivity(intent);
+
+            return true;
+        }
+        return false;
+    }
+
+// ******************************************************************************
+
+    private void Next_Game() {
+//        if ((c_sets_h == nextToLastSet) && (c_sets_v == nextToLastSet)) {
+//            lastSet = true;
+//        }
+        if (tieBreakGame) {
+            tieBreakGame = false;
+            GameNotice(false);          // Advantage Game
+
+            return;
+        }
+
+        if (advSet) {
+            tieBreakGame = false;
+            GameNotice(false);          // Advantage Game
+        } else {
+            if ((c_games_h == minGamesToWinSet) && (c_games_v == minGamesToWinSet)) {   // Set "Deuce"
+                if ((c_sets_h == nextToLastSet) || (c_sets_v == nextToLastSet)) {       // Last Set
+                    lastSet = true;
+
+                    if (advLastSet) {
+                        tieBreakGame = false;
+                        GameNotice(false);  // Advantage Game
+                    } else {
+                        tieBreakGame = true;
+                        GameNotice(true);   // Tie Break
+                    }
+                } else {
+                    tieBreakGame = true;
+                    GameNotice(true);   // Tie Break
+                }
+            } else {
+                tieBreakGame = false;
+                GameNotice(false);          // Advantage Game
+            }
+        }
+    }
+
+
+//                if (!advSet) {                  // Tie Break
+//                    if ((c_games_h == minGamesToWinSet) && (c_games_v == minGamesToWinSet)) {
+//                        if (!advLastSet) {
+//                        }
+//                    }
+//                }
+
+
+    // ******************************************************************************
+
+    private void GameNotice(boolean type) {             // 'true' for Tie Break
+        if (!type) {
+            t = (TextView) findViewById(id.advantage);
+            t.setVisibility(View.VISIBLE);
+
+            t = (TextView) findViewById(id.tie_break);
+            t.setVisibility(View.INVISIBLE);
+        } else {
+            t = (TextView) findViewById(id.advantage);
+            t.setVisibility(View.INVISIBLE);
+
+            t = (TextView) findViewById(id.tie_break);
+            t.setVisibility(View.VISIBLE);
+        }
+    }
+
+// ******************************************************************************
+
+    private void Set_Results() {
+
+        int tot_sets = c_sets_h + c_sets_v;
+
+        switch (tot_sets) {
+            case 1:
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_1_H, c_games_h);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_1_V, c_games_v);
+
+                break;
+
+            case 2:
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_2_H, c_games_h);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_2_V, c_games_v);
+
+                break;
+
+            case 3:
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_3_H, c_games_h);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_3_V, c_games_v);
+
+                break;
+
+            case 4:
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_4_H, c_games_h);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_4_V, c_games_v);
+
+                break;
+
+            case 5:
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_5_H, c_games_h);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_5_V, c_games_v);
+
+                break;
+
+            default:
+        }
     }
 
 // ******************************************************************************
@@ -999,320 +1368,13 @@ public class MainActivity extends Activity {
         c_points_v--;
     }
 
-// ******************************************************************************
-
-    private void Set_Adv() {
-
-        // Advantage Set
-
-        if ((c_games_h < minGamesToWinSet) && (c_games_v < minGamesToWinSet)) {
-            return;
-        }
-
-        if ((c_games_h >= minGamesToWinSet) && (c_games_v <= (c_games_h - 2))) {
-            c_sets_h++;
-
-            Set_Results();
-
-            c_games_h = 0;
-            c_games_v = 0;
-
-            if (!Match()) {
-                Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
-                startActivity(intent);
-
-                L.d("Sets Adv");
-
-                c_audio_temp = "S";
-            }
-        }
-
-        if ((c_games_v >= minGamesToWinSet) && (c_games_h <= (c_games_v - 2))) {
-            c_sets_v++;
-
-            Set_Results();
-
-            c_games_h = 0;
-            c_games_v = 0;
-
-            if (!Match()) {
-                Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
-                startActivity(intent);
-
-                L.d("Sets Adv");
-
-                c_audio_temp = "S";
-            }
-        }
-    }
-
     // ******************************************************************************
-
-    private void Points_Tb() {
-
-        // Tie Break Game
-
-        if (((c_points_h >= 7) && (c_points_v <= (c_points_h - 2))) | ((c_points_v >= 7) && (c_points_h <= (c_points_v - 2)))) {
-
-            if (c_points_h > c_points_v) {
-                c_games_h++;
-            } else {
-                c_games_v++;
-            }
-
-            if ((c_games_h > c_games_v)) {
-                c_sets_h++;
-            } else {
-                c_sets_v++;
-            }
-
-            if (lastSet) {
-                L.d("Match");
-
-                c_audio_temp = "M";
-
-                Set_Results();
-
-                Match();
-
-                c_points_h = 0;
-                c_points_v = 0;
-
-                c_games_h = 0;
-                c_games_v = 0;
-
-            } else {
-                Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
-                startActivity(intent);
-
-                L.d("Sets Tb");
-
-                c_audio_temp = "S";
-
-                c_points_h = 0;
-                c_points_v = 0;
-
-                c_games_h = 0;
-                c_games_v = 0;
-            }
-        } else {
-
-
-            if ((c_points_h >= 7) & (c_points_v <= (c_points_h - 2))) {
-                flipFlag = false;
-                flipCntr = 2;
-
-                L.d("Game Tb Home");
-
-                Games_Tb();
-            }
-
-            if ((c_points_v >= 7) && (c_points_h <= (c_points_v - 2))) {
-                flipFlag = false;
-                flipCntr = 2;
-
-                L.d("Game Tb Visitor");
-
-                Games_Tb();
-            }
-
-            if (!flipFlag) {
-                flipFlag = true;
-
-                flip_server();
-            } else {
-                flipCntr--;
-                if (flipCntr == 0) {
-                    flipCntr = 2;
-
-                    flip_server();
-                }
-            }
-        }
-    }
-// ******************************************************************************
-
-    private void Games_Tb() {
-
-        if (c_points_h > c_points_v) {
-            c_games_h++;
-        } else {
-            c_games_v++;
-        }
-        c_points_h = 0;
-        c_points_v = 0;
-
-        Intent intent = new Intent(MainActivity.this, GameSplashActivity.class);
-        startActivity(intent);
-
-        L.d("Game_Tb");
-
-        c_audio_temp = "G";
-
-        flip_server();
-
-        Set_Tb();
-
-        NextGame();
-    }
-
-// ******************************************************************************
-
-    private void Set_Tb() {
-
-        // Tie Break Set
-
-        if ((c_games_h < minGamesToWinSet) & (c_games_v < minGamesToWinSet)) {
-            return;
-        }
-
-        if ((c_games_h >= minGamesToWinSet) & (c_games_v <= (c_games_h - 2))) {
-            c_sets_h++;
-
-            Set_Results();
-
-            c_games_h = 0;
-            c_games_v = 0;
-
-            if (!Match()) {
-                Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
-                startActivity(intent);
-
-                L.d("Sets Tb");
-
-                c_audio_temp = "S";
-            }
-        }
-
-        if ((c_games_v >= minGamesToWinSet) && (c_games_h <= (c_games_v - 2))) {
-            c_sets_v++;
-
-            Set_Results();
-
-            c_games_h = 0;
-            c_games_v = 0;
-
-            if (!Match()) {
-                Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
-                startActivity(intent);
-
-                L.d("Sets Tb");
-
-                c_audio_temp = "S";
-            }
-        }
-    }
-
-// ******************************************************************************
-
-    private boolean Match() {
-
-        if (c_sets_h == setsToWinPerPlayer || c_sets_v == setsToWinPerPlayer) {
-
-            Intent intent = new Intent(MainActivity.this, MatchSplashActivity.class);
-            startActivity(intent);
-
-            L.d("Match");
-
-            c_audio_temp = "M";
-
-            AllButtonsOff();
-
-            matchComplete = true;
-
-            intent = new Intent(MainActivity.this, ResultsActivity.class);
-            startActivity(intent);
-
-            return true;
-        }
-        return false;
-    }
-
-// ******************************************************************************
-
-    private void NextGame() {
-        tieBreakGame = false;           // Advantage Game
-        GameNotice(false);
-
-        if (!advSet) {                  // Tie Break
-            if ((c_games_h == minGamesToWinSet) && (c_games_v == minGamesToWinSet)) {
-                if (!advLastSet) {
-                    tieBreakGame = true;
-                    GameNotice(true);
-                }
-                if ((c_sets_h == nextToLastSet) && (c_sets_v == nextToLastSet)) {
-                    lastSet = true;
-                }
-            }
-        }
-    }
-
-// ******************************************************************************
-
-    private void Set_Results() {
-
-        int tot_sets = c_sets_h + c_sets_v;
-
-        switch (tot_sets) {
-            case 1:
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_1_H, c_games_h);
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_1_V, c_games_v);
-
-                break;
-
-            case 2:
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_2_H, c_games_h);
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_2_V, c_games_v);
-
-                break;
-
-            case 3:
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_3_H, c_games_h);
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_3_V, c_games_v);
-
-                break;
-
-            case 4:
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_4_H, c_games_h);
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_4_V, c_games_v);
-
-                break;
-
-            case 5:
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_5_H, c_games_h);
-                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_5_V, c_games_v);
-
-                break;
-
-            default:
-        }
-    }
-
-    // ******************************************************************************
-
-    private void GameNotice(boolean type) {             // 'true' for Tie Break
-        if (!type) {
-            t = (TextView) findViewById(id.advantage);
-            t.setVisibility(View.VISIBLE);
-
-            t = (TextView) findViewById(id.tie_break);
-            t.setVisibility(View.INVISIBLE);
-        } else {
-            t = (TextView) findViewById(id.advantage);
-            t.setVisibility(View.INVISIBLE);
-
-            t = (TextView) findViewById(id.tie_break);
-            t.setVisibility(View.VISIBLE);
-        }
-    }
-
- // ******************************************************************************
 
     public boolean setServer() {
         switch (server) {
             case "Z":
-                Toast toast = Toast.makeText(getApplicationContext(), "Cannot score until 1st. " +
-                        "Server is set.", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), "Cannot score " +
+                        "until 1st. Server is set.", Toast.LENGTH_SHORT);
                 toast.show();
 
                 return false;
@@ -1453,6 +1515,20 @@ public class MainActivity extends Activity {
                 myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_5_H, 0);
                 myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_5_V, 0);
 
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_NO_1, 0);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_NO_3, 0);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_NO_5, 0);
+
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_NO_ADV, 0);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SET_TYPE, 0);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_LAST_SET, 0);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_NO_ADV, 0);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_FAST4, 0);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_SHORT_SETS, 0);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_MATCH_TB, 0);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_MTB_7, 0);
+                myDb.updateSystem(DBAdapter.KEY_SYSTEM_MTB_10, 0);
+
                 t = (TextView) findViewById(id.b_pointsNeg_a);
                 t.setVisibility(View.INVISIBLE);
                 t = (TextView) findViewById(id.b_pointsNeg_b);
@@ -1466,28 +1542,26 @@ public class MainActivity extends Activity {
                 server = "Z";
                 myDb.updateSystemStr(DBAdapter.KEY_SYSTEM_SERVER, server);
 
-
                 t = (TextView) findViewById(id.set_server);
                 t.setVisibility(View.VISIBLE);
-
 
                 flipFlag = false;
                 flipCntr = 2;
 
                 tieBreakGame = false;
-
                 matchComplete = false;
+                lastSet = false;
 
-                t = (TextView) findViewById(id.tie_break);
-                t.setVisibility(View.INVISIBLE);
-
-                Intent s_intent = new Intent(MainActivity.this, RulesActivity.class);
-                startActivity(s_intent);
+                GameNotice(false);
 
                 strPlayerButton = "Z";
                 ButtonsOn();
 
+                Intent s_intent = new Intent(MainActivity.this, RulesActivity.class);
+                startActivity(s_intent);
+
                 myDb.K_Log("Reset Yes");
+
                 onResume();
             }
         });
@@ -2305,6 +2379,7 @@ public class MainActivity extends Activity {
         @Override
         public void onTick(long millisUntilFinished) {
         }
+
     }
 
     // ******************************************************************************

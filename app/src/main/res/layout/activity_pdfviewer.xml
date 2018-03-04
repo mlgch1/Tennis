@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="750dp"
+    android:background="#000000" >
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_above="@id/pdfView"
+        android:background="@color/blue"/>
+
+    <!--<TextView-->
+        <!--android:id="@+id/tv_header"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="5dp"-->
+        <!--android:gravity="center"-->
+        <!--android:text="View PDF"-->
+        <!--android:textColor="#ffffff"-->
+        <!--android:textSize="18dp">-->
+    <!--</TextView>-->
+
+    <com.github.barteksc.pdfviewer.PDFView
+        android:id="@+id/pdfView"
+        android:layout_width="match_parent"
+        android:layout_height="640dp" />
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_below="@id/pdfView"
+        android:layout_marginBottom="10dp"
+        android:background="@color/blue"/>
+
+    <Button
+        android:id="@+id/b_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/b_bott_size"
+        android:layout_below="@id/line1"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button3"
+        android:layout_marginTop="5dp"
+        android:onClick="onClick_Exit"
+        android:text="Exit"
+        android:textSize="@dimen/f_text_15" />
+
+</RelativeLayout>

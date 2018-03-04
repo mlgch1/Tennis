@@ -30,6 +30,7 @@
         android:allowBackup="true"
         android:icon="@drawable/scat"
         android:label="@string/app_name"
+        android:supportsRtl="true"
         android:theme="@android:style/Theme.Holo.Light">
 
         <!--<service android:enabled="true" android:name="WiFi_Service" android:permission="com.scorer.tennis.MY_SERVICE_PERMISSION"/>-->
@@ -38,6 +39,7 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:supportsRtl="true"
             android:theme="@style/MyCustomTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -49,8 +51,11 @@
 
 
 
-        <activity android:name=".AndroidDatabaseManager"
-            android:theme="@style/Theme.AppCompat.Light"/>
+
+
+        <activity
+            android:name=".AndroidDatabaseManager"
+            android:theme="@android:style/Theme.Holo.Light"/>
 
 
 
@@ -68,6 +73,9 @@
             android:name=".OtherActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Dialog"/>
+        <activity
+            android:name=".PDFActivity"
+            android:label="@string/app_name"/>
         <activity
             android:name=".ParamsActivity"
             android:label="@string/app_name"
