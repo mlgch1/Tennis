@@ -22,7 +22,7 @@ public class MatchSplashActivity extends Activity {
                 // close this activity
                 finish();
             }
-        }, 5000); // wait for 5 second
+        }, 2000); // wait for 2 seconds
     }
 
     // ***********************************

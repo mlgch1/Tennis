@@ -5,6 +5,7 @@ package com.scorer.tennis;
 
 // 8 Inch Branch - 29/08/2017
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -21,7 +22,6 @@ import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.Process;
 import android.os.StrictMode;
 import android.support.v4.content.ContextCompat;
@@ -41,7 +41,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.List;
-import java.util.Objects;
 
 import static android.os.SystemClock.sleep;
 import static com.scorer.tennis.Config.context;
@@ -57,7 +56,6 @@ import static com.scorer.tennis.GlobalClass.setInc;
 import static com.scorer.tennis.GlobalClass.setSSID;
 import static com.scorer.tennis.GlobalClass.setTest;
 import static com.scorer.tennis.GlobalClass.setThresh;
-
 
 public class MainActivity extends Activity {
 
@@ -86,8 +84,6 @@ public class MainActivity extends Activity {
     private String strPlayerButton = "Z";
 
     private boolean matchComplete = false;
-
-    private boolean blink_exit = false;
 
     // Timers
     private resumeTimer res_counter;
@@ -267,6 +263,7 @@ public class MainActivity extends Activity {
 
 // ******************************************************************************
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onResume() {
         super.onResume();
@@ -349,9 +346,7 @@ public class MainActivity extends Activity {
 
         server = myDb.readSystemStr(DBAdapter.KEY_SYSTEM_SERVER);
 
-        if ((server.equals(null))) {
-            server = "Z";
-        }
+        if (server == null) server = "Z";
 
         if (server.equals("Z")) {
             start_server_flashTimer();
@@ -780,7 +775,7 @@ public class MainActivity extends Activity {
                 history();
 
                 c_points_h++;
-                Points();
+                points();
             }
         }
     }
@@ -794,7 +789,7 @@ public class MainActivity extends Activity {
                 history();
 
                 c_points_v++;
-                Points();
+                points();
             }
         }
     }
@@ -808,7 +803,7 @@ public class MainActivity extends Activity {
                 history();
 
                 c_points_h++;
-                Points();
+                points();
             }
         }
     }
@@ -822,7 +817,7 @@ public class MainActivity extends Activity {
                 t.setVisibility(View.INVISIBLE);
 
                 restore();
-                Points();
+                points();
             }
         }
     }
@@ -832,13 +827,11 @@ public class MainActivity extends Activity {
     public void onClick_pointsPlus_b(View view) {
         if (!matchComplete) {
             if (setServer()) {
-
                 Buttons_Off("V");
-
                 history();
 
                 c_points_v++;
-                Points();
+                points();
             }
         }
     }
@@ -853,25 +846,26 @@ public class MainActivity extends Activity {
                 t.setVisibility(View.INVISIBLE);
 
                 restore();
-                Points();
+                points();
             }
         }
     }
 
 // ******************************************************************************
 
-    private void Points() {
+    private void points() {
 
         if (c_points_h < 0) c_points_h = 0;
         if (c_points_v < 0) c_points_v = 0;
 
         if (!tieBreakGame) {
-            Points_Adv();
+            points_Adv();
         } else {
-            Points_Tb();
+            points_Tb();
         }
 
         c_audio = c_audio_temp;
+        c_audio_temp = "X";
 
         if (matchComplete) {
             c_points_h = 0;
@@ -898,7 +892,7 @@ public class MainActivity extends Activity {
 
 // ******************************************************************************
 
-    private void Points_Adv() {
+    private void points_Adv() {
 
         // Normal Game
 
@@ -966,14 +960,14 @@ public class MainActivity extends Activity {
 
         flip_server();
 
-        Set_Adv();
+        set_Adv();
 
         Next_Game();
     }
 
 // ******************************************************************************
 
-    private void Set_Adv() {
+    private void set_Adv() {
 
         // Advantage Set
 
@@ -984,7 +978,7 @@ public class MainActivity extends Activity {
         if ((c_games_h >= minGamesToWinSet) && (c_games_v <= (c_games_h - 2))) {
             c_sets_h++;
 
-            Set_Results();
+            set_Results();
 
             c_games_h = 0;
             c_games_v = 0;
@@ -1002,7 +996,7 @@ public class MainActivity extends Activity {
         if ((c_games_v >= minGamesToWinSet) && (c_games_h <= (c_games_v - 2))) {
             c_sets_v++;
 
-            Set_Results();
+            set_Results();
 
             c_games_h = 0;
             c_games_v = 0;
@@ -1020,7 +1014,7 @@ public class MainActivity extends Activity {
 
     // ******************************************************************************
 
-    private void Points_Tb() {
+    private void points_Tb() {
 
         // Tie Break Game
 
@@ -1038,7 +1032,7 @@ public class MainActivity extends Activity {
                 c_sets_v++;
             }
 
-            Set_Results();
+            set_Results();
 
             if (lastSet) {
                 L.d("Match");
@@ -1064,6 +1058,12 @@ public class MainActivity extends Activity {
                 c_audio_temp = "S";
             }
 
+            if ((c_points_h >= 7) & (c_points_v <= (c_points_h - 2))) {
+                L.d("Game Tb Home");
+            }else{
+                L.d("Game Tb Visitor");
+            }
+
             c_points_h = 0;
             c_points_v = 0;
 
@@ -1073,14 +1073,7 @@ public class MainActivity extends Activity {
             flipFlag = false;
             flipCntr = 2;
 
-            if ((c_points_h >= 7) & (c_points_v <= (c_points_h - 2))) {
-                L.d("Game Tb Home");
-            }else{
-                L.d("Game Tb Visitor");
-            }
-
             Next_Game();
- //           Win_Tb_Game();
 
             c_points_h = 0;
             c_points_v = 0;
@@ -1099,80 +1092,9 @@ public class MainActivity extends Activity {
                     flipCntr = 2;
 
                     flip_server();
+
+                    c_audio_temp = "C";
                 }
-            }
-        }
-    }
-
-// ******************************************************************************
-
-    private void Win_Tb_Game() {
-
-        if (c_points_h > c_points_v) {
-            c_games_h++;
-        } else {
-            c_games_v++;
-        }
-        c_points_h = 0;
-        c_points_v = 0;
-
-        Intent intent = new Intent(MainActivity.this, GameSplashActivity.class);
-        startActivity(intent);
-
-        L.d("Game_Tb");
-
-        c_audio_temp = "G";
-
-        flip_server();
-
-//        Set_Tb();
-
-        Next_Game();
-    }
-
-// ******************************************************************************
-
-    private void Set_Tb() {
-
-        // Tie Break Set
-
-        if ((c_games_h < minGamesToWinSet) & (c_games_v < minGamesToWinSet)) {
-            return;
-        }
-
-        if ((c_games_h >= minGamesToWinSet) & (c_games_v <= (c_games_h - 2))) {
-            c_sets_h++;
-
-            Set_Results();
-
-            c_games_h = 0;
-            c_games_v = 0;
-
-            if (!Match()) {
-                Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
-                startActivity(intent);
-
-                L.d("Sets Tb");
-
-                c_audio_temp = "S";
-            }
-        }
-
-        if ((c_games_v >= minGamesToWinSet) && (c_games_h <= (c_games_v - 2))) {
-            c_sets_v++;
-
-            Set_Results();
-
-            c_games_h = 0;
-            c_games_v = 0;
-
-            if (!Match()) {
-                Intent intent = new Intent(MainActivity.this, SetSplashActivity.class);
-                startActivity(intent);
-
-                L.d("Sets Tb");
-
-                c_audio_temp = "S";
             }
         }
     }
@@ -1205,9 +1127,6 @@ public class MainActivity extends Activity {
 // ******************************************************************************
 
     private void Next_Game() {
-//        if ((c_sets_h == nextToLastSet) && (c_sets_v == nextToLastSet)) {
-//            lastSet = true;
-//        }
         if (tieBreakGame) {
             tieBreakGame = false;
             GameNotice(false);          // Advantage Game
@@ -1241,15 +1160,6 @@ public class MainActivity extends Activity {
         }
     }
 
-
-//                if (!advSet) {                  // Tie Break
-//                    if ((c_games_h == minGamesToWinSet) && (c_games_v == minGamesToWinSet)) {
-//                        if (!advLastSet) {
-//                        }
-//                    }
-//                }
-
-
     // ******************************************************************************
 
     private void GameNotice(boolean type) {             // 'true' for Tie Break
@@ -1270,7 +1180,7 @@ public class MainActivity extends Activity {
 
 // ******************************************************************************
 
-    private void Set_Results() {
+    private void set_Results() {
 
         int tot_sets = c_sets_h + c_sets_v;
 
@@ -1388,7 +1298,7 @@ public class MainActivity extends Activity {
 
         strPlayerButton = player;
 
-//        start_ButtonTimer();
+        start_ButtonTimer();
 
         t = (TextView) findViewById(id.b_pointsPlus_a);
         t.setVisibility(View.INVISIBLE);
@@ -1401,11 +1311,6 @@ public class MainActivity extends Activity {
 
         t = (TextView) findViewById(id.b_pointsNeg_b);
         t.setVisibility(View.INVISIBLE);
-
-
-        ButtonsOn();
-
-
     }
 
 // ******************************************************************************
@@ -1652,7 +1557,7 @@ public class MainActivity extends Activity {
 
     public void start_ButtonTimer() {
 
-        button_counter = new buttonTimer(500, 1000);
+        button_counter = new buttonTimer(500, 500);
         button_counter.start();
     }
 
@@ -1869,8 +1774,13 @@ public class MainActivity extends Activity {
         if (cm != null) {
             networkInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         }
-        WifiInfo wifiInfo = wifi.getConnectionInfo();
+        WifiInfo wifiInfo = null;
+        if (wifi != null) {
+            wifiInfo = wifi.getConnectionInfo();
+        }
 
+        assert networkInfo != null;
+        assert wifiInfo != null;
         if (!(networkInfo.isConnected() && wifiInfo.getSSID().replace("\"", "").equals(WifiSSID))) {
             t = (TextView) findViewById(id.wifi_connected);
             t.setTextColor(ContextCompat.getColor(this, R.color.red));
@@ -1945,10 +1855,12 @@ public class MainActivity extends Activity {
                 scanResultList = wifi.getScanResults();
             }
             boolean found = false;
-            for (ScanResult scanResult : scanResultList) {
-                if (scanResult.SSID.equals(WifiSSID)) {
-                    found = true;
-                    break;                  // found don't need continue
+            if (scanResultList != null) {
+                for (ScanResult scanResult : scanResultList) {
+                    if (scanResult.SSID.equals(WifiSSID)) {
+                        found = true;
+                        break;                  // found don't need continue
+                    }
                 }
             }
             if (!found) {

@@ -20,7 +20,7 @@ public class DBAdapter {
     // ***********************************
 
     // Database Version
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 1;
     // ***********************************
 
     // Table Names
@@ -107,9 +107,9 @@ public class DBAdapter {
             + KEY_SYSTEM_SET_TYPE + " INTEGER," + KEY_SYSTEM_LAST_SET + " INTEGER," + KEY_SYSTEM_SET_NO_1 + " INTEGER," + KEY_SYSTEM_SET_NO_3 + " INTEGER,"
             + KEY_SYSTEM_SET_NO_5 + " INTEGER," + KEY_SYSTEM_BATT_THRESH + " INTEGER," + KEY_SYSTEM_BATT_INC + " INTEGER," + KEY_SYSTEM_SSID + " INTEGER,"
             + KEY_SYSTEM_CHANNEL + " INTEGER," + KEY_SYSTEM_NO_ADV + " INTEGER," + KEY_SYSTEM_SHORT_SETS + " INTEGER," + KEY_SYSTEM_MATCH_TB + " INTEGER,"
-            + KEY_SYSTEM_MTB_7 + " INTEGER," + KEY_SYSTEM_MTB_10 + " INTEGER," + KEY_SYSTEM_FAST4 + " INTEGER" + ")" + KEY_SYSTEM_SET_1_H + " INTEGER" + ")"
-            + KEY_SYSTEM_SET_1_V + " INTEGER" + ")" + KEY_SYSTEM_SET_2_H + " INTEGER" + ")" + KEY_SYSTEM_SET_2_V + " INTEGER" + ")" + KEY_SYSTEM_SET_3_H + " INTEGER" + ")"
-            + KEY_SYSTEM_SET_3_V + " INTEGER" + ")" + KEY_SYSTEM_SET_4_H + " INTEGER" + ")" + KEY_SYSTEM_SET_4_V + " INTEGER" + ")" + KEY_SYSTEM_SET_5_H + " INTEGER" + ")"
+            + KEY_SYSTEM_MTB_7 + " INTEGER," + KEY_SYSTEM_MTB_10 + " INTEGER," + KEY_SYSTEM_FAST4 + " INTEGER,"  + KEY_SYSTEM_SET_1_H + " INTEGER,"
+            + KEY_SYSTEM_SET_1_V + " INTEGER,"  + KEY_SYSTEM_SET_2_H + " INTEGER,"  + KEY_SYSTEM_SET_2_V + " INTEGER,"  + KEY_SYSTEM_SET_3_H + " INTEGER,"
+            + KEY_SYSTEM_SET_3_V + " INTEGER,"  + KEY_SYSTEM_SET_4_H + " INTEGER,"  + KEY_SYSTEM_SET_4_V + " INTEGER,"  + KEY_SYSTEM_SET_5_H + " INTEGER,"
             + KEY_SYSTEM_SET_5_V + " INTEGER" + ")";
 
     // Log table create statement
