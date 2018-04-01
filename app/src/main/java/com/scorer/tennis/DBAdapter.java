@@ -219,22 +219,20 @@ public class DBAdapter {
 
 
             switch (newVersion) {
-                case 3:
-                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_CLUB + " TEXT");
-                    break;
-
-                case 4:
-                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_1_H + " INTEGER");
-                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_1_V + " INTEGER");
-                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_2_H + " INTEGER");
-                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_2_V + " INTEGER");
-                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_3_H + " INTEGER");
-                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_3_V + " INTEGER");
-                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_4_H + " INTEGER");
-                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_4_V + " INTEGER");
-                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_5_H + " INTEGER");
-                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_5_V + " INTEGER");
-                    break;
+//                case 1:
+//                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_CLUB + " TEXT");
+//
+//                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_1_H + " INTEGER");
+//                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_1_V + " INTEGER");
+//                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_2_H + " INTEGER");
+//                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_2_V + " INTEGER");
+//                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_3_H + " INTEGER");
+//                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_3_V + " INTEGER");
+//                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_4_H + " INTEGER");
+//                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_4_V + " INTEGER");
+//                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_5_H + " INTEGER");
+//                    db.execSQL("ALTER TABLE " + TABLE_SYSTEM + " ADD COLUMN " + KEY_SYSTEM_SET_5_V + " INTEGER");
+//                    break;
 
 
                 default:
