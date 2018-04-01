@@ -3,7 +3,7 @@ package com.scorer.tennis;
 
 // From pre WiFi version 15/08/2016
 
-// 8 Inch Branch - 29/08/2017
+// 8 Inch Branch - 01/04/2018
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
